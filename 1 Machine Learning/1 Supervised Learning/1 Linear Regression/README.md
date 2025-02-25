@@ -106,85 +106,101 @@ Now, we want to predict the price of a **new house with Size = 2200 sq ft** usin
 ---
 
 ### **Step 2: Fit the Linear Regression Model**
-The linear regression equation is:  
-$$
-\text{Price} = \beta_0 + \beta_1 \cdot \text{Size}
-$$  
+The linear regression equation is:  Price = β₀ + β₁ * Size
+
+
 Where:
-- $\beta_0$ is the intercept (price when size = 0).
-- $\beta_1$ is the slope (rate of change of price per unit increase in size).
+- β₀ is the intercept (the price when the size is 0).
+- β₁ is the slope (how much the price changes for every 1 square foot increase in size).
 
-Using the dataset, we calculate the slope ($\beta_1$) and intercept ($\beta_0$):
-
-#### **Step 2.1: Calculate Slope ($\beta_1$)**
-The formula for the slope is:
-$$
-\beta_1 = \frac{\sum{(x_i - \bar{x})(y_i - \bar{y})}}{\sum{(x_i - \bar{x})^2}}
-$$
-
-- Mean of Size ($\bar{x}$):  
-  $$ 
-  \bar{x} = \frac{1000 + 1500 + 2000 + 2500 + 3000}{5} = 2000
-  $$
-
-- Mean of Price ($\bar{y}$):  
-  $$ 
-  \bar{y} = \frac{200 + 300 + 400 + 500 + 600}{5} = 400
-  $$
-
-- Calculate $(x_i - \bar{x})$, $(y_i - \bar{y})$, and their products:
-
-| House | $x_i$ (Size) | $y_i$ (Price) | $x_i - \bar{x}$ | $y_i - \bar{y}$ | $(x_i - \bar{x})(y_i - \bar{y})$ | $(x_i - \bar{x})^2$ |
-|-------|--------------|---------------|-----------------|-----------------|---------------------------------|----------------------|
-| A     | 1000         | 200           | -1000           | -200            | 200,000                         | 1,000,000            |
-| B     | 1500         | 300           | -500            | -100            | 50,000                          | 250,000              |
-| C     | 2000         | 400           | 0               | 0               | 0                               | 0                    |
-| D     | 2500         | 500           | 500             | 100             | 50,000                          | 250,000              |
-| E     | 3000         | 600           | 1000            | 200             | 200,000                         | 1,000,000            |
-
-- Sum of $(x_i - \bar{x})(y_i - \bar{y})$:  
-  $$ 
-  200,000 + 50,000 + 0 + 50,000 + 200,000 = 500,000 
-  $$
-
-- Sum of $(x_i - \bar{x})^2$:  
-  $$ 
-  1,000,000 + 250,000 + 0 + 250,000 + 1,000,000 = 2,500,000
-  $$
-
-- Slope ($\beta_1$):  
-  $$ 
-  \beta_1 = \frac{500,000}{2,500,000} = 0.2
-  $$
-
-#### **Step 2.2: Calculate Intercept ($\beta_0$)**
-The formula for the intercept is:
-$$
-\beta_0 = \bar{y} - \beta_1 \cdot \bar{x}
-$$
-
-- Intercept ($\beta_0$):  
-  $$ 
-  \beta_0 = 400 - (0.2 \cdot 2000) = 400 - 400 = 0
-  $$
-
-Thus, the linear regression equation becomes:
-$$
-\text{Price} = 0 + 0.2 \cdot \text{Size}
-$$
+We calculate the slope (β₁) and intercept (β₀) using the dataset.
 
 ---
 
-#### **Step 3: Predict the Price for the New House**
-For a house with **Size = 2200 sq ft**, substitute into the equation:
-$$
-\text{Price} = 0 + 0.2 \cdot 2200 = 440
-$$
+#### Step 2.1: Calculate the Slope (β₁)
+The formula for the slope is:
+
+β₁ = Sum((xᵢ - x̄)(yᵢ - ȳ)) / Sum((xᵢ - x̄)²)
+
+
+Here’s how we calculate it step by step:
+
+1. **Find the mean of Size (x̄)**:  
+   Add up all the sizes and divide by the number of houses:  
+
+
+ - x̄ = (1000 + 1500 + 2000 + 2500 + 3000) / 5 = 2000
+
+
+2. **Find the mean of Price (ȳ)**:  
+Add up all the prices and divide by the number of houses:  
+
+
+- ȳ = (200 + 300 + 400 + 500 + 600) / 5 = 400
 
 
 
-#### **Final Result:**
-The predicted price of the new house with **Size = 2200 sq ft** is **\$440,000**.
+
+
+3. **Calculate (xᵢ - x̄), (yᵢ - ȳ), and their products**:  
+For each house, subtract the mean size (x̄) from its size, subtract the mean price (ȳ) from its price, and multiply these differences.
+
+Here’s the table of calculations:
+
+| House | Size (xᵢ) | Price (yᵢ) | xᵢ - x̄ | yᵢ - ȳ | (xᵢ - x̄)(yᵢ - ȳ) | (xᵢ - x̄)² |
+|-------|-----------|------------|---------|---------|--------------------|------------|
+| A     | 1000      | 200        | -1000   | -200    | 200,000            | 1,000,000  |
+| B     | 1500      | 300        | -500    | -100    | 50,000             | 250,000    |
+| C     | 2000      | 400        | 0       | 0       | 0                  | 0          |
+| D     | 2500      | 500        | 500     | 100     | 50,000             | 250,000    |
+| E     | 3000      | 600        | 1000    | 200     | 200,000            | 1,000,000  |
+
+4. **Add up the columns**:
+- Sum of (xᵢ - x̄)(yᵢ - ȳ):  
+  ```
+  200,000 + 50,000 + 0 + 50,000 + 200,000 = 500,000
+  ```
+- Sum of (xᵢ - x̄)²:  
+  ```
+  1,000,000 + 250,000 + 0 + 250,000 + 1,000,000 = 2,500,000
+  ```
+
+5. **Calculate the slope (β₁)**:  
+Divide the sum of the products by the sum of the squared differences:  β₁ = 500,000 / 2,500,000 = 0.2
+
+
+
+#### Step 2.2: Calculate the Intercept (β₀)
+The formula for the intercept is: β₀ = ȳ - β₁ * x̄ <br>
+
+Substitute the values:  <br>
+
+β₀ = 400 - (0.2 * 2000) = 400 - 400 = 0 <br>
+
+
+
+So, the intercept (β₀) is 0.
+
+
+
+### Final Equation
+The linear regression equation becomes: Price = 0 + 0.2 * Size
+
+
+
+
+
+### Step 3: Predict the Price for a New House
+For a house with **Size = 2200 sq ft**, substitute into the equation: Price = 0 + 0.2 * 2200 = 440
+
+
+
+
+
+
+### Final Result:
+The predicted price of the new house with **Size = 2200 sq ft** is **$440,000**.
+
 
 
 
