@@ -163,4 +163,12 @@ import matplotlib.pyplot as plt
 plt.imshow(np.reshape(X_train_list[0],(28,28,1)))
 ```
 
-## Print image1.png
+![image1](image1.png)
+
+## From above we can see that 1st one is label 2 and 2 is the 'pull over'
+
+```python
+plt.imshow(np.reshape(X_train_list[59999],(28,28,1)))
+```
+
+![image1](image2.png)
