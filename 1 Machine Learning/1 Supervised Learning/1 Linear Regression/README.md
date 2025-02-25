@@ -5,9 +5,19 @@
 
 Linear Regression is one of the simplest and most widely used machine learning algorithms. It is used to **predict a numerical value** (like house prices, exam scores, or temperature) based on one or more input features (like size of the house, hours studied, or humidity).
 
-Think of it as drawing a straight line through data points to find the best relationship between inputs (features) and outputs (target values).
+Think of it as drawing a straight line through data points to find the best relationship between inputs (features) and outputs (target values). <br>
 
----
+It’s called **linear** because the relationship between the input ($X$) and output ($Y$) is represented by a straight line. If you have multiple input features (e.g., hours studied, sleep hours, etc.), the concept extends to higher dimensions, but the idea remains the same: finding the best-fitting "plane" or "hyperplane."  <br>
+
+
+Therefore, Linear Regression is like finding the best straight line that describes how one thing (input) affects another (output). It’s simple, easy to understand, and a great starting point for learning machine learning. 
+
+
+<br>
+
+--- 
+
+<br>
 
 ### Key Idea: The Line of Best Fit
 
@@ -30,7 +40,11 @@ Where:
 - $m$ = Slope of the line (how steep the line is)
 - $c$ = Intercept (where the line crosses the Y-axis)
 
----
+<br>
+
+--- 
+
+<br>
 
 ### How Does It Work?
 
@@ -40,7 +54,11 @@ Where:
 
 The most common method to minimize the error is called **Least Squares**, which minimizes the sum of the squared distances between the actual data points and the predicted values on the line.
 
----
+<br>
+
+--- 
+
+<br>
 
 ### Example: Predicting Exam Scores
 
@@ -63,13 +81,12 @@ For example, if the line equation is $Y = 10X + 40$:
   Y = 10(5) + 40 = 90
   $$
 
----
+<br>
 
-### Why Is It Called "Linear"?
+--- 
 
-It’s called **linear** because the relationship between the input ($X$) and output ($Y$) is represented by a straight line. If you have multiple input features (e.g., hours studied, sleep hours, etc.), the concept extends to higher dimensions, but the idea remains the same: finding the best-fitting "plane" or "hyperplane."
+<br>
 
----
 
 ### When to Use Linear Regression?
 
@@ -77,13 +94,11 @@ It’s called **linear** because the relationship between the input ($X$) and ou
 - When you need to predict a continuous numerical value (not categories like "yes/no").
 - When the dataset is not too complex (for complex data, other algorithms may work better).
 
----
+<br>
 
-### Summary
+--- 
 
-Linear Regression is like finding the best straight line that describes how one thing (input) affects another (output). It’s simple, easy to understand, and a great starting point for learning machine learning.
-
----
+<br>
 
 ### experimenting with a small dataset using Python libraries like `scikit-learn`.
 
@@ -107,6 +122,24 @@ print(model.predict([[5]]))  # Output: [90.]
 
 
 
----
+<br>
+
+--- 
+
+<br>
+
+### Disadvantages of Linear Regression in Machine Learning
+
+1. **Assumes Linearity**:  
+   This is critical because linear regression fundamentally relies on the assumption of a linear relationship between variables. If the true relationship is nonlinear, the model will fail to capture the underlying patterns, leading to poor predictions and insights.
+
+2. **Sensitive to Outliers**:  
+   Outliers can significantly skew the model's parameters and predictions, making it unreliable in real-world datasets where noisy or extreme data points are common.
 
 
+<br>
+
+--- 
+
+<br>
+   
