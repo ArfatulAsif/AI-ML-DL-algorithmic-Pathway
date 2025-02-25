@@ -172,3 +172,38 @@ plt.imshow(np.reshape(X_train_list[59999],(28,28,1)))
 ```
 
 ![image1](image2.png)
+
+## From above we can see that 1st one is label 7 and 7 is the 'Sneaker'
+
+
+```python
+from sklearn.linear_model import LogisticRegression
+```
+
+### Model Training ->
+```python
+logistic_reg = LogisticRegression(random_state = 12).fit(X_train,Y_train)
+```
+
+### For prediction need 2D list ->
+```python
+logistic_reg.predict([X_train_list[3]])
+```
+
+## Output = array([0], dtype=int64)
+
+```python
+logistic_reg.score(X_train,Y_train)
+```
+
+## Output = 0.8620833333333333 (86.20833...%)
+
+```python
+logistic_reg.score(X_test,Y_test)
+```
+
+## Output = 0.8544 (85.44%)
+
+
+**Note:** More Training and Testing accuracy match with each other more model optimally works.
+
