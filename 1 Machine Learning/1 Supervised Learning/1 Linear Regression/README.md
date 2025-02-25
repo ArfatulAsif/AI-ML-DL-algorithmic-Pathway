@@ -40,6 +40,8 @@ Where:
 - $m$ = Slope of the line (how steep the line is)
 - $c$ = Intercept (where the line crosses the Y-axis)
 
+<img src = "fig1.png">
+
 <br>
 
 --- 
