@@ -231,16 +231,14 @@ The predicted price of the new house with **Size = 2200 sq ft** is **$440,000**.
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
-# Example data
-X = np.array([[1], [2], [3], [4]])  # Hours studied
+x = np.array([[1], [2], [3], [4]])  # Hours studied
 y = np.array([50, 60, 70, 80])      # Exam scores
 
-# Create and train the model
 model = LinearRegression()
-model.fit(X, y)
+model.fit(x, y)
 
 # Predict for 5 hours of study
-print(model.predict([[5]]))  # Output: [90.]
+print(model.predict([[5]]))  # Output: [90]
 ```
 
 
