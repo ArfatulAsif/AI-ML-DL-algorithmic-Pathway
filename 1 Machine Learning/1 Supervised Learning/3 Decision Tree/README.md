@@ -72,4 +72,9 @@ Here's a sample Decision Tree diagram:
 
 ![Decision Tree Example](https://upload.wikimedia.org/wikipedia/commons/f/f3/CART_tree_titanic_survivors.png)
 
+## **Resources**
+# Youtube
+Check on Youtube by <a href="[https://example.com](https://www.youtube.com/watch?v=wxS5P7yDHRA)" target="_blank" rel="noopener noreferrer">Click Here</a>
 
+# Dataset 
+Check Dataset on Kraggle <a href="https://www.kaggle.com/datasets/pablomgomez21/drugs-a-b-c-x-y-for-decision-trees" target="_blank" rel="noopener noreferrer">Dataset</a>
