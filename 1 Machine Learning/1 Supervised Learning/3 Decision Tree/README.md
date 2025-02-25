@@ -1,4 +1,4 @@
-Here's an attractive and well-structured explanation of **Decision Tree Algorithm** with a clear example and supporting visual elements.
+
 
 ---
 
