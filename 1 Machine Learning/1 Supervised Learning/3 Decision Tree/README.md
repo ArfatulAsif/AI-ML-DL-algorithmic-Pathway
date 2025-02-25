@@ -78,3 +78,6 @@ Check on Youtube by <a href="https://www.youtube.com/watch?v=wxS5P7yDHRA" target
 
 # Dataset 
 Check Dataset on Kraggle <a href="https://www.kaggle.com/datasets/pablomgomez21/drugs-a-b-c-x-y-for-decision-trees" target="_blank" rel="noopener noreferrer">Dataset</a>
+
+# Kraggle
+Decision Tree [Notebook](https://www.kaggle.com/code/dmilla/introduction-to-decision-trees-titanic-dataset)
