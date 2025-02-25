@@ -66,7 +66,7 @@ The most common method to minimize the error is called **Least Squares**, which 
 
 Let’s say you want to predict a student's exam score based on the number of hours they studied.
 
-| Hours Studied ($X$) | Exam Score ($Y$) |
+| Hours Studied (X) | Exam Score (Y) |
 |----------------------|-------------------|
 | 1                    | 50                |
 | 2                    | 60                |
@@ -75,13 +75,11 @@ Let’s say you want to predict a student's exam score based on the number of ho
 
 1. Plot these points on a graph.
 2. Draw a straight line that best fits these points.
-3. Use the equation of the line ($Y = mX + c$) to predict scores for new values of $X$ (hours studied).
+3. Use the equation of the line (Y = mX + c) to predict scores for new values of X (hours studied).
 
-For example, if the line equation is $Y = 10X + 40$:
-- If a student studies for 5 hours ($X = 5$), their predicted score would be:
-  $$
-  Y = 10(5) + 40 = 90
-  $$
+For example, if the line equation is Y = 10X + 40:
+- If a student studies for 5 hours (X = 5), their predicted score would be: Y = 10(5) + 40 = 90
+
 
 <br>
 
@@ -89,6 +87,108 @@ For example, if the line equation is $Y = 10X + 40$:
 
 <br>
 
+
+
+## A Tabular Example:
+### **Step 1: Housing Price Dataset**
+We have a dataset where we predict the **Price (in $1000s)** of a house based on its **Size (in square feet)**.
+| House | Size (sq ft) | Price ($1000s) |
+|-------|--------------|----------------|
+| A     | 1000         | 200            |
+| B     | 1500         | 300            |
+| C     | 2000         | 400            |
+| D     | 2500         | 500            |
+| E     | 3000         | 600            |
+
+Now, we want to predict the price of a **new house with Size = 2200 sq ft** using **Linear Regression**.
+
+---
+
+### **Step 2: Fit the Linear Regression Model**
+The linear regression equation is:  
+$$
+\text{Price} = \beta_0 + \beta_1 \cdot \text{Size}
+$$  
+Where:
+- $\beta_0$ is the intercept (price when size = 0).
+- $\beta_1$ is the slope (rate of change of price per unit increase in size).
+
+Using the dataset, we calculate the slope ($\beta_1$) and intercept ($\beta_0$):
+
+#### **Step 2.1: Calculate Slope ($\beta_1$)**
+The formula for the slope is:
+$$
+\beta_1 = \frac{\sum{(x_i - \bar{x})(y_i - \bar{y})}}{\sum{(x_i - \bar{x})^2}}
+$$
+
+- Mean of Size ($\bar{x}$):  
+  $$
+  \bar{x} = \frac{1000 + 1500 + 2000 + 2500 + 3000}{5} = 2000
+  $$
+
+- Mean of Price ($\bar{y}$):  
+  $$
+  \bar{y} = \frac{200 + 300 + 400 + 500 + 600}{5} = 400
+  $$
+
+- Calculate $(x_i - \bar{x})$, $(y_i - \bar{y})$, and their products:
+| House | $x_i$ (Size) | $y_i$ (Price) | $x_i - \bar{x}$ | $y_i - \bar{y}$ | $(x_i - \bar{x})(y_i - \bar{y})$ | $(x_i - \bar{x})^2$ |
+|-------|---------------|----------------|------------------|------------------|-----------------------------------|----------------------|
+| A     | 1000          | 200            | -1000            | -200             | 200,000                          | 1,000,000           |
+| B     | 1500          | 300            | -500             | -100             | 50,000                           | 250,000             |
+| C     | 2000          | 400            | 0                | 0                | 0                                | 0                   |
+| D     | 2500          | 500            | 500              | 100              | 50,000                           | 250,000             |
+| E     | 3000          | 600            | 1000             | 200              | 200,000                          | 1,000,000           |
+
+- Sum of $(x_i - \bar{x})(y_i - \bar{y})$:  
+  $$
+  200,000 + 50,000 + 0 + 50,000 + 200,000 = 500,000
+  $$
+
+- Sum of $(x_i - \bar{x})^2$:  
+  $$
+  1,000,000 + 250,000 + 0 + 250,000 + 1,000,000 = 2,500,000
+  $$
+
+- Slope ($\beta_1$):  
+  $$
+  \beta_1 = \frac{500,000}{2,500,000} = 0.2
+  $$
+
+#### **Step 2.2: Calculate Intercept ($\beta_0$)**
+The formula for the intercept is:
+$$
+\beta_0 = \bar{y} - \beta_1 \cdot \bar{x}
+$$
+
+- Intercept ($\beta_0$):  
+  $$
+  \beta_0 = 400 - (0.2 \cdot 2000) = 400 - 400 = 0
+  $$
+
+Thus, the linear regression equation becomes:
+$$
+\text{Price} = 0 + 0.2 \cdot \text{Size}
+$$
+
+---
+
+### **Step 3: Predict the Price for the New House**
+For a house with **Size = 2200 sq ft**, substitute into the equation:
+$$
+\text{Price} = 0 + 0.2 \cdot 2200 = 440
+$$
+
+---
+
+### **Final Result:**
+The predicted price of the new house with **Size = 2200 sq ft** is **\$440,000**.
+
+<br>
+
+--- 
+
+<br>
 
 ### When to Use Linear Regression?
 
