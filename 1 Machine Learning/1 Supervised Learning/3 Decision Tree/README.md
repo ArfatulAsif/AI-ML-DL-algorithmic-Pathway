@@ -77,4 +77,4 @@ Here's a sample Decision Tree diagram:
 Check on Youtube by <a href="https://www.youtube.com/watch?v=wxS5P7yDHRA" target="_blank" rel="noopener noreferrer">Click Here</a>
 
 # Dataset 
-Check Dataset on Kraggle <a href="https://www.kaggle.com/datasets/pablomgomez21/drugs-a-b-c-x-y-for-decision-trees" target="_blank" rel="noopener noreferrer">Dataset</a>
+Check Dataset on Kraggle <a href="https://www.kaggle.com/datasets/pablomgomez21/drugs-a-b-c-x-y-for-decision-trees"target="_blank" rel="noopener noreferrer">Dataset</a>
