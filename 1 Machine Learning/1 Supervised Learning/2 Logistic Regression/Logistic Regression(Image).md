@@ -138,7 +138,7 @@ Here is a sample testing dataset which has only one column ('label'):
 
 ## For image we need 3 dimension. But the data is one dimension. So here are some steps to form a image from this pixels.
 
-# made a 2D array
+### Make a 2D array
 
 ```python
 X_train_list = X_train.values.tolist()
@@ -165,7 +165,7 @@ plt.imshow(np.reshape(X_train_list[0],(28,28,1)))
 
 ![image1](image1.png)
 
-## From above we can see that 1st one is label 2 and 2 is the 'pull over'
+From above we can see that 1st one is label 2 and 2 is the **pull over**
 
 ```python
 plt.imshow(np.reshape(X_train_list[59999],(28,28,1)))
@@ -173,7 +173,7 @@ plt.imshow(np.reshape(X_train_list[59999],(28,28,1)))
 
 ![image1](image2.png)
 
-## From above we can see that 1st one is label 7 and 7 is the 'Sneaker'
+From above we can see that 1st one is label 7 and 7 is the **Sneaker**
 
 
 ```python
@@ -190,20 +190,25 @@ logistic_reg = LogisticRegression(random_state = 12).fit(X_train,Y_train)
 logistic_reg.predict([X_train_list[3]])
 ```
 
-## Output = array([0], dtype=int64)
+```python
+Output = array([0], dtype=int64)
+```
 
 ```python
 logistic_reg.score(X_train,Y_train)
 ```
 
-## Output = 0.8620833333333333 (86.20833...%)
+```python
+Output = 0.8620833333333333 (86.20833...%)
+```
 
 ```python
 logistic_reg.score(X_test,Y_test)
 ```
 
-## Output = 0.8544 (85.44%)
+```python
+Output = 0.8544 (85.44%)
+```
 
-
-**Note:** More Training and Testing accuracy match with each other more model optimally works.
+**Note:** More **Training** and **Testing** accuracy match with each other more model optimally works.
 
