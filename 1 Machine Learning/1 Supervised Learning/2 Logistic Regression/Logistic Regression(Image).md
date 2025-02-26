@@ -26,7 +26,7 @@ The dataset contains **60,000 training images** and **10,000 test images**. Each
 ```python
 import pandas as pd  
 
-# Load the training dataset
+# Load the CSV file
 train = pd.read_csv('fashion-mnist_train.csv')  # Training dataset
 test = pd.read_csv('fashion-mnist_test.csv')    # Testing dataset
 train
