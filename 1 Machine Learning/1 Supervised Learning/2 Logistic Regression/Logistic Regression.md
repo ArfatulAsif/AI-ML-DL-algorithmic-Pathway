@@ -11,178 +11,413 @@ import pandas as pd
 df = pd.read_csv("Social_Network_Ads.csv")  
 df
 ```
-## Sample Data
+## Dataset Overview
 
-Here is a sample of the training dataset:
+This dataset contains information about users, including their ID, gender, age, estimated salary, and whether they made a purchase. 
 
-| label | pixel1 | pixel2 | pixel3 | pixel4 | pixel5 | pixel6 | pixel7 | pixel8 | pixel9 | ... | pixel775 | pixel776 | pixel777 | pixel778 | pixel779 | pixel780 | pixel781 | pixel782 | pixel783 | pixel784 |
-|-------|--------|--------|--------|--------|--------|--------|--------|--------|--------|-----|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|
-| 0     | 2      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ... | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
-| 1     | 9      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ... | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
-| 2     | 6      | 0      | 0      | 0      | 0      | 0      | 0      | 5      | 0      | ... | 0        | 0        | 30       | 43       | 0        | 0        | 0        | 0        | 0        | 0        |
-| 3     | 0      | 0      | 0      | 0      | 1      | 2      | 0      | 0      | 0      | ... | 3        | 0        | 0        | 0        | 1        | 0        | 0        | 0        | 0        | 0        |
-| 4     | 3      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ... | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+### Sample Data:
 
-...
+| User ID  | Gender | Age | Estimated Salary | Purchased |
+|----------|--------|-----|------------------|-----------|
+| 15624510 | Male   | 19  | 19000            | 0         |
+| 15810944 | Male   | 35  | 20000            | 0         |
+| 15668575 | Female | 26  | 43000            | 0         |
+| 15603246 | Female | 27  | 57000            | 0         |
+| 15804002 | Male   | 19  | 76000            | 0         |
+| ...      | ...    | ... | ...              | ...       |
+| 15691863 | Female | 46  | 41000            | 1         |
+| 15706071 | Male   | 51  | 23000            | 1         |
+| 15654296 | Female | 50  | 20000            | 1         |
+| 15755018 | Male   | 36  | 33000            | 0         |
+| 15594041 | Female | 49  | 36000            | 1         |
 
-## Dataset Details
+- **User ID:** Unique identifier for each user.
+- **Gender:** Male or Female.
+- **Age:** Age of the user.
+- **Estimated Salary:** The estimated annual salary of the user.
+- **Purchased:** Whether the user made a purchase (1 for Yes, 0 for No).
 
-- **Total Rows:** 60,000
-- **Columns:**
-  - `label`: The target variable (values range from 0 to 9, representing the class labels)
-  - `pixel1` to `pixel784`: Represent the pixel values for each image. These are flattened 28x28 pixel images where each pixel's intensity is represented by an integer value.
-  
-Note: The full dataset contains 60,000 rows and 785 columns, but only a portion of it is shown here.
+This dataset contains **400 rows** and **5 columns**.
 
+## drop() used to delete a column
 ```python
-test
+df = df.drop(columns = 'User ID')
+df
 ```
+## Dataset Overview
+
+This dataset contains information about users, including their gender, age, estimated salary, and whether they made a purchase.  
+
+### Sample Data without 'User ID' column:
+
+| Gender | Age | Estimated Salary | Purchased |
+|--------|-----|------------------|-----------|
+| Male   | 19  | 19000            | 0         |
+| Male   | 35  | 20000            | 0         |
+| Female | 26  | 43000            | 0         |
+| Female | 27  | 57000            | 0         |
+| Male   | 19  | 76000            | 0         |
+| ...    | ... | ...              | ...       |
+| Female | 46  | 41000            | 1         |
+| Male   | 51  | 23000            | 1         |
+| Female | 50  | 20000            | 1         |
+| Male   | 36  | 33000            | 0         |
+| Female | 49  | 36000            | 1         |
+
+### Column Descriptions:
+- **Gender:** Male or Female.
+- **Age:** Age of the user.
+- **Estimated Salary:** The estimated annual salary of the user.
+- **Purchased:** Whether the user made a purchase (1 for Yes, 0 for No).
+
+This dataset contains **400 rows** and **4 columns**.
+
+ ## For check how many null value available.
+```python
+df.isnull().sum()   
+```
+## If want to drop null value command -> df.dropna()
+
 ## Sample Data
 
-Here is a sample of the testing dataset:
+```python
+Gender             0
+Age                0
+EstimatedSalary    0
+Purchased          0
+dtype: int64
+```
 
-| label | pixel1 | pixel2 | pixel3 | pixel4 | pixel5 | pixel6 | pixel7 | pixel8 | pixel9 | ... | pixel775 | pixel776 | pixel777 | pixel778 | pixel779 | pixel780 | pixel781 | pixel782 | pixel783 | pixel784 |
-|-------|--------|--------|--------|--------|--------|--------|--------|--------|--------|-----|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|
-| 0     | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 9      | 8   | ...      | 103      | 87       | 56       | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
-| 1     | 1      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0   | ...      | 34       | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
-| 2     | 2      | 0      | 0      | 0      | 0      | 0      | 14     | 53     | 99     | 0   | ...      | 0        | 0        | 0        | 63       | 53       | 31       | 0        | 0        | 0        | 0        |
-| 3     | 2      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0   | ...      | 137      | 126      | 140      | 0        | 133      | 224      | 222      | 56       | 0        | 0        |
-| 4     | 3      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0   | ...      | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
-
-...
-
-## Dataset Details
-
-- **Total Rows:** 10,000
-- **Columns:**
-  - `label`: The target variable (values range from 0 to 9, representing the class labels for different categories of images).
-  - `pixel1` to `pixel784`: Represent the pixel values for each image. These are flattened 28x28 pixel images where each pixel's intensity is represented by an integer value.
-
-Note: The full dataset contains 10,000 rows and 785 columns, but only a portion of it is shown here.
+## Now we should change all String to number as category style
 
 ```python
-X_train = train.drop(columns = 'label')
-Y_train = train['label']
+df['Gender'] = df['Gender'].astype('category')
+df['Gender'] = df['Gender'].cat.codes
+df
+```
 
-X_test = test.drop(columns = 'label')
-Y_test = test['label']
+## Sample Data with 'Gender' column value change string to number
 
+| Gender | Age | Estimated Salary | Purchased |
+|--------|-----|------------------|-----------|
+| 1 (Male)   | 19  | 19000            | 0         |
+| 1 (Male)   | 35  | 20000            | 0         |
+| 0 (Female) | 26  | 43000            | 0         |
+| 0 (Female) | 27  | 57000            | 0         |
+| 1 (Male)   | 19  | 76000            | 0         |
+| ...    | ... | ...              | ...       |
+| 0 (Female) | 46  | 41000            | 1         |
+| 1 (Male)   | 51  | 23000            | 1         |
+| 0 (Female) | 50  | 20000            | 1         |
+| 1 (Male)   | 36  | 33000            | 0         |
+| 0 (Female) | 49  | 36000            | 1         |
+
+### Column Descriptions:
+- **Gender:** Encoded as `1` for Male and `0` for Female.
+
+
+## Choosing 'X'(Independent variable/variables)
+
+```python
+X = df.drop(columns = 'Purchased') 
+X
+```
+
+## Sample Data of 'X'
+
+| Gender | Age | Estimated Salary |
+|--------|-----|------------------|
+| 1 (Male)   | 19  | 19000            |
+| 1 (Male)   | 35  | 20000            |
+| 0 (Female) | 26  | 43000            |
+| 0 (Female) | 27  | 57000            |
+| 1 (Male)   | 19  | 76000            |
+| ...    | ... | ...              |
+| 0 (Female) | 46  | 41000            |
+| 1 (Male)   | 51  | 23000            |
+| 0 (Female) | 50  | 20000            |
+| 1 (Male)   | 36  | 33000            |
+| 0 (Female) | 49  | 36000            |
+
+## Choosing 'Y'(Predicted Variable)
+
+```python
+Y = df['Purchased']
+Y
+```
+
+## Sample Data of 'Y'
+
+```python
+0      0
+1      0
+2      0
+3      0
+4      0
+      ..
+395    1
+396    1
+397    1
+398    0
+399    1
+Name: Purchased, Length: 400, dtype: int64
+```
+
+# Splitting the Training and Testing sets using train_test_split()
+
+```python
+from sklearn.model_selection import train_test_split
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.3, random_state = 21)
+```
+
+### test_size = 0.3 means 30% of dataset are using for test and 70% are using for train
+### Random_state can be any integer, by using random_state we can find same train-test_split
+
+```python
 X_train
 ```
-Note: .drop(columns = 'column name') used to delete a column
 
+## Sample Data with only X_Training set
 
-## Sample Data
+| Gender | Age | Estimated Salary |
+|--------|-----|------------------|
+| 1 (Male)   | 37  | 55000            |
+| 1 (Male)   | 49  | 28000            |
+| 1 (Male)   | 24  | 23000            |
+| 0 (Female) | 35  | 44000            |
+| 1 (Male)   | 31  | 18000            |
+| ...    | ... | ...              |
+| 1 (Male)   | 38  | 71000            |
+| 1 (Male)   | 30  | 135000           |
+| 0 (Female) | 35  | 77000            |
+| 0 (Female) | 38  | 50000            |
+| 0 (Female) | 52  | 114000           |
 
-Here is a sample training dataset after deleting column 'label':
+Contains **280 rows** and **3 columns**.
 
-| pixel1 | pixel2 | pixel3 | pixel4 | pixel5 | pixel6 | pixel7 | pixel8 | pixel9 | ... | pixel775 | pixel776 | pixel777 | pixel778 | pixel779 | pixel780 | pixel781 | pixel782 | pixel783 | pixel784 |
-|--------|--------|--------|--------|--------|--------|--------|--------|--------|-----|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|
- 2      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ... | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
-| 1     | 9      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ... | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
-| 2     | 6      | 0      | 0      | 0      | 0      | 0      | 0      | 5      | 0      | ... | 0        | 0        | 30       | 43       | 0        | 0        | 0        | 0        | 0        | 0        |
-| 3     | 0      | 0      | 0      | 0      | 1      | 2      | 0      | 0      | 0      | ... | 3        | 0        | 0        | 0        | 1        | 0        | 0        | 0        | 0        | 0        |
-| 4     | 3      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ... | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+```python
+X_test
+```
 
-...
+## Sample Data with only X_Testing set
 
+| Gender | Age | Estimated Salary |
+|--------|-----|------------------|
+| 0 (Female) | 26  | 35000  |
+| 0 (Female) | 35  | 65000  |
+| 1 (Male)   | 25  | 87000  |
+| 0 (Female) | 35  | 60000  |
+| 1 (Male)   | 30  | 49000  |
+| ...    | ... | ...      |
+| 0 (Female) | 45  | 22000  |
+| 1 (Male)   | 29  | 75000  |
+| 1 (Male)   | 38  | 61000  |
+| 0 (Female) | 52  | 90000  |
+| 1 (Male)   | 26  | 16000  |
 
-**Note:** The `label` column has been omitted, and only pixel data from `pixel1` to `pixel784` are shown.
+Contains **120 rows** and **3 columns**.
 
+```python
+Y_train
+```
 
+## Sample Data with only Y_Training set
+
+```python
+113    0
+26     1
+178    0
+95     0
+29     0
+      ..
+368    0
+48     1
+260    0
+312    0
+207    0
+Name: Purchased, Length: 280, dtype: int64
+```
 
 ```python
 Y_test
 ```
 
-## Sample Data
-
-Here is a sample testing dataset which has only one column ('label'):
-
-| Index  | Label |
-|--------|-------|
-| 0      | 0     |
-| 1      | 1     |
-| 2      | 2     |
-| 3      | 2     |
-| 4      | 3     |
-| ...    | ...   |
-| 9995   | 0     |
-| 9996   | 6     |
-| 9997   | 8     |
-| 9998   | 8     |
-| 9999   | 1     |
-
-**Note:** The label values represent the digits from 0 to 9 that correspond to each image in the dataset.
-
-
-## For image we need 3 dimension. But the data is one dimension. So here are some steps to form a image from this pixels.
-
-# made a 2D array
+## Sample Data with only Y_Testing set
 
 ```python
-X_train_list = X_train.values.tolist()
-X_train_list
+106    0
+9      0
+61     0
+224    0
+37     0
+      ..
+23     1
+157    0
+349    0
+255    1
+180    0
+Name: Purchased, Length: 120, dtype: int64
 ```
 
-## Sample Data
+# For all numbers should convert into a fixed range.
+## For converting do some Scalling for pre-processing
 
-Here is a sample of the dataset as a 2D list of pixel values:
 
 ```python
-dataset = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 62, 61, 21, 29, 23, 51, 136, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 201, 228, 225, 255, 115, 62, 137, 255, 235, 222, 255, 135, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 47, 252, 234, 238, 224, 215, 215, 229, 108, 180, 207, 214, 224, 231, 249, 254, 45, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 214, 222, 210, 213, 224, 225, 217, 220, 254, 233, 219, 221, 217, 223, 221, 240, 254, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 128, 237, 207, 224, 224, 207, 216, 214, 210, 208, 211, 221, 208, 219, 213, 226, 211, 237, 150],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 61, 21, 29, 23, 51, 136, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 201, 228, 225, 255, 115, 62, 137, 255, 235, 222, 255, 135, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 47, 252, 234, 238, 224, 215, 215, 229, 108, 180, 207, 214, 224, 231, 249, 254, 45, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 214, 222, 210, 213, 224, 225, 217, 220, 254, 233, 219, 221, 217, 223, 221, 240, 254, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 128, 237, 207, 224, 224, 207, 216, 214, 210, 208, 211, 221, 208, 219, 213, 226, 211, 237, 150]
-    # more rows here...
-]
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+# Use fit_transform() to know the train sets 'standard deviation' and 'mean'
+X_test_scaled = scaler.transform(X_test)
+# Use only transform() so that model should not know anything about 'test set'
+X_train_scaled
+```
+
+## Sample Data with only X_train_scaled set
+
+```python
+array([[ 0.97182532, -0.11728762, -0.48154649],
+       [ 0.97182532,  1.06615502, -1.26799962],
+       [ 0.97182532, -1.39935048, -1.41363908],
+       [-1.02899151, -0.31452806, -0.80195332],
+       [ 0.97182532, -0.70900894, -1.55927855],
+       [ 0.97182532, -1.0048696 ,  0.21752295],
+       [-1.02899151,  0.4744337 ,  1.79042919],
+       [ 0.97182532, -0.21590784, -0.33590703],
+       [-1.02899151, -1.0048696 ,  0.36316241],
+       [-1.02899151, -0.31452806, -1.41363908],
+       ...
 ```
 
 ```python
-import numpy as np
-import matplotlib.pyplot as plt
-plt.imshow(np.reshape(X_train_list[0],(28,28,1)))
+X_test_scaled
 ```
 
-![image1](image1.png)
-
-## From above we can see that 1st one is label 2 and 2 is the 'pull over'
+## Sample Data with only X_train_scaled set
 
 ```python
-plt.imshow(np.reshape(X_train_list[59999],(28,28,1)))
+array([[-1.02899151, -1.20211004, -1.06410436],
+       [-1.02899151, -0.31452806, -0.19026756],
+       [ 0.97182532, -1.30073026,  0.45054609],
+       [-1.02899151, -0.31452806, -0.33590703],
+       [ 0.97182532, -0.80762916, -0.65631385],
+       [-1.02899151,  1.16477524,  0.47967399],
+       [-1.02899151,  1.06615502,  2.02345234],
+       [-1.02899151, -0.90624938,  0.33403452],
+       [-1.02899151,  1.55925613,  1.06223185],
+       [-1.02899151,  1.46063591,  2.08170812],
+       [-1.02899151,  0.07995282,  0.21752295],
+       [-1.02899151, -1.0048696 , -1.00584857],
+       [-1.02899151,  0.77029436, -1.44276698],
+       [ 0.97182532,  0.07995282,  0.71269713],
+       [ 0.97182532,  0.27719326,  0.01362769],
+       [-1.02899151, -1.79383136,  0.30490663],
+       ...
 ```
 
-![image1](image2.png)
-
-## From above we can see that 1st one is label 7 and 7 is the 'Sneaker'
-
-
+## Model Training ->
 ```python
 from sklearn.linear_model import LogisticRegression
+logistic_reg = LogisticRegression(random_state = 0).fit(X_train_scaled,Y_train) 
+logistic_reg.predict(X_train_scaled) 
 ```
 
-### Model Training ->
+## Sample Data with predicted X_train_scaled set
+
+```python 
+array([0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0,
+       1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0,
+       0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0,
+       0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+       0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0,
+       0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0,
+       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0,
+       1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1,
+       0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0,
+       1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0,
+       0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], dtype=int64)
+```
+
 ```python
-logistic_reg = LogisticRegression(random_state = 12).fit(X_train,Y_train)
-```
+logistic_reg.predict(X_test_scaled)
+``` 
 
-### For prediction need 2D list ->
-```python
-logistic_reg.predict([X_train_list[3]])
-```
-
-## Output = array([0], dtype=int64)
+## Sample Data with predicted X_test_scaled set
 
 ```python
-logistic_reg.score(X_train,Y_train)
+array([0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0,
+       0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1,
+       0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0,
+       0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 1, 0], dtype=int64)
 ```
 
-## Output = 0.8620833333333333 (86.20833...%)
+## Accuracy Testing ->
 
 ```python
-logistic_reg.score(X_test,Y_test)
+logistic_reg.score(X_train_scaled,Y_train) 
 ```
 
-## Output = 0.8544 (85.44%)
+```python
+output = 0.8214285714285714 means 82.1428..% accurate
+```
 
+```python
+logistic_reg.score(X_test_scaled,Y_test) 
+```
 
-**Note:** More Training and Testing accuracy match with each other more model optimally works.
+```python
+output = 0.85 means 85% accurate
+```
+
+**Note:** The model is said to be best the more close accuracy match with **train** and **test** 
+
+## We can add some more features for increasing accuracy =>
+
+C = regularization parameter, Regularization is a technique used in machine learning to prevent overfitting. 
+- Overfitting happens when a model learns the training data too well, including the noise and outliers, which causes it to perform poorly on new data. In simple terms, regularization adds a penalty to the model for being too complex, encouraging it to stay simpler and more general. This way, it’s less likely to make extreme predictions based on the noise in the data.
+- '1' its default value.
+fit_intercept = is the intersaction (y = mx + c). True means there should be intersaction.
+
+```python
+# Model Trained 
+logistic_reg1 = LogisticRegression(random_state = 0, C = 1, fit_intercept = True).fit(X_train_scaled,Y_train)
+# Calculating Accuracy
+logistic_reg1.score(X_train_scaled,Y_train)  
+```
+
+```python
+output = 0.8214285714285714 or 82.14....%
+```
+
+```python
+# Calculating Accuracy
+logistic_reg1.score(X_test_scaled,Y_test)  
+```
+
+```python
+output = 0.85 or 85%
+```
+
+```python
+# Model Trained 
+logistic_reg2 = LogisticRegression(random_state = 0, C = 50, fit_intercept = True).fit(X_train_scaled,Y_train)
+# Calculating Accuracy
+logistic_reg2.score(X_train_scaled,Y_train)  
+```
+
+```python
+output = 0.8321428571428572 or 83.21....%
+```
+
+```python
+# Calculating Accuracy
+logistic_reg2.score(X_test_scaled,Y_test)  
+```
+
+```python
+output = 0.8416666666666667 or 84.1666...%
+```
