@@ -380,7 +380,7 @@ output = 0.85 means 85% accurate
 C = regularization parameter, Regularization is a technique used in machine learning to prevent overfitting. 
 - Overfitting happens when a model learns the training data too well, including the noise and outliers, which causes it to perform poorly on new data. In simple terms, regularization adds a penalty to the model for being too complex, encouraging it to stay simpler and more general. This way, it’s less likely to make extreme predictions based on the noise in the data.
 - '1' its default value.
-fit_intercept = is the intersaction (y = mx + c). True means there should be intersaction.
+- fit_intercept = is the intersaction (y = mx + c). True means there should be intersaction.
 
 ```python
 # Model Trained 
