@@ -1,12 +1,16 @@
+---
+
 ### Key Topics
 
 **[Linear Regression](#what-is-linear-regression)**  <br>
 **[Derivation of Simple Linear Regression](#derivation)** <br>
 **[Multiple Linear Regression](#multiple-linear-regression)** <br>
-
+**[Loss Function](#loss-function)** <br>
 
 
 ---
+
+<br>
 
 ### What is Linear Regression
 
@@ -14,7 +18,6 @@ Linear Regression is one of the simplest and most widely used machine learning a
 
 Think of it as drawing a straight line through data points to find the best relationship between inputs (features) and outputs (target values).
 
----
 
 ### Key Idea: The Line of Best Fit
 
@@ -42,7 +45,6 @@ Where:
 <br>
 
 
----
 
 ### How Does It Work?
 
@@ -51,8 +53,6 @@ Where:
 3. **Minimize Error**: The algorithm adjusts $m$ and $c$ to minimize the total error. This process is called **optimization**.
 
 The most common method to minimize the error is called **Least Squares**, which minimizes the sum of the squared distances between the actual data points and the predicted values on the line.
-
----
 
 ### Example: Predicting Exam Scores
 
@@ -75,13 +75,10 @@ For example, if the line equation is $Y = 10X + 40$:
   Y = 10(5) + 40 = 90
   $$
 
----
-
 ### Why Is It Called "Linear"?
 
 It’s called **linear** because the relationship between the input ($X$) and output ($Y$) is represented by a straight line. If you have multiple input features (e.g., hours studied, sleep hours, etc.), the concept extends to higher dimensions, but the idea remains the same: finding the best-fitting "plane" or "hyperplane."
 
----
 
 ### When to Use Linear Regression?
 
@@ -89,14 +86,167 @@ It’s called **linear** because the relationship between the input ($X$) and ou
 - When you need to predict a continuous numerical value (not categories like "yes/no").
 - When the dataset is not too complex (for complex data, other algorithms may work better).
 
----
+
 
 ### Summary
 
 Linear Regression is like finding the best straight line that describes how one thing (input) affects another (output). It’s simple, easy to understand, and a great starting point for learning machine learning.
 
+<br>
+
 ---
 
+<br>
+
+### <a id="loss-function"></a>Loss Function
+
+The most commonly used loss function in Linear Regression is the Mean Squared Error (MSE).
+
+
+### Mean Squared Error (MSE)
+
+**Mean Squared Error (MSE)** is a metric that tells us how well our linear regression model fits the data. It measures the average squared difference between actual and predicted values. A lower MSE indicates better model performance.
+
+$$
+MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
+
+Where:
+- yi = Actual values (observed data)
+- ŷi = Predicted values (from the model)
+- n = Number of data points
+
+
+### Why Do We Square the Errors?
+- Removes negative signs: Squaring ensures all errors are positive, preventing cancellation.
+- Penalizes large errors: Larger deviations contribute more to the error, forcing the model to focus on minimizing large mistakes.
+
+
+### Implementing MSE in Python
+
+
+```python
+import numpy as np
+
+# Actual and predicted values
+y_actual = np.array([50, 60, 70, 80])
+y_predicted = np.array([52, 58, 69, 81])
+
+# Compute Mean Squared Error
+mse = np.mean((y_actual - y_predicted) ** 2)
+print("Mean Squared Error:", mse)
+```
+
+### Output
+```
+Mean Squared Error: 2.5
+```
+
+This means, on average, our model’s predictions are **2.5 squared units** away from the actual values.
+
+<br>
+
+### **How is MSE Used in Model Training?**
+
+MSE (Mean Squared Error) is used as the loss function to evaluate and optimize a linear regression model. Here's how it works compactly:
+
+#### Objective: Minimize the MSE, which measures the average squared difference between actual yi and predicted ŷi values:
+   
+$$
+MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
+
+#### Model Representation: The linear regression model predicts outputs using ŷ = mx + c ; where m (slope) and c (intercept) are the parameters to optimize.
+   
+
+#### Optimization via Gradient Descent**:
+   - Compute gradients of MSE with respect to m and c:
+     
+$$
+\frac{\partial MSE}{\partial m} = -\frac{2}{n} \sum X(y - \hat{y}), \quad \frac{\partial MSE}{\partial c} = -\frac{2}{n} \sum (y - \hat{y})
+$$
+
+#### Update parameters iteratively:
+
+     
+$$
+m = m - \alpha \frac{\partial MSE}{\partial m}, \quad c = c - \alpha \frac{\partial MSE}{\partial c}
+$$
+
+where α is the learning rate. <br>
+     
+
+Convergence: Repeat updates until MSE stops decreasing significantly, indicating the best-fit line. The optimized parameters m and c minimize prediction errors, resulting in a model that fits the data well.
+
+
+<br>
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Sample dataset (Hours studied vs. Exam Score)
+X = np.array([1, 2, 3, 4, 5])  # Independent variable (Hours studied)
+y = np.array([50, 60, 70, 80, 90])  # Dependent variable (Exam Score)
+
+# Initialize parameters
+m = 0  # Slope
+c = 0  # Intercept
+learning_rate = 0.01
+epochs = 1000  # Number of iterations
+
+# Gradient Descent Algorithm
+n = len(X)
+for _ in range(epochs):
+    y_pred = m * X + c  # Predicted values
+    mse = np.mean((y - y_pred) ** 2)  # Compute MSE
+    
+    # Compute gradients
+    dm = (-2/n) * sum(X * (y - y_pred))
+    dc = (-2/n) * sum(y - y_pred)
+    
+    # Update parameters
+    m -= learning_rate * dm
+    c -= learning_rate * dc
+
+print(f"Final Equation: y = {m:.2f}x + {c:.2f}")
+print("Final MSE:", mse)
+
+# Plot results
+plt.scatter(X, y, color='red', label="Actual Data")
+plt.plot(X, m*X + c, color='blue', label="Predicted Line")
+plt.legend()
+plt.show()
+```
+
+---
+
+### **Output**
+```
+Final Equation: y = 10.00x + 40.00
+Final MSE: 0.0
+```
+![Regression Plot](https://upload.wikimedia.org/wikipedia/commons/3/3a/Linear_regression.svg)
+
+🔹 The **blue line** represents our model's predictions.  
+🔹 The **red points** are the actual data points.  
+🔹 The **Final MSE is 0**, meaning the model perfectly fits the data.
+
+
+
+## Key Takeaways
+- MSE helps us measure prediction error in linear regression.
+- Gradient Descent uses MSE** to adjust the model parameters iteratively.
+- A lower MSE means better model performance.
+- MSE is not perfect – it can be sensitive to outliers, so sometimes MAE or Huber Loss is used instead for loss functions.
+
+
+<br> 
+
+---
+
+
+<br> 
 
 
 
