@@ -1,8 +1,13 @@
+### Key Topics
+
+**[Linear Regression](#what-is-linear-regression)**  <br>
+**[Derivation of Linear Regression](#derivation)** <br>
+
 
 
 ---
 
-### What is Linear Regression?
+### What is Linear Regression
 
 Linear Regression is one of the simplest and most widely used machine learning algorithms. It is used to **predict a numerical value** (like house prices, exam scores, or temperature) based on one or more input features (like size of the house, hours studied, or humidity).
 
