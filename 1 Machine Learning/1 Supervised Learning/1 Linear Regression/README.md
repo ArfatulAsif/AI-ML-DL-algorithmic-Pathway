@@ -1,7 +1,8 @@
 ### Key Topics
 
 **[Linear Regression](#what-is-linear-regression)**  <br>
-**[Derivation of Linear Regression](#derivation)** <br>
+**[Derivation of Simple Linear Regression](#derivation)** <br>
+**[Multiple Linear Regression](#multiple-linear-regression)** <br>
 
 
 
@@ -138,8 +139,6 @@ where:
 
 The goal is to derive the values of β0 and β1 that minimize the sum of squared errors (SSE). Let’s go through the derivation step by step.
 
----
-
 ### The Sum of Squared Errors (SSE)
 The error for a single data point is the difference between the observed value yi and the predicted value ȳi = β0 + β1xi. The total error is minimized by minimizing the sum of squared errors:
 
@@ -150,7 +149,6 @@ $$
 SSE = \sum_{i=1}^n \left( y_i - (\beta_0 + \beta_1 x_i) \right)^2
 $$
 
----
 
 ### Minimize SSE with Respect to β0 and β1
 To find the values of β0 and β1 that minimize SSE, we take partial derivatives of SSE with respect to β0 and β1, set them to zero, and solve for β0 and β1.
@@ -189,8 +187,6 @@ $$
 $$
 \beta_0 = \bar{y} - \beta_1 \bar{x}
 $$
-
----
 
 #### Partial Derivative with Respect to  β1 :
 $$
@@ -237,7 +233,6 @@ $$
 \beta_1 = \frac{\sum_{i=1}^n x_i (y_i - \bar{y})}{\sum_{i=1}^n x_i (x_i - \bar{x})}
 $$
 
----
 
 ### Simplifying the Expressions
 We can rewrite the numerator and denominator in terms of covariance and variance:
@@ -256,9 +251,7 @@ $$
 \beta_0 = \bar{y} - \beta_1 \bar{x}
 $$
 
----
 
-### Final Result
 #### The linear regression coefficients are:
 $$
 \boxed{\beta_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2}}
@@ -273,3 +266,80 @@ These are the formulas for the slope β1 and intercept β0 of the best-fit line 
 
 <img src="fig2.png"  width="350">
 
+
+<br>
+
+---
+
+<br>
+
+
+
+### <a id="multiple-linear-regression"></a>Multiple Linear Regression
+
+### **What Is Multiple Linear Regression (MLR)?**  
+Multiple Linear Regression (MLR), or multiple regression, is a statistical method used to predict a dependent variable based on multiple independent variables. It extends Ordinary Least Squares (OLS) regression, which only involves one independent variable, by incorporating several explanatory factors to improve accuracy.  
+
+
+### **MLR Formula & Calculation**  
+MLR predicts a dependent variable using multiple independent variables.  <br>
+### **Formula for MLR**
+$$
+y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon
+$$
+
+Where:
+- yi: The **dependent variable** (the outcome or response variable we are trying to predict).
+- xi1, xi2, ..., xip: The **independent variables** (also called predictors or explanatory variables) that influence yi.
+- β0 : The **intercept**, which represents the value of yi when all independent variables are zero.
+- β1 , β2 , \..., βp: The **regression coefficients** that quantify the effect of each independent variable on yi. These coefficients tell us how much yi changes for a one-unit change in the corresponding x, holding all other variables constant.
+- ϵ : The **error term** (or residuals), which accounts for the difference between the observed value of yi and the value predicted by the model.
+
+
+## **What MLR Can Tell You**  
+MLR helps analysts understand relationships between multiple factors and their influence on an outcome. It assumes:  
+1. A linear relationship between dependent and independent variables.  
+2. Independent variables are not highly correlated.  
+3. Observations are randomly selected.  
+4. Residuals (errors) are normally distributed with constant variance.  
+
+### **R-Squared (R^2) in MLR**  
+R^2 measures how well the independent variables explain the variation in the dependent variable. It ranges from 0 to 1:  
+- 0 = No explanatory power.  
+- 1 = Perfect prediction.  
+
+However, adding more variables always increases R^2 , even if they don’t significantly impact the outcome.  
+
+## **Example of MLR**  
+An analyst wants to determine what influences ExxonMobil’s (XOM) stock price. Possible independent variables include:  
+- **Interest rates** (xi1)  
+- **Oil prices** (xi2)  
+- **S&P 500 Index** (xi3)  
+- **Oil futures prices** (xi4)  
+
+
+## **MLR vs. Simple Linear Regression**  
+- **Simple Linear Regression:** Uses one independent variable to predict an outcome.  
+- **Multiple Linear Regression:** Uses two or more independent variables to improve prediction accuracy.  
+
+### **Why Use MLR?**  
+- Real-world outcomes are rarely influenced by a single factor.  
+- MLR provides a more accurate representation of complex relationships.  
+- It helps in finance, economics, and social sciences to predict trends and test theories.
+
+## **MLR in Finance**  
+In financial modeling, MLR helps:  
+- Analyze stock price movements.  
+- Predict company valuations.  
+- Expand models like the **Fama-French Three-Factor Model**, which extends the Capital Asset Pricing Model (CAPM) to include size and value risk factors.  
+
+## **Can You Do MLR Manually?**  
+While simple regressions can be done manually, MLR calculations are complex and typically require statistical software like Excel, Python, R, or SPSS.  
+
+## **Linear vs. Nonlinear Multiple Regression**  
+- **Linear MLR:** Assumes a straight-line relationship between variables.  
+- **Nonlinear MLR:** Uses curved models like logistic regression or quadratic regression when relationships are not strictly linear.  
+
+
+
+---
