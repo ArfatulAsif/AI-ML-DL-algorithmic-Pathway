@@ -1,23 +1,14 @@
 
+
 ---
 
 ### What is Linear Regression?
 
 Linear Regression is one of the simplest and most widely used machine learning algorithms. It is used to **predict a numerical value** (like house prices, exam scores, or temperature) based on one or more input features (like size of the house, hours studied, or humidity).
 
-Think of it as drawing a straight line through data points to find the best relationship between inputs (features) and outputs (target values). <br>
+Think of it as drawing a straight line through data points to find the best relationship between inputs (features) and outputs (target values).
 
-It’s called **linear** because the relationship between the input ($X$) and output ($Y$) is represented by a straight line. If you have multiple input features (e.g., hours studied, sleep hours, etc.), the concept extends to higher dimensions, but the idea remains the same: finding the best-fitting "plane" or "hyperplane."  <br>
-
-
-Therefore, Linear Regression is like finding the best straight line that describes how one thing (input) affects another (output). It’s simple, easy to understand, and a great starting point for learning machine learning. 
-
-
-<br>
-
---- 
-
-<br>
+---
 
 ### Key Idea: The Line of Best Fit
 
@@ -40,13 +31,13 @@ Where:
 - $m$ = Slope of the line (how steep the line is)
 - $c$ = Intercept (where the line crosses the Y-axis)
 
-<img src = "fig1.png" width="500" height="300">
+  <img src="fig1.png"  width="450">
 
 <br>
 
---- 
+  **[Derivation](#derivation)**
 
-<br>
+---
 
 ### How Does It Work?
 
@@ -56,17 +47,13 @@ Where:
 
 The most common method to minimize the error is called **Least Squares**, which minimizes the sum of the squared distances between the actual data points and the predicted values on the line.
 
-<br>
-
---- 
-
-<br>
+---
 
 ### Example: Predicting Exam Scores
 
 Let’s say you want to predict a student's exam score based on the number of hours they studied.
 
-| Hours Studied (X) | Exam Score (Y) |
+| Hours Studied ($X$) | Exam Score ($Y$) |
 |----------------------|-------------------|
 | 1                    | 50                |
 | 2                    | 60                |
@@ -75,141 +62,21 @@ Let’s say you want to predict a student's exam score based on the number of ho
 
 1. Plot these points on a graph.
 2. Draw a straight line that best fits these points.
-3. Use the equation of the line (Y = mX + c) to predict scores for new values of X (hours studied).
+3. Use the equation of the line ($Y = mX + c$) to predict scores for new values of $X$ (hours studied).
 
-For example, if the line equation is Y = 10X + 40:
-- If a student studies for 5 hours (X = 5), their predicted score would be: Y = 10(5) + 40 = 90
-
-
-<br>
-
---- 
-
-<br>
-
-
-
-## A Tabular Example:
-### **Step 1: Housing Price Dataset**
-We have a dataset where we predict the **Price (in $1000s)** of a house based on its **Size (in square feet)**.
-
-| House | Size (sq ft) | Price ($1000s) |
-|-------|--------------|----------------|
-| A     | 1000         | 200            |
-| B     | 1500         | 300            |
-| C     | 2000         | 400            |
-| D     | 2500         | 500            |
-| E     | 3000         | 600            |
-
-Now, we want to predict the price of a **new house with Size = 2200 sq ft** using **Linear Regression**.
+For example, if the line equation is $Y = 10X + 40$:
+- If a student studies for 5 hours ($X = 5$), their predicted score would be:
+  $$
+  Y = 10(5) + 40 = 90
+  $$
 
 ---
 
-### **Step 2: Fit the Linear Regression Model**
-The linear regression equation is:  Price = β₀ + β₁ * Size
+### Why Is It Called "Linear"?
 
-
-Where:
-- β₀ is the intercept (the price when the size is 0).
-- β₁ is the slope (how much the price changes for every 1 square foot increase in size).
-
-We calculate the slope (β₁) and intercept (β₀) using the dataset.
+It’s called **linear** because the relationship between the input ($X$) and output ($Y$) is represented by a straight line. If you have multiple input features (e.g., hours studied, sleep hours, etc.), the concept extends to higher dimensions, but the idea remains the same: finding the best-fitting "plane" or "hyperplane."
 
 ---
-
-#### Step 2.1: Calculate the Slope (β₁)
-The formula for the slope is:
-
-β₁ = Sum((xᵢ - x̄)(yᵢ - ȳ)) / Sum((xᵢ - x̄)²)
-
-
-Here’s how we calculate it step by step:
-
-1. **Find the mean of Size (x̄)**:  
-   Add up all the sizes and divide by the number of houses:  
-
-
- - x̄ = (1000 + 1500 + 2000 + 2500 + 3000) / 5 = 2000
-
-
-2. **Find the mean of Price (ȳ)**:  
-Add up all the prices and divide by the number of houses:  
-
-
-- ȳ = (200 + 300 + 400 + 500 + 600) / 5 = 400
-
-
-
-
-
-3. **Calculate (xᵢ - x̄), (yᵢ - ȳ), and their products**:  
-For each house, subtract the mean size (x̄) from its size, subtract the mean price (ȳ) from its price, and multiply these differences.
-
-Here’s the table of calculations:
-
-| House | Size (xᵢ) | Price (yᵢ) | xᵢ - x̄ | yᵢ - ȳ | (xᵢ - x̄)(yᵢ - ȳ) | (xᵢ - x̄)² |
-|-------|-----------|------------|---------|---------|--------------------|------------|
-| A     | 1000      | 200        | -1000   | -200    | 200,000            | 1,000,000  |
-| B     | 1500      | 300        | -500    | -100    | 50,000             | 250,000    |
-| C     | 2000      | 400        | 0       | 0       | 0                  | 0          |
-| D     | 2500      | 500        | 500     | 100     | 50,000             | 250,000    |
-| E     | 3000      | 600        | 1000    | 200     | 200,000            | 1,000,000  |
-
-4. **Add up the columns**:
-- Sum of (xᵢ - x̄)(yᵢ - ȳ):  
-  ```
-  200,000 + 50,000 + 0 + 50,000 + 200,000 = 500,000
-  ```
-- Sum of (xᵢ - x̄)²:  
-  ```
-  1,000,000 + 250,000 + 0 + 250,000 + 1,000,000 = 2,500,000
-  ```
-
-5. **Calculate the slope (β₁)**:  
-Divide the sum of the products by the sum of the squared differences:  β₁ = 500,000 / 2,500,000 = 0.2
-
-
-
-#### Step 2.2: Calculate the Intercept (β₀)
-The formula for the intercept is: β₀ = ȳ - β₁ * x̄ <br>
-
-Substitute the values:  <br>
-
-β₀ = 400 - (0.2 * 2000) = 400 - 400 = 0 <br>
-
-
-
-So, the intercept (β₀) is 0.
-
-
-
-### Final Equation
-The linear regression equation becomes: Price = 0 + 0.2 * Size
-
-
-
-
-
-### Step 3: Predict the Price for a New House
-For a house with **Size = 2200 sq ft**, substitute into the equation: Price = 0 + 0.2 * 2200 = 440
-
-
-
-
-
-
-### Final Result:
-The predicted price of the new house with **Size = 2200 sq ft** is **$440,000**.
-
-
-
-
-
-<br>
-
---- 
-
-<br>
 
 ### When to Use Linear Regression?
 
@@ -217,11 +84,13 @@ The predicted price of the new house with **Size = 2200 sq ft** is **$440,000**.
 - When you need to predict a continuous numerical value (not categories like "yes/no").
 - When the dataset is not too complex (for complex data, other algorithms may work better).
 
-<br>
+---
 
---- 
+### Summary
 
-<br>
+Linear Regression is like finding the best straight line that describes how one thing (input) affects another (output). It’s simple, easy to understand, and a great starting point for learning machine learning.
+
+---
 
 ### experimenting with a small dataset using Python libraries like `scikit-learn`.
 
@@ -231,36 +100,171 @@ The predicted price of the new house with **Size = 2200 sq ft** is **$440,000**.
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
-x = np.array([[1], [2], [3], [4]])  # Hours studied
+# Example data
+X = np.array([[1], [2], [3], [4]])  # Hours studied
 y = np.array([50, 60, 70, 80])      # Exam scores
 
+# Create and train the model
 model = LinearRegression()
-model.fit(x, y)
+model.fit(X, y)
 
 # Predict for 5 hours of study
-print(model.predict([[5]]))  # Output: [90]
+print(model.predict([[5]]))  # Output: [90.]
 ```
 
 
 
-<br>
-
---- 
-
-<br>
-
-### Disadvantages of Linear Regression in Machine Learning
-
-1. **Assumes Linearity**:  
-   This is critical because linear regression fundamentally relies on the assumption of a linear relationship between variables. If the true relationship is nonlinear, the model will fail to capture the underlying patterns, leading to poor predictions and insights.
-
-2. **Sensitive to Outliers**:  
-   Outliers can significantly skew the model's parameters and predictions, making it unreliable in real-world datasets where noisy or extreme data points are common.
+---
 
 
-<br>
+### <a id="derivation"></a>Derivation
 
---- 
+#### Linear regression is a fundamental statistical method used to model the relationship between a dependent variable y and one or more independent variables x. In simple linear regression, we aim to find the best-fitting straight line that minimizes the error between the observed data points and the predicted values. The equation of the line is given by:
 
-<br>
-   
+$$
+y = \beta_0 + \beta_1 x
+$$
+
+where:
+- y: Dependent variable (response)
+- y: Independent variable (predictor)
+- β0: Intercept (value of y when x = 0)
+- β1: Slope (rate of change of y with respect to x)
+
+The goal is to derive the values of β0 and β1 that minimize the sum of squared errors (SSE). Let’s go through the derivation step by step.
+
+---
+
+### The Sum of Squared Errors (SSE)
+The error for a single data point is the difference between the observed value yi and the predicted value ȳi = β0 + β1xi. The total error is minimized by minimizing the sum of squared errors:
+
+
+#### The Sum of Squared Errors (SSE) is defined as:
+
+$$
+SSE = \sum_{i=1}^n \left( y_i - (\beta_0 + \beta_1 x_i) \right)^2
+$$
+
+---
+
+### Minimize SSE with Respect to β0 and β1
+To find the values of β0 and β1 that minimize SSE, we take partial derivatives of SSE with respect to β0 and β1, set them to zero, and solve for β0 and β1.
+
+#### Partial Derivative with Respect to β0 :
+$$
+\frac{\partial SSE}{\partial \beta_0} = \frac{\partial}{\partial \beta_0} \sum_{i=1}^n \left( y_i - (\beta_0 + \beta_1 x_i) \right)^2
+$$
+
+#### Using the chain rule:
+$$
+\frac{\partial SSE}{\partial \beta_0} = \sum_{i=1}^n 2 \left( y_i - (\beta_0 + \beta_1 x_i) \right)(-1)
+$$
+
+#### Simplifying:
+$$
+\frac{\partial SSE}{\partial \beta_0} = -2 \sum_{i=1}^n \left( y_i - \beta_0 - \beta_1 x_i \right)
+$$
+
+#### Setting ∂SSE/∂β0 = 0:
+$$
+\sum_{i=1}^n \left( y_i - \beta_0 - \beta_1 x_i \right) = 0
+$$
+
+#### Rearranging:
+$$
+\sum_{i=1}^n y_i = n \beta_0 + \beta_1 \sum_{i=1}^n x_i
+$$
+
+#### Divide through by n:
+$$
+\bar{y} = \beta_0 + \beta_1 \bar{x}
+$$
+
+#### This gives us the first equation:
+$$
+\beta_0 = \bar{y} - \beta_1 \bar{x}
+$$
+
+---
+
+#### Partial Derivative with Respect to  β1 :
+$$
+\frac{\partial SSE}{\partial \beta_1} = \frac{\partial}{\partial \beta_1} \sum_{i=1}^n \left( y_i - (\beta_0 + \beta_1 x_i) \right)^2
+$$
+
+#### Using the chain rule: 
+$$
+\frac{\partial SSE}{\partial \beta_1} = \sum_{i=1}^n 2 \left( y_i - (\beta_0 + \beta_1 x_i) \right)(-x_i)
+$$
+
+#### Simplifying:
+$$
+\frac{\partial SSE}{\partial \beta_1} = -2 \sum_{i=1}^n x_i \left( y_i - \beta_0 - \beta_1 x_i \right)
+$$
+
+#### Set ∂SSE/∂β1 = 0 :
+$$
+\sum_{i=1}^n x_i \left( y_i - \beta_0 - \beta_1 x_i \right) = 0
+$$
+
+#### Substitute β0 = ȳ - β1x into the equation:
+$$
+\sum_{i=1}^n x_i \left( y_i - (\bar{y} - \beta_1 \bar{x}) - \beta_1 x_i \right) = 0
+$$
+
+#### Simplifying:
+$$
+\sum_{i=1}^n x_i \left( y_i - \bar{y} + \beta_1 \bar{x} - \beta_1 x_i \right) = 0
+$$
+
+#### Distribute x1:
+$$
+\sum_{i=1}^n x_i (y_i - \bar{y}) + \beta_1 \sum_{i=1}^n x_i (\bar{x} - x_i) = 0
+$$
+
+#### Split terms:
+$$
+\sum_{i=1}^n x_i (y_i - \bar{y}) = \beta_1 \sum_{i=1}^n x_i (x_i - \bar{x})
+$$
+
+#### Solve for β1:
+$$
+\beta_1 = \frac{\sum_{i=1}^n x_i (y_i - \bar{y})}{\sum_{i=1}^n x_i (x_i - \bar{x})}
+$$
+
+---
+
+### Simplifying the Expressions
+We can rewrite the numerator and denominator in terms of covariance and variance:
+- #### Covariance:
+$$ \text{Cov}(x, y) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y}) $$
+- #### Variance:
+$$ \text{Var}(x) = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2 $$
+
+#### Thus:
+$$
+\beta_1 = \frac{\text{Cov}(x, y)}{\text{Var}(x)}
+$$
+
+#### And from earlier:
+$$
+\beta_0 = \bar{y} - \beta_1 \bar{x}
+$$
+
+---
+
+### Final Result
+#### The linear regression coefficients are:
+$$
+\boxed{\beta_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2}}
+$$
+$$
+\boxed{\beta_0 = \bar{y} - \beta_1 \bar{x}}
+$$
+
+These are the formulas for the slope β1 and intercept β0 of the best-fit line in simple linear regression.
+
+- The working formula for linear regression
+
+<img src="fig2.png"  width="350">
+
