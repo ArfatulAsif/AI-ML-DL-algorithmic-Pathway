@@ -18,12 +18,12 @@ Think of it as drawing a straight line through data points to find the best rela
 
 ### Key Idea: The Line of Best Fit
 
-Imagine you have some data points on a graph:
+Imagine we have some data points on a graph:
 
 - On the X-axis (horizontal), you have an input feature (e.g., "hours studied").
 - On the Y-axis (vertical), you have the output (e.g., "exam score").
 
-If you plot these points, they might look scattered. Linear Regression tries to find the **best straight line** that fits these points. This line is called the **line of best fit**.
+If we plot these points, they might look scattered. Linear Regression tries to find the **best straight line** that fits these points. This line is called the **line of best fit**.
 
 The equation of this line looks like this:
 
@@ -41,7 +41,6 @@ Where:
 
 <br>
 
-  **[Derivation](#derivation)**
 
 ---
 
@@ -98,29 +97,7 @@ Linear Regression is like finding the best straight line that describes how one 
 
 ---
 
-### experimenting with a small dataset using Python libraries like `scikit-learn`.
 
- a quick example:
-
-```python
-from sklearn.linear_model import LinearRegression
-import numpy as np
-
-# Example data
-X = np.array([[1], [2], [3], [4]])  # Hours studied
-y = np.array([50, 60, 70, 80])      # Exam scores
-
-# Create and train the model
-model = LinearRegression()
-model.fit(X, y)
-
-# Predict for 5 hours of study
-print(model.predict([[5]]))  # Output: [90.]
-```
-
-
-
----
 
 
 ### <a id="derivation"></a>Derivation
@@ -295,13 +272,16 @@ Where:
 - β1 , β2 , \..., βp: The **regression coefficients** that quantify the effect of each independent variable on yi. These coefficients tell us how much yi changes for a one-unit change in the corresponding x, holding all other variables constant.
 - ϵ : The **error term** (or residuals), which accounts for the difference between the observed value of yi and the value predicted by the model.
 
+<br>
 
-## **What MLR Can Tell You**  
+## **MLR Properties**  
 MLR helps analysts understand relationships between multiple factors and their influence on an outcome. It assumes:  
 1. A linear relationship between dependent and independent variables.  
 2. Independent variables are not highly correlated.  
 3. Observations are randomly selected.  
 4. Residuals (errors) are normally distributed with constant variance.  
+
+<br>
 
 ### **R-Squared (R^2) in MLR**  
 R^2 measures how well the independent variables explain the variation in the dependent variable. It ranges from 0 to 1:  
@@ -310,6 +290,8 @@ R^2 measures how well the independent variables explain the variation in the dep
 
 However, adding more variables always increases R^2 , even if they don’t significantly impact the outcome.  
 
+<br>
+
 ## **Example of MLR**  
 An analyst wants to determine what influences ExxonMobil’s (XOM) stock price. Possible independent variables include:  
 - **Interest rates** (xi1)  
@@ -317,15 +299,22 @@ An analyst wants to determine what influences ExxonMobil’s (XOM) stock price. 
 - **S&P 500 Index** (xi3)  
 - **Oil futures prices** (xi4)  
 
+<br>
 
 ## **MLR vs. Simple Linear Regression**  
 - **Simple Linear Regression:** Uses one independent variable to predict an outcome.  
-- **Multiple Linear Regression:** Uses two or more independent variables to improve prediction accuracy.  
+- **Multiple Linear Regression:** Uses two or more independent variables to improve prediction accuracy.
+- While simple regressions can be done manually, MLR calculations are complex and typically require statistical software like Excel, Python, R, or SPSS.  
+
+<br>
 
 ### **Why Use MLR?**  
 - Real-world outcomes are rarely influenced by a single factor.  
 - MLR provides a more accurate representation of complex relationships.  
 - It helps in finance, economics, and social sciences to predict trends and test theories.
+
+  
+<br>
 
 ## **MLR in Finance**  
 In financial modeling, MLR helps:  
@@ -333,8 +322,7 @@ In financial modeling, MLR helps:
 - Predict company valuations.  
 - Expand models like the **Fama-French Three-Factor Model**, which extends the Capital Asset Pricing Model (CAPM) to include size and value risk factors.  
 
-## **Can You Do MLR Manually?**  
-While simple regressions can be done manually, MLR calculations are complex and typically require statistical software like Excel, Python, R, or SPSS.  
+<br>
 
 ## **Linear vs. Nonlinear Multiple Regression**  
 - **Linear MLR:** Assumes a straight-line relationship between variables.  
