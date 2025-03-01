@@ -1,4 +1,4 @@
----
+
 
 ### Key Topics
 
@@ -180,58 +180,6 @@ Convergence: Repeat updates until MSE stops decreasing significantly, indicating
 
 
 <br>
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Sample dataset (Hours studied vs. Exam Score)
-X = np.array([1, 2, 3, 4, 5])  # Independent variable (Hours studied)
-y = np.array([50, 60, 70, 80, 90])  # Dependent variable (Exam Score)
-
-# Initialize parameters
-m = 0  # Slope
-c = 0  # Intercept
-learning_rate = 0.01
-epochs = 1000  # Number of iterations
-
-# Gradient Descent Algorithm
-n = len(X)
-for _ in range(epochs):
-    y_pred = m * X + c  # Predicted values
-    mse = np.mean((y - y_pred) ** 2)  # Compute MSE
-    
-    # Compute gradients
-    dm = (-2/n) * sum(X * (y - y_pred))
-    dc = (-2/n) * sum(y - y_pred)
-    
-    # Update parameters
-    m -= learning_rate * dm
-    c -= learning_rate * dc
-
-print(f"Final Equation: y = {m:.2f}x + {c:.2f}")
-print("Final MSE:", mse)
-
-# Plot results
-plt.scatter(X, y, color='red', label="Actual Data")
-plt.plot(X, m*X + c, color='blue', label="Predicted Line")
-plt.legend()
-plt.show()
-```
-
----
-
-### **Output**
-```
-Final Equation: y = 10.00x + 40.00
-Final MSE: 0.0
-```
-![Regression Plot](https://upload.wikimedia.org/wikipedia/commons/3/3a/Linear_regression.svg)
-
-🔹 The **blue line** represents our model's predictions.  
-🔹 The **red points** are the actual data points.  
-🔹 The **Final MSE is 0**, meaning the model perfectly fits the data.
-
 
 
 ## Key Takeaways
