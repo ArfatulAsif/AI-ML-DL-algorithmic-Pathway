@@ -3,9 +3,10 @@
 ### Key Topics
 
 **[Linear Regression](#what-is-linear-regression)**  <br>
+**[Loss Function](#loss-function)** <br>
 **[Derivation of Simple Linear Regression](#derivation)** <br>
 **[Multiple Linear Regression](#multiple-linear-regression)** <br>
-**[Loss Function](#loss-function)** <br>
+
 
 
 ---
@@ -180,6 +181,13 @@ Convergence: Repeat updates until MSE stops decreasing significantly, indicating
 
 
 <br>
+
+![Regression Plot](https://upload.wikimedia.org/wikipedia/commons/3/3a/Linear_regression.svg)
+
+
+🔹 The **blue line** represents model's predictions.  
+🔹 The **red points** are the actual data points.  
+🔹 The **MSE is 0**, meaning the model perfectly fits the data.
 
 
 ## Key Takeaways
