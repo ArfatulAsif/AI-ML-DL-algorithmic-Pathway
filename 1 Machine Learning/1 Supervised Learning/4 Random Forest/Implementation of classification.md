@@ -21,6 +21,7 @@ Imports the Matplotlib library’s pyplot module as plt. This module is used to 
 data = pd.read_csv('/kaggle/input/titanic/train.csv')
 data.head(5)
 ```
+Dataset Link : https://www.kaggle.com/competitions/titanic/data <br>
 Reads the train.csv file (from the Kaggle Titanic dataset) into a Pandas DataFrame named data. This file contains the data used for training the model.
 
 ```python
