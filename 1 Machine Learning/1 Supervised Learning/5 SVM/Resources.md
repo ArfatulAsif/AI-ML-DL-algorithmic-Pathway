@@ -14,6 +14,7 @@ StatQuest provides excellent introductory videos on SVM, explaining the concepts
 
 * **DataCamp Tutorial:** [https://www.datacamp.com/tutorial/svm-classification-scikit-learn-python](https://www.datacamp.com/tutorial/svm-classification-scikit-learn-python) - This tutorial provides a hands-on guide to implementing SVM classification using scikit-learn in Python.
 * **Higher Dimensions Video:** [https://youtu.be/hdbifGccXq8?si=qmuuq9csqwIsg4zK](https://youtu.be/hdbifGccXq8?si=qmuuq9csqwIsg4zK) - This video explains how data can become linearly separable in higher dimensions, a key concept behind the kernel trick in SVM.
+* **Maths behind SVM:** [https://youtu.be/hdbifGccXq8?si=qmuuq9csqwIsg4zK](https://youtu.be/05VABNfa1ds?si=wCeS9zUcrooa7wUF)] - Maths :v
 * **Kaggle Notebook:** [https://www.kaggle.com/code/rezvanrah/svm-titanic/notebook](https://www.kaggle.com/code/rezvanrah/svm-titanic/notebook) - This Kaggle notebook demonstrates a practical implementation of SVM for classification on the Titanic dataset.
 
 These resources offer a combination of theoretical explanations, practical implementations, and visual demonstrations to help you grasp the fundamentals and applications of SVM.
