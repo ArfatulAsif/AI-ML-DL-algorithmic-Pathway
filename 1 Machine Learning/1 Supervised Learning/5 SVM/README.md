@@ -6,7 +6,11 @@ Support Vector Machines (SVM) are a powerful, supervised learning algorithm used
 ## Hyperplanes and Margins
 
 The core concept of SVM is finding the optimal *hyperplane* that best separates different classes of data. A hyperplane is a decision boundary: a line in 2D, a plane in 3D, and a higher-dimensional equivalent for more features. SVM doesn't just find *any* separating hyperplane; it aims for the one with the *maximum margin*. The margin is the distance between the hyperplane and the closest data points from each class. These closest points are called *support vectors*. A larger margin generally indicates a more robust and generalizable classifier.
-
+![](https://github.com/ArfatulAsif/AI-ML-DL-algorithmic-Pathway/blob/main/1%20Machine%20Learning/1%20Supervised%20Learning/5%20SVM/mapping%20to%20higher%20dimension_0.png)
+![](https://github.com/ArfatulAsif/AI-ML-DL-algorithmic-Pathway/blob/main/1%20Machine%20Learning/1%20Supervised%20Learning/5%20SVM/mapping%20to%20higher%20dimension%201.png)
+## Now lets explore higher dimensions!!
+![](https://github.com/ArfatulAsif/AI-ML-DL-algorithmic-Pathway/blob/main/1%20Machine%20Learning/1%20Supervised%20Learning/5%20SVM/mapping%20to%20higher%20dimension%202.png)
+![](https://github.com/ArfatulAsif/AI-ML-DL-algorithmic-Pathway/blob/main/1%20Machine%20Learning/1%20Supervised%20Learning/5%20SVM/Projecting%20back%20to%202D%20space.png)
 ## Support Vectors
 
 Support vectors are the critical data points that define the margin and, consequently, the optimal hyperplane. They are the points "closest" to the decision boundary. Only these support vectors are needed to define the classifier; other data points further away are less relevant. This makes SVM relatively memory-efficient.
