@@ -359,36 +359,81 @@ These are the formulas for the slope β1 and intercept β0 of the best-fit line 
 
 # Multiple Linear Regression
 
-### <a id="multiple-linear-regression"></a>Multiple Linear Regression
+Multiple Linear Regression (MLR) is an extension of simple linear regression that models the relationship between a dependent variable Y and multiple independent variables X1, X2, ..., XJ. This approach is crucial when a single predictor cannot adequately explain the variation in the target variable.
 
-### **What Is Multiple Linear Regression (MLR)?**  
-Multiple Linear Regression (MLR), or multiple regression, is a statistical method used to predict a dependent variable based on multiple independent variables. It extends Ordinary Least Squares (OLS) regression, which only involves one independent variable, by incorporating several explanatory factors to improve accuracy.  
+### Why Multiple Linear Regression?
+In real-world scenarios, most outcomes are influenced by multiple factors rather than a single predictor. For example:
 
+- Housing prices depend on location, size, number of bedrooms, etc.
+- Student performance is influenced by study time, school quality, prior knowledge, etc.
+- Sales revenue may depend on advertising, seasonality, and customer demographics.
 
-### **MLR Formula & Calculation**  
-MLR predicts a dependent variable using multiple independent variables.  <br>
-### **Formula for MLR**
+To capture these complex relationships, we use multiple predictors in our regression model.
+
+## Mathematical Formulation of Multiple Linear Regression
+
+### Equation of the Model
+In simple linear regression, we use the equation:
+
 $$
-y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip} + \epsilon
+\[ y = \beta_0 + \beta_1 x + \epsilon \]
 $$
 
-Where:
-- yi: The **dependent variable** (the outcome or response variable we are trying to predict).
-- xi1, xi2, ..., xip: The **independent variables** (also called predictors or explanatory variables) that influence yi.
-- β0 : The **intercept**, which represents the value of yi when all independent variables are zero.
-- β1 , β2 , \..., βp: The **regression coefficients** that quantify the effect of each independent variable on yi. These coefficients tell us how much yi changes for a one-unit change in the corresponding x, holding all other variables constant.
-- ϵ : The **error term** (or residuals), which accounts for the difference between the observed value of yi and the value predicted by the model.
+For multiple predictors X1, X2, ..., XJ, the model extends to:
 
-<br>
+$$
+\[ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_J x_J + \epsilon \]
+$$
 
-## **MLR Properties**  
-MLR helps analysts understand relationships between multiple factors and their influence on an outcome. It assumes:  
-1. A linear relationship between dependent and independent variables.  
-2. Independent variables are not highly correlated.  
-3. Observations are randomly selected.  
-4. Residuals (errors) are normally distributed with constant variance.  
+where:
+- y is the dependent variable (response),
+- x1, x2, ..., xj are the independent variables (predictors),
+- β0 is the intercept,
+- β1, β2, ..., βJ are the coefficients for each predictor,
+- ϵ is the error term.
 
-<br>
+### Matrix Representation of Multiple Linear Regression
+To generalize the model for n observations, we use vector notation:
+
+#### Response Vector Y:
+
+$$
+Y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix}
+$$
+
+#### Design Matrix X (including all predictors):
+
+$$
+X = \begin{bmatrix} 1 & x_{1,1} & x_{1,2} & \dots & x_{1,J} \\ 1 & x_{2,1} & x_{2,2} & \dots & x_{2,J} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n,1} & x_{n,2} & \dots & x_{n,J} \end{bmatrix}
+$$
+
+#### Parameter Vector β:
+
+$$
+\beta = \begin{bmatrix} \beta_0 \\ \beta_1 \\ \vdots \\ \beta_J \end{bmatrix}
+$$
+
+Thus, the multiple linear regression model can be written concisely as:
+
+$$
+\[ Y = X\beta + \epsilon \]
+$$
+
+### Solving for \( \beta \) (Parameter Estimation)
+To estimate the optimal values of β, we use the Least Squares Method, minimizing the Mean Squared Error (MSE):
+
+$$
+MSE(\beta) = \frac{1}{n} || Y - X\beta ||^2
+$$
+
+Using vector calculus, the optimal parameter estimates β hat are obtained by solving:
+
+$$
+\hat{\beta} = (X^T X)^{-1} X^T Y
+$$
+
+
+<br><br>
 
 ### **R-Squared (R^2) in MLR**  
 R^2 measures how well the independent variables explain the variation in the dependent variable. It ranges from 0 to 1:  
@@ -398,40 +443,17 @@ R^2 measures how well the independent variables explain the variation in the dep
 However, adding more variables always increases R^2 , even if they don’t significantly impact the outcome.  
 
 <br>
-
-## **Example of MLR**  
-An analyst wants to determine what influences ExxonMobil’s (XOM) stock price. Possible independent variables include:  
-- **Interest rates** (xi1)  
-- **Oil prices** (xi2)  
-- **S&P 500 Index** (xi3)  
-- **Oil futures prices** (xi4)  
-
 <br>
 
-## **MLR vs. Simple Linear Regression**  
+### **MLR vs. Simple Linear Regression**  
 - **Simple Linear Regression:** Uses one independent variable to predict an outcome.  
 - **Multiple Linear Regression:** Uses two or more independent variables to improve prediction accuracy.
 - While simple regressions can be done manually, MLR calculations are complex and typically require statistical software like Excel, Python, R, or SPSS.  
 
 <br>
-
-### **Why Use MLR?**  
-- Real-world outcomes are rarely influenced by a single factor.  
-- MLR provides a more accurate representation of complex relationships.  
-- It helps in finance, economics, and social sciences to predict trends and test theories.
-
-  
 <br>
 
-## **MLR in Finance**  
-In financial modeling, MLR helps:  
-- Analyze stock price movements.  
-- Predict company valuations.  
-- Expand models like the **Fama-French Three-Factor Model**, which extends the Capital Asset Pricing Model (CAPM) to include size and value risk factors.  
-
-<br>
-
-## **Linear vs. Nonlinear Multiple Regression**  
+### **Linear vs. Nonlinear Multiple Regression**  
 - **Linear MLR:** Assumes a straight-line relationship between variables.  
 - **Nonlinear MLR:** Uses curved models like logistic regression or quadratic regression when relationships are not strictly linear.  
 
