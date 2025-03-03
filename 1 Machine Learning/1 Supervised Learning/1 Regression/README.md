@@ -6,6 +6,7 @@
 **[Loss Function](#loss-function)** <br>
 **[Derivation of Simple Linear Regression](#derivation)** <br>
 **[Multiple Linear Regression](#multiple-linear-regression)** <br>
+**[Polynomial Regression](#polynomial-regression)** <br>
 
 
 
@@ -356,7 +357,7 @@ These are the formulas for the slope β1 and intercept β0 of the best-fit line 
 
 <br>
 
-
+# Multiple Linear Regression
 
 ### <a id="multiple-linear-regression"></a>Multiple Linear Regression
 
@@ -435,5 +436,155 @@ In financial modeling, MLR helps:
 - **Nonlinear MLR:** Uses curved models like logistic regression or quadratic regression when relationships are not strictly linear.  
 
 
+<br>
 
 ---
+
+<br>
+
+
+
+# Polynomial Regression
+
+Polynomial regression is an extension of linear regression that allows us to model **nonlinear relationships** between input variables (predictors) and the output (response). While simple linear regression fits a straight line to data, polynomial regression fits a **curved line** by incorporating higher-degree terms of the predictor variables. This makes it a **flexible** and **widely used** technique in machine learning and statistics.  
+
+
+<br> <br>
+
+## **Mathematical Formulation of Polynomial Regression**  
+
+In a standard **linear regression** model, we have the equation:  
+
+$$
+y = \beta_0 + \beta_1 x + \epsilon
+$$
+
+where:  
+- y is the dependent variable,  
+- x is the independent variable,  
+- β0 (intercept) and β1 (slope) are the parameters,  
+- ϵ is the error term.  
+
+However, in **polynomial regression**, we introduce higher-degree terms:  
+
+$$
+y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \dots + \beta_M x^M + \epsilon
+$$
+
+where:  
+- M is the **degree** of the polynomial,  
+- Each power of x acts as a separate predictor variable.  
+
+<br> <br>
+
+## **Matrix Representation of Polynomial Regression**  
+
+Polynomial regression can be rewritten in **matrix form**, which allows us to solve for the parameters efficiently. Given n observations, we define:
+
+- **Response Vector Y**:
+  
+$$
+  Y =
+  \begin{bmatrix}
+  y_1 \\
+  y_2 \\
+  \vdots \\
+  y_n
+  \end{bmatrix}
+$$
+
+- **Design Matrix X** (with polynomial terms up to M):
+
+$$
+  X =
+  \begin{bmatrix}
+  1 & x_1 & x_1^2 & \dots & x_1^M \\
+  1 & x_2 & x_2^2 & \dots & x_2^M \\
+  \vdots & \vdots & \vdots & \ddots & \vdots \\
+  1 & x_n & x_n^2 & \dots & x_n^M
+  \end{bmatrix}
+$$
+
+- **Parameter Vector β**:
+
+$$
+  \beta =
+  \begin{bmatrix}
+  \beta_0 \\
+  \beta_1 \\
+  \vdots \\
+  \beta_M
+  \end{bmatrix}
+$$
+
+Thus, the polynomial regression model can be written in matrix notation as:
+
+$$
+Y = X \beta + \epsilon
+$$
+
+where **Xβ** represents the predicted values and ϵ is the error vector.
+
+### **Solving for β**  
+
+To estimate the optimal parameters \( \hat{\beta}, we minimize the **Mean Squared Error (MSE)**:
+
+$$
+MSE(\beta) = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
+
+Using **vector calculus**, the solution for \( \hat{\beta} \) is given by the **normal equation**:
+
+$$
+\hat{\beta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}
+$$
+
+This equation provides the least squares estimates of the polynomial regression coefficients.
+
+
+<br> <br>
+
+
+## **Generalized Polynomial Regression**  
+
+Polynomial regression can be extended to multiple predictors, allowing for more complex relationships.
+
+### **1. Multiple Predictors (Multivariable Polynomial Regression)**  
+If we have multiple predictors X1, X2, ..., XJ, the polynomial regression model takes the form:
+
+$$
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_1^2 + \dots + \beta_M x_1^M + \beta_{M+1} x_2 + \dots + \beta_{M+MJ} x_J^M + \epsilon
+$$
+
+The corresponding **design matrix X** would look like:
+
+$$
+X =
+\begin{bmatrix}
+1 & x_{11} & x_{11}^2 & \dots & x_{11}^M & x_{12} & x_{12}^2 & \dots & x_{1J}^M \\
+1 & x_{21} & x_{21}^2 & \dots & x_{21}^M & x_{22} & x_{22}^2 & \dots & x_{2J}^M \\
+\vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_{n1} & x_{n1}^2 & \dots & x_{n1}^M & x_{n2} & x_{n2}^2 & \dots & x_{nJ}^M
+\end{bmatrix}
+$$
+
+This allows polynomial regression to model **multiple predictor variables** at the same time.
+
+### **2. Interaction Terms (Cross Terms)**  
+Polynomial regression can also capture interactions between predictors by including **cross terms**. If we have two predictors x1 and x2, we can include terms like:
+
+$$
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_1^2 + \beta_3 x_2 + \beta_4 x_2^2 + \beta_5 (x_1 x_2) + \beta_6 (x_1 x_2)^2 + \dots + \epsilon
+$$
+
+Each interaction term x1 x2 is treated as a separate predictor.
+
+
+<br> <br>
+
+
+## **Conclusion**  
+
+Polynomial regression is a **powerful and flexible technique** that extends linear regression by introducing higher-degree terms. It is useful for capturing **nonlinear relationships** while still leveraging the simplicity of linear regression. However, **choosing the right polynomial degree** is crucial to balancing bias and variance. With proper tuning, polynomial regression can be an effective tool in predictive modeling across various domains.  
+
+
