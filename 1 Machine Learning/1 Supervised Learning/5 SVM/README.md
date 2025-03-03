@@ -50,7 +50,23 @@ Once the SVM is trained (either with a linear or non-linear kernel), a new flowe
 Okay, here's a simplified version of the SVM optimization problem, focusing on the core concepts without getting bogged down in every detail:
 
 ## SVM Optimization: The Simplified Version
+**Hyperplane Equation:**
 
+* A hyperplane in n-dimensional space can be defined as:
+    * `w ⋅ x + b = 0`
+    * Where:
+        * `w` is the weight vector (normal to the hyperplane).
+        * `x` is the input feature vector.
+        * `b` is the bias (or intercept).
+        * `⋅` denotes the dot product.
+**Margin:**
+
+* The margin is the distance between the hyperplane and the closest data points (support vectors).
+* The functional margin for a point `(x_i, y_i)` is:
+    * `γ_i = y_i(w ⋅ x_i + b)`
+* The geometric margin (the actual distance) is:
+    * `γ_i = (y_i(w ⋅ x_i + b)) / ||w||`
+    * Where `||w||` is the Euclidean norm (magnitude) of the weight vector `w`.
 **The Big Picture:**
 
 SVM tries to find the best line (or hyperplane in higher dimensions) to separate two classes of data.  "Best" means the line that has the largest possible *margin* – the biggest gap between the line and the closest points from each class.
