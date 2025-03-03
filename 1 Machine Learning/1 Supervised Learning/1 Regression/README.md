@@ -398,19 +398,37 @@ To generalize the model for n observations, we use vector notation:
 #### Response Vector Y:
 
 $$
-Y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix}
+  Y =
+  \begin{bmatrix}
+  y_1 \\
+  y_2 \\
+  \vdots \\
+  y_y
+  \end{bmatrix}
 $$
 
 #### Design Matrix X (including all predictors):
 
 $$
-X = \begin{bmatrix} 1 & x_{1,1} & x_{1,2} & \dots & x_{1,J} \\ 1 & x_{2,1} & x_{2,2} & \dots & x_{2,J} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n,1} & x_{n,2} & \dots & x_{n,J} \end{bmatrix}
+  X =
+  \begin{bmatrix}
+  1 & x_1,1 & x_1^2 & \dots & x_1^J \\
+  1 & x_2,1 & x_2^2 & \dots & x_2^J \\
+  \vdots & \vdots & \vdots & \ddots & \vdots \\
+  1 & x_n,1 & x_n^2 & \dots & x_n^J
+  \end{bmatrix}
 $$
 
 #### Parameter Vector β:
 
 $$
-\beta = \begin{bmatrix} \beta_0 \\ \beta_1 \\ \vdots \\ \beta_J \end{bmatrix}
+  \beta =
+  \begin{bmatrix}
+  \beta_0 \\
+  \beta_1 \\
+  \vdots \\
+  \beta_J
+  \end{bmatrix}
 $$
 
 Thus, the multiple linear regression model can be written concisely as:
