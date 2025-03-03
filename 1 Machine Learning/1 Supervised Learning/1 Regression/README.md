@@ -42,7 +42,7 @@ Where:
 - $m$ = Slope of the line (how steep the line is)
 - $c$ = Intercept (where the line crosses the Y-axis)
 
-  <img src="fig1.png"  width="450">
+  <img src="images/fig1.png"  width="450">
 
 <br>
 
@@ -348,7 +348,7 @@ These are the formulas for the slope β1 and intercept β0 of the best-fit line 
 
 - The working formula for linear regression
 
-<img src="fig2.png"  width="350">
+<img src="images/fig2.png"  width="350">
 
 
 <br>
@@ -391,6 +391,12 @@ where:
 - β0 is the intercept,
 - β1, β2, ..., βJ are the coefficients for each predictor,
 - ϵ is the error term.
+
+<br>
+
+<img src="images/fig5.png"  width="400">
+
+<br>
 
 ### Matrix Representation of Multiple Linear Regression
 To generalize the model for n observations, we use vector notation:
@@ -513,7 +519,12 @@ $$
 
 where:  
 - M is the **degree** of the polynomial,  
-- Each power of x acts as a separate predictor variable.  
+- Each power of x acts as a separate predictor variable.
+
+<br>
+
+<img src="images/fig4.png"  width="450">
+
 
 <br> <br>
 
@@ -567,13 +578,13 @@ where **Xβ** represents the predicted values and ϵ is the error vector.
 
 ### **Solving for β**  
 
-To estimate the optimal parameters \( \hat{\beta}, we minimize the **Mean Squared Error (MSE)**:
+To estimate the optimal parameters β hat, we minimize the **Mean Squared Error (MSE)**:
 
 $$
 MSE(\beta) = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
 $$
 
-Using **vector calculus**, the solution for \( \hat{\beta} \) is given by the **normal equation**:
+Using **vector calculus**, the solution for β hat is given by the **normal equation**:
 
 $$
 \hat{\beta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}
