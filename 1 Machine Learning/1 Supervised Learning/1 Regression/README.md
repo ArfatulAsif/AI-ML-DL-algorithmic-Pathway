@@ -54,7 +54,7 @@ Where:
 2. **Error Calculation**: The algorithm calculates how far each data point is from the line. This distance is called the **error**.
 3. **Minimize Error**: The algorithm adjusts $m$ and $c$ to minimize the total error. This process is called **optimization**.
 
-The most common method to minimize the error is called **Least Squares**, which minimizes the sum of the squared distances between the actual data points and the predicted values on the line.
+The common methods to minimize the error are **MSE** and **Least Squares**
 
 #### Example: Predicting Exam Scores
 
@@ -103,12 +103,12 @@ Linear Regression is like finding the best straight line that describes how one 
 <br>
 
 
-## <a id="loss-function"></a>Loss Function
+# Loss Function
 
 The most commonly used loss function in Linear Regression is the Mean Squared Error (MSE).
 
 
-#### Mean Squared Error (MSE)
+### Mean Squared Error (MSE)
 
 Mean Squared Error is a metric that tells us how well our linear regression model fits the data. It measures the average squared difference between actual and predicted values. A lower MSE indicates better model performance.
 
@@ -194,11 +194,23 @@ Convergence: Repeat updates until MSE stops decreasing significantly, indicating
 🔹 The **MSE is 0**, meaning the model perfectly fits the data.
 
 
+<br><br>
+
+**Least Squares**:  
+   - It minimizes the sum of squared residuals:
+   - 
+$$
+     \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
+
+   - This is the foundation of **Ordinary Least Squares (OLS)** regression, the most widely used method in linear regression.
+
 #### Key Takeaways
-- MSE helps us measure prediction error in linear regression.
-- Gradient Descent uses MSE** to adjust the model parameters iteratively.
-- A lower MSE means better model performance.
-- MSE is not perfect – it can be sensitive to outliers, so sometimes MAE or Huber Loss is used instead for loss functions.
+- **MSE (Mean Squared Error)** measures how far predictions are from actual values.  
+- **Least Squares** is a method that finds the best-fit line by minimizing the sum of squared errors.  
+- **Least Squares and MSE are connected**—Least Squares minimizes MSE in linear regression.  
+- **Least Squares gives an exact solution** using a mathematical formula.  
+- **MSE is sensitive to outliers**, so other methods like MAE or Huber Loss are sometimes used.  
 
 
 <br>
