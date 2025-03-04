@@ -188,10 +188,17 @@ Convergence: Repeat updates until MSE stops decreasing significantly, indicating
 
 ![Regression Plot](https://upload.wikimedia.org/wikipedia/commons/3/3a/Linear_regression.svg)
 
+<br>
 
-🔹 The **blue line** represents model's predictions.  
-🔹 The **red points** are the actual data points.  
-🔹 The **MSE is 0**, meaning the model perfectly fits the data.
+
+🔹 **The red line represents the model's predictions (best-fit line).**  
+🔹 **The blue points are the actual data points.**  
+🔹 **The MSE is NOT 0 because the points do not lie exactly on the line.**  <br>
+
+<br>
+
+If MSE were truly **0**, all the blue points would be exactly on the red line (a perfect fit). But in the image, we see some deviation, meaning there is some error.  
+
 
 
 <br><br>
@@ -460,7 +467,7 @@ Y =
 $$
 
 
-#### **Design Matrix \( X \) (Feature Values)**
+#### **Design Matrix X (Feature Values)**
 Each row represents one observation (a house, a student, etc.), and each column is a different feature.  
 
 $$
@@ -473,7 +480,7 @@ X =
 \end{bmatrix}
 $$
 
-- The **first column** is always **1** (for the intercept \( \beta_0 \)).  
+- The **first column** is always **1** (for the intercept β.  
 - Each column after that contains values for a predictor.  
 
 Example with **2 predictors** (square footage and bedrooms):  
