@@ -14,14 +14,14 @@
 
 <br>
 
-### Simple Linear Regression
+## Simple Linear Regression
 
 Simple Linear Regression is one of the simplest and most widely used machine learning algorithms. It is used to **predict a numerical value** (like house prices, exam scores, or temperature) based on one or more input features (like size of the house, hours studied, or humidity).
 
 Think of it as drawing a straight line through data points to find the best relationship between inputs (features) and outputs (target values).
 
 
-### Key Idea: The Line of Best Fit
+#### Key Idea: The Line of Best Fit
 
 Imagine we have some data points on a graph:
 
@@ -48,7 +48,7 @@ Where:
 
 
 
-### How Does It Work?
+#### How Does It Work?
 
 1. **Goal**: Find the best values for $m$ (slope) and $c$ (intercept) so that the line fits the data well.
 2. **Error Calculation**: The algorithm calculates how far each data point is from the line. This distance is called the **error**.
@@ -56,7 +56,7 @@ Where:
 
 The most common method to minimize the error is called **Least Squares**, which minimizes the sum of the squared distances between the actual data points and the predicted values on the line.
 
-### Example: Predicting Exam Scores
+#### Example: Predicting Exam Scores
 
 Let’s say you want to predict a student's exam score based on the number of hours they studied.
 
@@ -77,12 +77,12 @@ For example, if the line equation is $Y = 10X + 40$:
   Y = 10(5) + 40 = 90
   $$
 
-### Why Is It Called "Linear"?
+#### Why Is It Called "Linear"?
 
 It’s called **linear** because the relationship between the input ($X$) and output ($Y$) is represented by a straight line. If you have multiple input features (e.g., hours studied, sleep hours, etc.), the concept extends to higher dimensions, but the idea remains the same: finding the best-fitting "plane" or "hyperplane."
 
 
-### When to Use Linear Regression?
+#### When to Use Linear Regression?
 
 - When the relationship between the input(s) and output is roughly linear.
 - When you need to predict a continuous numerical value (not categories like "yes/no").
@@ -90,24 +90,27 @@ It’s called **linear** because the relationship between the input ($X$) and ou
 
 
 
-### Summary
+#### Summary
 
 Linear Regression is like finding the best straight line that describes how one thing (input) affects another (output). It’s simple, easy to understand, and a great starting point for learning machine learning.
 
+<br>
 <br>
 
 ---
 
 <br>
+<br>
 
-### <a id="loss-function"></a>Loss Function
+
+## <a id="loss-function"></a>Loss Function
 
 The most commonly used loss function in Linear Regression is the Mean Squared Error (MSE).
 
 
-### Mean Squared Error (MSE)
+#### Mean Squared Error (MSE)
 
-**Mean Squared Error (MSE)** is a metric that tells us how well our linear regression model fits the data. It measures the average squared difference between actual and predicted values. A lower MSE indicates better model performance.
+Mean Squared Error is a metric that tells us how well our linear regression model fits the data. It measures the average squared difference between actual and predicted values. A lower MSE indicates better model performance.
 
 $$
 MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
@@ -119,12 +122,12 @@ Where:
 - n = Number of data points
 
 
-### Why Do We Square the Errors?
+#### Why Do We Square the Errors?
 - Removes negative signs: Squaring ensures all errors are positive, preventing cancellation.
 - Penalizes large errors: Larger deviations contribute more to the error, forcing the model to focus on minimizing large mistakes.
 
 
-### Implementing MSE in Python
+#### Implementing MSE in Python
 
 
 ```python
@@ -139,7 +142,7 @@ mse = np.mean((y_actual - y_predicted) ** 2)
 print("Mean Squared Error:", mse)
 ```
 
-### Output
+#### Output
 ```
 Mean Squared Error: 2.5
 ```
@@ -148,7 +151,7 @@ This means, on average, our model’s predictions are **2.5 squared units** away
 
 <br>
 
-### **How is MSE Used in Model Training?**
+#### **How is MSE Used in Model Training?**
 
 MSE (Mean Squared Error) is used as the loss function to evaluate and optimize a linear regression model. Here's how it works compactly:
 
@@ -191,25 +194,26 @@ Convergence: Repeat updates until MSE stops decreasing significantly, indicating
 🔹 The **MSE is 0**, meaning the model perfectly fits the data.
 
 
-## Key Takeaways
+#### Key Takeaways
 - MSE helps us measure prediction error in linear regression.
 - Gradient Descent uses MSE** to adjust the model parameters iteratively.
 - A lower MSE means better model performance.
 - MSE is not perfect – it can be sensitive to outliers, so sometimes MAE or Huber Loss is used instead for loss functions.
 
 
-<br> 
+<br>
+<br>
 
 ---
 
+<br>
+<br>
 
-<br> 
 
 
+# Derivation
 
-### <a id="derivation"></a>Derivation
-
-#### Linear regression is a fundamental statistical method used to model the relationship between a dependent variable y and one or more independent variables x. In simple linear regression, we aim to find the best-fitting straight line that minimizes the error between the observed data points and the predicted values. The equation of the line is given by:
+Linear regression is a fundamental statistical method used to model the relationship between a dependent variable y and one or more independent variables x. In simple linear regression, we aim to find the best-fitting straight line that minimizes the error between the observed data points and the predicted values. The equation of the line is given by:
 
 $$
 y = \beta_0 + \beta_1 x
@@ -352,10 +356,13 @@ These are the formulas for the slope β1 and intercept β0 of the best-fit line 
 
 
 <br>
+<br>
 
 ---
 
 <br>
+<br>
+
 
 # Multiple Linear Regression
 
@@ -379,7 +386,7 @@ $$
 \[ y = \beta_0 + \beta_1 x + \epsilon \]
 $$
 
-For multiple predictors X1, X2, ..., XJ, the model extends to:
+For multiple predictors x1, x2, ..., xj, the model extends to:
 
 $$
 \[ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_J x_J + \epsilon \]
@@ -401,40 +408,80 @@ where:
 ### Matrix Representation of Multiple Linear Regression
 To generalize the model for n observations, we use vector notation:
 
-#### Response Vector Y:
+#### **Response Vector Y (Target Values)**
+This is just a column of all the observed y values:  
 
 $$
-  Y =
-  \begin{bmatrix}
-  y_1 \\
-  y_2 \\
-  \vdots \\
-  y_y
-  \end{bmatrix}
+Y =
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_n
+\end{bmatrix}
 $$
 
-#### Design Matrix X (including all predictors):
+For example, if we are predicting house prices for 3 houses, we might have:  
 
 $$
-  X =
-  \begin{bmatrix}
-  1 & x_1,1 & x_1^2 & \dots & x_1^J \\
-  1 & x_2,1 & x_2^2 & \dots & x_2^J \\
-  \vdots & \vdots & \vdots & \ddots & \vdots \\
-  1 & x_n,1 & x_n^2 & \dots & x_n^J
-  \end{bmatrix}
+Y =
+\begin{bmatrix}
+250000 \\
+300000 \\
+400000
+\end{bmatrix}
 $$
 
-#### Parameter Vector β:
+
+#### **Design Matrix \( X \) (Feature Values)**
+Each row represents one observation (a house, a student, etc.), and each column is a different feature.  
 
 $$
-  \beta =
-  \begin{bmatrix}
-  \beta_0 \\
-  \beta_1 \\
-  \vdots \\
-  \beta_J
-  \end{bmatrix}
+X =
+\begin{bmatrix}
+1 & x_{1,1} & x_{1,2} & \dots & x_{1,j} \\
+1 & x_{2,1} & x_{2,2} & \dots & x_{2,j} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_{n,1} & x_{n,2} & \dots & x_{n,j}
+\end{bmatrix}
+$$
+
+- The **first column** is always **1** (for the intercept \( \beta_0 \)).  
+- Each column after that contains values for a predictor.  
+
+Example with **2 predictors** (square footage and bedrooms):  
+
+$$
+X =
+\begin{bmatrix}
+1 & 1500 & 3 \\
+1 & 2000 & 4 \\
+1 & 2500 & 4
+\end{bmatrix}
+$$
+
+#### **Parameter Vector β (Coefficients)**
+This is the set of unknowns we are trying to find:  
+
+$$
+\beta =
+\begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\vdots \\
+\beta_j
+\end{bmatrix}
+$$
+
+For our example:  
+
+$$
+\beta =
+\begin{bmatrix}
+\text{base price} \\
+\text{price per square foot} \\
+\text{price per bedroom}
+\end{bmatrix}
 $$
 
 Thus, the multiple linear regression model can be written concisely as:
@@ -443,23 +490,23 @@ $$
 \[ Y = X\beta + \epsilon \]
 $$
 
-### Solving for \( \beta \) (Parameter Estimation)
-To estimate the optimal values of β, we use the Least Squares Method, minimizing the Mean Squared Error (MSE):
-
-$$
-MSE(\beta) = \frac{1}{n} || Y - X\beta ||^2
-$$
-
-Using vector calculus, the optimal parameter estimates β hat are obtained by solving:
+#### Solving for β (Parameter Estimation)
+We estimate β using the **least squares method**, which finds the best-fitting values:  
 
 $$
 \hat{\beta} = (X^T X)^{-1} X^T Y
 $$
 
+- X^T: Transpose of the design matrix.  
+- (X^T * X)^(-1): Inverse of (X^T * X).  
+- (X^T * Y): Matrix multiplication.  
+
+Computers use this formula to quickly compute the best values of β.  
+
 
 <br><br>
 
-### **R-Squared (R^2) in MLR**  
+#### **R-Squared in MLR**  
 R^2 measures how well the independent variables explain the variation in the dependent variable. It ranges from 0 to 1:  
 - 0 = No explanatory power.  
 - 1 = Perfect prediction.  
@@ -469,7 +516,7 @@ However, adding more variables always increases R^2 , even if they don’t signi
 <br>
 <br>
 
-### **MLR vs. Simple Linear Regression**  
+#### **MLR vs. Simple Linear Regression**  
 - **Simple Linear Regression:** Uses one independent variable to predict an outcome.  
 - **Multiple Linear Regression:** Uses two or more independent variables to improve prediction accuracy.
 - While simple regressions can be done manually, MLR calculations are complex and typically require statistical software like Excel, Python, R, or SPSS.  
@@ -477,15 +524,17 @@ However, adding more variables always increases R^2 , even if they don’t signi
 <br>
 <br>
 
-### **Linear vs. Nonlinear Multiple Regression**  
+#### **Linear vs. Nonlinear Multiple Regression**  
 - **Linear MLR:** Assumes a straight-line relationship between variables.  
 - **Nonlinear MLR:** Uses curved models like logistic regression or quadratic regression when relationships are not strictly linear.  
 
 
 <br>
+<br>
 
 ---
 
+<br>
 <br>
 
 
