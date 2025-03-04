@@ -69,17 +69,18 @@ Let’s say you want to predict a student's exam score based on the number of ho
 
 1. Plot these points on a graph.
 2. Draw a straight line that best fits these points.
-3. Use the equation of the line ($Y = mX + c$) to predict scores for new values of $X$ (hours studied).
+3. Use the equation of the line (Y = mX + c) to predict scores for new values of X (hours studied).
 
-For example, if the line equation is $Y = 10X + 40$:
-- If a student studies for 5 hours ($X = 5$), their predicted score would be:
-  $$
+For example, if the line equation is Y = 10X + 40:
+- If a student studies for 5 hours (X = 5), their predicted score would be:
+
+$$
   Y = 10(5) + 40 = 90
-  $$
+$$
 
 #### Why Is It Called "Linear"?
 
-It’s called **linear** because the relationship between the input ($X$) and output ($Y$) is represented by a straight line. If you have multiple input features (e.g., hours studied, sleep hours, etc.), the concept extends to higher dimensions, but the idea remains the same: finding the best-fitting "plane" or "hyperplane."
+It’s called **linear** because the relationship between the input X and output Y is represented by a straight line. If you have multiple input features (e.g., hours studied, sleep hours, etc.), the concept extends to higher dimensions, but the idea remains the same: finding the best-fitting "plane" or "hyperplane."
 
 
 #### When to Use Linear Regression?
