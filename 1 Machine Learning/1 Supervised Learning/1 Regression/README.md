@@ -615,7 +615,7 @@ where:
 
 Polynomial regression can be rewritten in **matrix form**, which allows us to solve for the parameters efficiently. Given n observations, we define:
 
-#### **Response Vector \( Y \)**
+#### **Response Vector Y**
 This contains all observed output values:
 
 $$
@@ -639,8 +639,8 @@ Y =
 \end{bmatrix}
 $$
 
-#### **Design Matrix \( X \)**
-Each row represents one observation, and each column represents a power of \( x \) (up to degree \( M \)):
+#### **Design Matrix X**
+Each row represents one observation, and each column represents a power of x (up to degree M):
 
 $$
 X =
@@ -668,7 +668,7 @@ X =
 \end{bmatrix}
 $$
 
-#### **Parameter Vector \( \beta \)**
+#### **Parameter Vector β **
 This holds the unknown coefficients:
 
 $$
