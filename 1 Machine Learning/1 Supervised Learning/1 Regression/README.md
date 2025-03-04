@@ -241,77 +241,92 @@ $$
 ### Minimize SSE with Respect to β0 and β1
 To find the values of β0 and β1 that minimize SSE, we take partial derivatives of SSE with respect to β0 and β1, set them to zero, and solve for β0 and β1.
 
-#### Partial Derivative with Respect to β0 :
+Partial Derivative with Respect to β0 :
+
 $$
 \frac{\partial SSE}{\partial \beta_0} = \frac{\partial}{\partial \beta_0} \sum_{i=1}^n \left( y_i - (\beta_0 + \beta_1 x_i) \right)^2
 $$
 
-#### Using the chain rule:
+Using the chain rule:
+
 $$
 \frac{\partial SSE}{\partial \beta_0} = \sum_{i=1}^n 2 \left( y_i - (\beta_0 + \beta_1 x_i) \right)(-1)
 $$
 
-#### Simplifying:
+Simplifying:
+
 $$
 \frac{\partial SSE}{\partial \beta_0} = -2 \sum_{i=1}^n \left( y_i - \beta_0 - \beta_1 x_i \right)
 $$
 
-#### Setting ∂SSE/∂β0 = 0:
+Setting ∂SSE/∂β0 = 0:
+
 $$
 \sum_{i=1}^n \left( y_i - \beta_0 - \beta_1 x_i \right) = 0
 $$
 
-#### Rearranging:
+Rearranging:
+
 $$
 \sum_{i=1}^n y_i = n \beta_0 + \beta_1 \sum_{i=1}^n x_i
 $$
 
-#### Divide through by n:
+Divide through by n:
+
 $$
 \bar{y} = \beta_0 + \beta_1 \bar{x}
 $$
 
-#### This gives us the first equation:
+This gives us the first equation:
+
 $$
 \beta_0 = \bar{y} - \beta_1 \bar{x}
 $$
 
-#### Partial Derivative with Respect to  β1 :
+Partial Derivative with Respect to  β1 :
+
 $$
 \frac{\partial SSE}{\partial \beta_1} = \frac{\partial}{\partial \beta_1} \sum_{i=1}^n \left( y_i - (\beta_0 + \beta_1 x_i) \right)^2
 $$
 
-#### Using the chain rule: 
+Using the chain rule: 
+
 $$
 \frac{\partial SSE}{\partial \beta_1} = \sum_{i=1}^n 2 \left( y_i - (\beta_0 + \beta_1 x_i) \right)(-x_i)
 $$
 
-#### Simplifying:
+Simplifying:
+
 $$
 \frac{\partial SSE}{\partial \beta_1} = -2 \sum_{i=1}^n x_i \left( y_i - \beta_0 - \beta_1 x_i \right)
 $$
 
-#### Set ∂SSE/∂β1 = 0 :
+Set ∂SSE/∂β1 = 0 :
+
 $$
 \sum_{i=1}^n x_i \left( y_i - \beta_0 - \beta_1 x_i \right) = 0
 $$
 
-#### Substitute β0 = ȳ - β1x into the equation:
+Substitute β0 = ȳ - β1x into the equation:
+
 $$
 \sum_{i=1}^n x_i \left( y_i - (\bar{y} - \beta_1 \bar{x}) - \beta_1 x_i \right) = 0
 $$
 
-#### Simplifying:
+Simplifying:
+
 $$
 \sum_{i=1}^n x_i \left( y_i - \bar{y} + \beta_1 \bar{x} - \beta_1 x_i \right) = 0
 $$
 
-#### Distribute x1:
+Distribute x1:
+
 $$
 \sum_{i=1}^n x_i (y_i - \bar{y}) + \beta_1 \sum_{i=1}^n x_i (\bar{x} - x_i) = 0
 $$
 
-#### Split terms:
+Split terms:
+
 $$
 \sum_{i=1}^n x_i (y_i - \bar{y}) = \beta_1 \sum_{i=1}^n x_i (x_i - \bar{x})
 $$
@@ -581,40 +596,82 @@ where:
 
 Polynomial regression can be rewritten in **matrix form**, which allows us to solve for the parameters efficiently. Given n observations, we define:
 
-- **Response Vector Y**:
-  
-$$
-  Y =
-  \begin{bmatrix}
-  y_1 \\
-  y_2 \\
-  \vdots \\
-  y_n
-  \end{bmatrix}
-$$
-
-- **Design Matrix X** (with polynomial terms up to M):
+#### **Response Vector \( Y \)**
+This contains all observed output values:
 
 $$
-  X =
-  \begin{bmatrix}
-  1 & x_1 & x_1^2 & \dots & x_1^M \\
-  1 & x_2 & x_2^2 & \dots & x_2^M \\
-  \vdots & \vdots & \vdots & \ddots & \vdots \\
-  1 & x_n & x_n^2 & \dots & x_n^M
-  \end{bmatrix}
+Y =
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_n
+\end{bmatrix}
 $$
 
-- **Parameter Vector β**:
+For example, if we have 3 observations:  
 
 $$
-  \beta =
-  \begin{bmatrix}
-  \beta_0 \\
-  \beta_1 \\
-  \vdots \\
-  \beta_M
-  \end{bmatrix}
+Y =
+\begin{bmatrix}
+2 \\
+5 \\
+10
+\end{bmatrix}
+$$
+
+#### **Design Matrix \( X \)**
+Each row represents one observation, and each column represents a power of \( x \) (up to degree \( M \)):
+
+$$
+X =
+\begin{bmatrix}
+1 & x_1 & x_1^2 & \dots & x_1^M \\
+1 & x_2 & x_2^2 & \dots & x_2^M \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_n & x_n^2 & \dots & x_n^M
+\end{bmatrix}
+$$
+
+Example for 3 observations and a quadratic model (M=2):
+
+$$
+X =
+\begin{bmatrix}
+1 & 1 & 1^2 \\
+1 & 2 & 2^2 \\
+1 & 3 & 3^2
+\end{bmatrix} =
+\begin{bmatrix}
+1 & 1 & 1 \\
+1 & 2 & 4 \\
+1 & 3 & 9
+\end{bmatrix}
+$$
+
+#### **Parameter Vector \( \beta \)**
+This holds the unknown coefficients:
+
+$$
+\beta =
+\begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2 \\
+\vdots \\
+\beta_M
+\end{bmatrix}
+$$
+
+For our quadratic example:
+
+$$
+\beta =
+\begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2
+\end{bmatrix}
 $$
 
 Thus, the polynomial regression model can be written in matrix notation as:
