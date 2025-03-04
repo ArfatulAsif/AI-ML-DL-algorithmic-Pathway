@@ -481,7 +481,7 @@ X =
 \end{bmatrix}
 $$
 
-- The **first column** is always **1** (for the intercept β.  
+- The **first column** is always **1** (for the intercept β0)  
 - Each column after that contains values for a predictor.  
 
 Example with **2 predictors** (square footage and bedrooms):  
