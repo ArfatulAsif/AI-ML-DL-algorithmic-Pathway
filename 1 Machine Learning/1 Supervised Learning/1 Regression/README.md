@@ -2,7 +2,7 @@
 
 ### Key Topics
 
-**[Linear Regression](#what-is-linear-regression)**  <br>
+**[Simple Linear Regression](#simple-linear-regression)**  <br>
 **[Loss Function](#loss-function)** <br>
 **[Derivation of Simple Linear Regression](#derivation)** <br>
 **[Multiple Linear Regression](#multiple-linear-regression)** <br>
@@ -14,9 +14,9 @@
 
 <br>
 
-### What is Linear Regression
+### Simple Linear Regression
 
-Linear Regression is one of the simplest and most widely used machine learning algorithms. It is used to **predict a numerical value** (like house prices, exam scores, or temperature) based on one or more input features (like size of the house, hours studied, or humidity).
+Simple Linear Regression is one of the simplest and most widely used machine learning algorithms. It is used to **predict a numerical value** (like house prices, exam scores, or temperature) based on one or more input features (like size of the house, hours studied, or humidity).
 
 Think of it as drawing a straight line through data points to find the best relationship between inputs (features) and outputs (target values).
 
