@@ -164,4 +164,4 @@ plt.show()
 
 ---
 
-<img src = "fig3.png">
+<img src = "images/fig3.png" width=500>
