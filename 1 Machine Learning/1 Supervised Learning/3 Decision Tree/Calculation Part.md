@@ -52,8 +52,13 @@ H = - (0.6 \log_2 0.6 + 0.4 \log_2 0.4)
 $$
 
 Approximating log values:
+$$
 - \( \log_2(0.6) \approx -0.737 \)
+$$
+
+$$
 - \( \log_2(0.4) \approx -1.322 \)
+$$
 
 Now:
 
