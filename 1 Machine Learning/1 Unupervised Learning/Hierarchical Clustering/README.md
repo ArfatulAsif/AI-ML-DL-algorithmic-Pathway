@@ -104,34 +104,40 @@ A **dendrogram** is a tree-like diagram that **visualizes the clustering process
 - **Cutting at a higher level** → Fewer, **larger** clusters.  
 - **Cutting at a lower level** → More, **smaller** clusters.  
 
----
+<br>
+<br>
+<br>
 
 ## **Example**
-### **Given Data Points: A, B, C, D, E**
-#### **Agglomerative Clustering**
-1. **Find closest pair:** A & B → Merge into **(AB)**  
-2. **Find next closest:** C & D → Merge into **(CD)**  
-3. **Merge (AB) with E → (ABE)**  
-4. **Merge (ABE) with (CD) → (ABCDE)** (final cluster).  
+<br>
 
-#### **Divisive Clustering**
-1. **Start with one cluster:** **(ABCDE)**  
-2. **First split:** → **(AB)** and **(CDE)**  
-3. **Second split:** → **(C)** and **(DE)**  
-4. **Continue splitting until each point is its own cluster.**  
+### Given Data Points: A, B, C, D, E
+<br>
+
+#### **Agglomerative Clustering**
+1. Find closest pair: A & B → Merge into (AB)
+2. Find next closest: C & D → Merge into (CD)  
+3. Merge (AB) with E → (ABE)  
+4. Merge (ABE) with (CD) → (ABCDE) (final cluster).  
+
+<br>
+
+
+#### Divisive Clustering
+1. Start with one cluster: (ABCDE)
+2. First split: → (AB) and (CDE)  
+3. Second split: → (C) and (DE)  
+4. Continue splitting until each point is its own cluster.  
+
+<br>
 
 ---
 
+<br>
 
 
 
 
-## Comparison of Agglomerative and Divisive Clustering
-
-| Approach | Start | Process | End |
-|----------|-------|---------|-----|
-| Agglomerative | Individual points | Merges | One cluster |
-| Divisive | One cluster | Splits | Individual points |
 
 **Choosing Between Agglomerative and Divisive Clustering**:
 - **Agglomerative** is more commonly used because it is easier to implement and interpret, especially when looking for natural groupings in data.
@@ -152,7 +158,11 @@ Let's perform **Hierarchical Clustering (Agglomerative and Divisive)** using the
 
 We'll first create a **Proximity (Distance) Matrix** using the **Euclidean Distance** (absolute difference between values).  
 
----
+
+
+<br>
+
+<br>
 
 ## **Step 1: Proximity Matrix**
 The proximity matrix represents the distance between each pair of data points.
@@ -166,7 +176,9 @@ The proximity matrix represents the distance between each pair of data points.
 | **19** | 18 | 14 | 11 | 9  | 0   | 1   |
 | **20** | 19 | 15 | 12 | 10 | 1   | 0   |
 
----
+<br>
+
+<br>
 
 ## **Step 2: Agglomerative Clustering (Bottom-Up)**
 We start with **each point as its own cluster** and merge the closest ones step by step.
@@ -177,6 +189,10 @@ We start with **each point as its own cluster** and merge the closest ones step 
 3. **Next closest:** (5, 8, 10) → Merge **{5, 8, 10}**  
 4. **Next closest:** (1, 5, 8, 10) → Merge **{1, 5, 8, 10}**  
 5. **Final Merge:** ({1, 5, 8, 10}, {19, 20}) → **Single cluster**
+
+
+
+<br>
 
 ### **Dendrogram Representation:**
 ```
@@ -193,7 +209,9 @@ We start with **each point as its own cluster** and merge the closest ones step 
         (Final Cluster)
 ```
 
----
+
+
+<br>
 
 ## **Step 3: Divisive Clustering (Top-Down)**
 We start with **all points in one cluster** and **split** step by step.
@@ -204,6 +222,10 @@ We start with **all points in one cluster** and **split** step by step.
 3. **Second split:** {1, 5} & {8, 10} in first cluster
 4. **Third split:** {1} & {5} in first cluster; {8} & {10} in second cluster  
 5. **Final clusters:** {1}, {5}, {8}, {10}, {19}, {20} (individual elements)
+
+
+
+<br>
 
 ### **Dendrogram Representation:**
 ```
@@ -220,7 +242,11 @@ We start with **all points in one cluster** and **split** step by step.
  (1) (5)  (8) (10)
 ```
 
+<br>
+
 ---
+
+<br>
 
 ### **Comparison:**
 | Feature | Agglomerative | Divisive |
@@ -230,7 +256,8 @@ We start with **all points in one cluster** and **split** step by step.
 | Result  | Builds up to a single cluster | Breaks down to single points |
 | Complexity | Less expensive | More expensive |
 
----
+<br>
+<br>
 
 ### **Conclusion**
 - **Agglomerative Clustering** is more common due to its efficiency.
