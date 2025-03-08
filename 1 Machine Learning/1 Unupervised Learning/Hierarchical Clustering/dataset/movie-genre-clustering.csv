@@ -1,0 +1,22 @@
+Movie ID,Title,Action,Comedy,Drama,Horror,Sci-Fi,Romance
+1,Inception,1,0,0,0,1,0
+2,The Dark Knight,1,0,0,0,0,0
+3,Interstellar,1,0,1,0,1,0
+4,Titanic,0,0,1,0,0,1
+5,The Conjuring,0,0,0,1,0,0
+6,It,0,1,0,1,0,0
+7,Avengers: Endgame,1,1,0,0,1,0
+8,Deadpool,1,1,0,0,0,0
+9,The Notebook,0,0,1,0,0,1
+10,Parasite,0,0,1,0,0,0
+11,The Matrix,1,0,0,0,1,0
+12,Joker,0,0,1,0,0,0
+13,Get Out,0,0,0,1,0,0
+14,Star Wars,1,0,0,0,1,0
+15,Forrest Gump,0,1,1,0,0,1
+16,Mad Max: Fury Road,1,0,0,0,1,0
+17,Shutter Island,0,0,1,1,0,0
+18,The Grand Budapest Hotel,0,1,1,0,0,0
+19,A Quiet Place,0,0,0,1,0,0
+
+
