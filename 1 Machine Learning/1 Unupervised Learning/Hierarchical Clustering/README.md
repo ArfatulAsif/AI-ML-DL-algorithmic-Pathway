@@ -199,15 +199,74 @@ The proximity matrix represents the distance between each pair of data points.
 
 <br>
 
-## **Step 2: Agglomerative Clustering (Bottom-Up)**
-We start with **each point as its own cluster** and merge the closest ones step by step.
+### **Step 2: Merge (19, 20)**
+- The closest points **(19, 20)** merge into **{19,20}**.
+- The new distance is the **minimum distance** between elements of the clusters.
 
-### **Merging Steps:**
-1. **Closest points:** (19, 20) → Merge **{19, 20}**  
-2. **Next closest:** (8, 10) → Merge **{8, 10}**  
-3. **Next closest:** (5, 8, 10) → Merge **{5, 8, 10}**  
-4. **Next closest:** (1, 5, 8, 10) → Merge **{1, 5, 8, 10}**  
-5. **Final Merge:** ({1, 5, 8, 10}, {19, 20}) → **Single cluster**
+|   | **1** | **5** | **8** | **10** | **{19,20}** |
+|---|---|---|---|---|---|
+| **1**  | 0  | 4  | 7  | 9  | 18  |
+| **5**  | 4  | 0  | 3  | 5  | 14  |
+| **8**  | 7  | 3  | 0  | 2  | 11  |
+| **10** | 9  | 5  | 2  | 0  | 9   |
+| **{19,20}** | 18 | 14 | 11 | 9  | 0   |
+
+<br>
+
+
+<br>
+
+
+### **Step 3: Merge (8, 10)**
+- The closest pair **(8, 10)** merge into **{8,10}**.
+
+|   | **1** | **5** | **{8,10}** | **{19,20}** |
+|---|---|---|---|---|
+| **1**  | 0  | 4  | 7  | 18  |
+| **5**  | 4  | 0  | 3  | 14  |
+| **{8,10}** | 7  | 3  | 0  | 9   |
+| **{19,20}** | 18 | 14 | 9  | 0   |
+
+<br>
+
+
+<br>
+
+
+### **Step 4: Merge (5, {8,10})**
+- The closest pair **(5, {8,10})** merge into **{5,8,10}**.
+
+|   | **1** | **{5,8,10}** | **{19,20}** |
+|---|---|---|---|
+| **1**  | 0  | 4  | 18  |
+| **{5,8,10}** | 4  | 0  | 9   |
+| **{19,20}** | 18 | 9  | 0   |
+
+<br>
+
+
+
+<br>
+
+
+### **Step 5: Merge (1, {5,8,10})**
+- The closest pair **(1, {5,8,10})** merge into **{1,5,8,10}**.
+
+|   | **{1,5,8,10}** | **{19,20}** |
+|---|---|---|
+| **{1,5,8,10}** | 0  | 9   |
+| **{19,20}** | 9  | 0   |
+
+<br>
+
+
+
+<br>
+
+
+### **Step 6: Final Merge**
+- The last two clusters **({1,5,8,10}, {19,20})** merge into **one final cluster**.
+
 
 
 
