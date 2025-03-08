@@ -81,7 +81,7 @@ plt.show()
 
 <br>
 
-<img src="/pic1.png"  width="450">
+<img src="images/pic1.png"  width="500">
 
 
 <br>
