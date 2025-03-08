@@ -1,10 +1,17 @@
-# Clustering
+## Clustering
 
 Clustering is an **unsupervised machine learning technique** used to group similar data points based on their characteristics. The objective is to ensure that:  
 - Points within the same cluster are highly similar.  
-- Points in different clusters are significantly different.  
+- Points in different clusters are significantly different.
+
 
 Unlike supervised learning, clustering doesn’t require predefined labels— rather it discovers patterns and structures in the data automatically.  
+
+<br>
+
+<img src="images/pic2.png"  width="500">
+
+<br>
 
 #### **Common Clustering Methods**
 1. K-Means Clustering – Divides data into **k clusters** based on centroids.  
@@ -57,6 +64,12 @@ When merging clusters, we need a **rule** to define their distance:
 - **Average Linkage (UPGMA)** – Average distance between all points in the two clusters.  
 - **Centroid Linkage** – Distance between cluster centroids.  
 
+<br>
+
+<img src="images/pic5.png"  width="500">
+
+<br>
+
 ### **Pros & Cons**
 **Pros:**  <br>
 - Intuitive and widely used.  
@@ -105,7 +118,13 @@ A **dendrogram** is a tree-like diagram that **visualizes the clustering process
 - **Cutting at a lower level** → More, **smaller** clusters.  
 
 <br>
+
 <br>
+
+<img src="images/pic4.png"  width="500">
+
+<br>
+
 <br>
 
 ## **Example**
@@ -257,6 +276,10 @@ We start with **all points in one cluster** and **split** step by step.
 | Complexity | Less expensive | More expensive |
 
 <br>
+
+<img src="images/pic3.png"  width="500">
+
+
 <br>
 
 ### **Conclusion**
