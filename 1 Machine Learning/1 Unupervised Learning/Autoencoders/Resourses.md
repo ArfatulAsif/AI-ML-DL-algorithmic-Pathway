@@ -1,1 +1,3 @@
-https://youtu.be/xwrzh4e8DLs?si=JZQGmYqc8KiIOSml
+Autoencoders Detailing Video = https://youtu.be/xwrzh4e8DLs?si=JZQGmYqc8KiIOSml
+
+Autoencoders for Image Detection = https://youtu.be/9QWyzvVs5VM?si=8Zwwf4DcTaKFnw5Q
