@@ -19,6 +19,21 @@ An autoencoder consists of two main parts:
 ### **Mathematical Representation**
 If the input data is **X**, the encoder function is **f(X) = Z** (latent representation), and the decoder function is **g(Z) = X'** (reconstructed output). The objective is to make **X ≈ X'**.
 
+### **Reconstruction Loss Calculation**
+Autoencoders use **Mean Squared Error (MSE)** to measure the reconstruction loss. The **lower the MSE, the better the autoencoder has learned to compress and reconstruct the data**.
+
+#### **Formula for MSE(**X**,**X'**):**
+```
+MSE = (1/n) * Σ (X - X')^2
+```
+Where:
+- **X** is the original input.
+- **X'** is the reconstructed output.
+- **n** is the number of samples.
+
+A **lower MSE** indicates a well-trained autoencoder with minimal reconstruction error.
+
+
 ## Applications of Autoencoders
 ✅ **Dimensionality Reduction:**  Similar to Principal Component Analysis(PCA) but non-linear.  
 ✅ **Denoising:**  Removing noise from images or signals.  
