@@ -4,7 +4,7 @@ K-Means Clustering is an **Unsupervised Machine Learning algorithm** that groups
 
 <br>
 
-<img src="images/kmeans.png" width="500">
+<img src="kmeans.png" width="500">
 
 <br>
 
