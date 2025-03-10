@@ -19,14 +19,10 @@ We are given a dataset of items with certain features and values for these featu
 ### **Mathematical Explanation**
 1. **Initialization**: Randomly select `k` points as initial centroids.
 2. **Assignment Step**: Assign each data point to the nearest centroid using the **Euclidean distance**:
-   $$
-   \text{distance}(x_i, c_j) = \sqrt{\sum_{d=1}^{D} (x_{id} - c_{jd})^2}
-   $$
+   $$\text{distance}(x_i, c_j) = \sqrt{\sum_{d=1}^{D} (x_{id} - c_{jd})^2}$$
    where $$x_i$$ is a data point, $$c_j$$ is a centroid, and $$D$$ is the number of dimensions.
 3. **Update Step**: Recalculate the centroids as the mean of all points assigned to each cluster:
-   $$
-   c_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i
-   $$
+   $$c_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i$$
    where $$C_j$$ is the set of points in cluster $$j$$.
 4. **Repeat**: Continue the assignment and update steps until the centroids no longer change significantly.
 ### **Implementation of K-Means Clustering in Python**
