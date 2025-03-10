@@ -14,7 +14,7 @@ K-Means Clustering is a technique used to organize data into groups based on the
 The algorithm works by first randomly picking some central points called **centroids**. Each data point is then assigned to the closest centroid, forming a cluster. After all points are assigned to a cluster, the centroids are updated by finding the average position of the points in each cluster. This process repeats until the centroids stop changing, forming stable clusters. The goal of clustering is to divide the data points into clusters so that similar data points belong to the same group.
 
 ### How K-Means Clustering Works
-We are given a dataset of items with certain features and values for these features (like a vector). The task is to categorize those items into groups. To achieve this, we will use the K-Means algorithm. The ‘K’ in the name of the algorithm represents the number of groups/clusters we want to classify our items into.
+We are given a dataset of items with certain features and values for these features (like a vector). The task is to categorize those items into groups. To achieve this, we will use the K-Means algorithm. The ‘K’ in the name of the algorithm represents the number of groups/clusters we want to classify our items into. <br> <br> 
 <img src="explanation.png" width="500">
 ### **Mathematical Explanation**
 1. **Initialization**: Randomly select `k` points as initial centroids. <br> 
