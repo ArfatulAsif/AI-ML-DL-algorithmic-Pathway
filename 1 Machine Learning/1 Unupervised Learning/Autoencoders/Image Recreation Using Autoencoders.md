@@ -75,4 +75,42 @@ model.summary()
 
 ![Model Architecture](Sequence.png)
 
+## Model Fitting
+### 'epochs' is used for image cleanness
+```python
+model.fit(img_final,img_final, epochs=10, shuffle = True) 
+pred = model.predict(img_final)
+plt.imshow(pred[0].reshape(256,256,3))
+```
+### Recreation Image when epochs is 10  
+
+![Recreation Image](Image%201.png)
+
+```python
+model.fit(img_final,img_final, epochs=100, shuffle = True)
+```
+
+### Recreation Image when epochs is 100  
+
+![Recreation Image](Image%202.png)
+
+```python
+model.fit(img_final,img_final, epochs=1000, shuffle = True)
+```
+
+### Recreation Image when epochs is 1000  
+
+![Recreation Image](Image%203.png)
+
+```python
+model.fit(img_final,img_final, epochs=2000, shuffle = True)
+```
+
+### Recreation Image when epochs is 2000  
+
+![Recreation Image](Image%204.png)
+
+
+**Note:** The more **epochs** is increasing the more **image** becomes clear.
+
 
