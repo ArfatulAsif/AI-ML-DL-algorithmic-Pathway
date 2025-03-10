@@ -197,4 +197,3 @@ K-Means Clustering is a powerful unsupervised machine learning algorithm for gro
 
 - **What is the Objective of K-Means Clustering?**  
   The objective is to partition data into ‘k’ clusters, minimizing the intra-cluster variance. It seeks to form groups where data points within each cluster are more similar to each other than to those in other clusters.
-```
