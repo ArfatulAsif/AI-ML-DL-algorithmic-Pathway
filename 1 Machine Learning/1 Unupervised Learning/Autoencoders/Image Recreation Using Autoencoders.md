@@ -43,4 +43,36 @@ img_final = np.reshape(img_data,(len(img_data),256,256,3))
 img_final = img_final.astype('float32')/255
 ```
 
+## Creating Model
+### ANN(Artificial Neural Network) Part
+```python
+model = Sequential()
+model.add(Conv2D(64,(3,3), activation = 'relu' , padding = 'same', input_shape=(256,256,3)))
+model.add(MaxPooling2D((2,2), padding = 'same'))
+model.add(Conv2D(32,(3,3), activation = 'relu' , padding = 'same'))
+model.add(MaxPooling2D((2,2), padding = 'same'))
+model.add(Conv2D(16,(3,3), activation = 'relu' , padding = 'same'))
+model.add(MaxPooling2D((2,2), padding = 'same'))
+```
+### Decoding Part
+```python
+model.add(Conv2D(16,(3,3), activation = 'relu' , padding = 'same'))
+model.add(UpSampling2D((2,2)))
+model.add(Conv2D(32,(3,3), activation = 'relu' , padding = 'same'))
+model.add(UpSampling2D((2,2)))
+model.add(Conv2D(64,(3,3), activation = 'relu' , padding = 'same'))
+model.add(UpSampling2D((2,2)))
+
+model.add(Conv2D(3,(3,3), activation = 'relu' , padding = 'same'))
+
+model.compile(optimizer='adam', loss = 'mean_squared_error', metrics = ['accuracy'])
+```
+
+```python
+model.summary()
+```
+## Model: Sequential  
+
+![Model Architecture](Sequence.png)
+
 
