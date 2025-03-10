@@ -17,14 +17,15 @@ The algorithm works by first randomly picking some central points called **centr
 We are given a dataset of items with certain features and values for these features (like a vector). The task is to categorize those items into groups. To achieve this, we will use the K-Means algorithm. The ‘K’ in the name of the algorithm represents the number of groups/clusters we want to classify our items into.
 
 ### **Mathematical Explanation**
-1. **Initialization**: Randomly select `k` points as initial centroids.
-2. **Assignment Step**: Assign each data point to the nearest centroid using the **Euclidean distance**:
-   $$\text{distance}(x_i, c_j) = \sqrt{\sum_{d=1}^{D} (x_{id} - c_{jd})^2}$$
+1. **Initialization**: Randomly select `k` points as initial centroids. <br> 
+2. **Assignment Step**: Assign each data point to the nearest centroid using the **Euclidean distance**: <br> <br>
+   $$\text{distance}(x_i, c_j) = \sqrt{\sum_{d=1}^{D} (x_{id} - c_{jd})^2}$$ <br> <br>
    where $$x_i$$ is a data point, $$c_j$$ is a centroid, and $$D$$ is the number of dimensions.
-3. **Update Step**: Recalculate the centroids as the mean of all points assigned to each cluster:
-   $$c_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i$$
-   where $$C_j$$ is the set of points in cluster $$j$$.
+3. **Update Step**: Recalculate the centroids as the mean of all points assigned to each cluster: <br><br>
+   $$c_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i$$ <br><br>
+   where $$C_j$$ is the set of points in cluster $$j$$. <br><br>
 4. **Repeat**: Continue the assignment and update steps until the centroids no longer change significantly.
+
 ### **Implementation of K-Means Clustering in Python**
 We will use a blobs dataset to demonstrate how clusters are formed.
 
