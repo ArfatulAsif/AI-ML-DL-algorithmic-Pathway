@@ -1,3 +1,4 @@
-Autoencoders Detailing Video = https://youtu.be/xwrzh4e8DLs?si=JZQGmYqc8KiIOSml
+## Resourses
+- [Details about **Autoencoders**](https://youtu.be/xwrzh4e8DLs?si=JZQGmYqc8KiIOSml)
 
-Autoencoders for Image Reconstruction = https://youtu.be/9QWyzvVs5VM?si=8Zwwf4DcTaKFnw5Q
+- [Image Recreation Using **Autoencoders**](https://youtu.be/9QWyzvVs5VM?si=8Zwwf4DcTaKFnw5Q)
