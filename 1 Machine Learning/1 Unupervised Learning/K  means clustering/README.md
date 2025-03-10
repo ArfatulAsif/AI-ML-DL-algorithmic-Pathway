@@ -15,7 +15,7 @@ The algorithm works by first randomly picking some central points called **centr
 
 ### How K-Means Clustering Works
 We are given a dataset of items with certain features and values for these features (like a vector). The task is to categorize those items into groups. To achieve this, we will use the K-Means algorithm. The ‘K’ in the name of the algorithm represents the number of groups/clusters we want to classify our items into.
-
+<img src="explanation.png" width="500">
 ### **Mathematical Explanation**
 1. **Initialization**: Randomly select `k` points as initial centroids. <br> 
 2. **Assignment Step**: Assign each data point to the nearest centroid using the **Euclidean distance**: <br> <br>
