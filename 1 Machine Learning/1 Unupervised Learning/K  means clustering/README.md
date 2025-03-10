@@ -29,7 +29,6 @@ We are given a dataset of items with certain features and values for these featu
    $$
    where $$C_j$$ is the set of points in cluster $$j$$.
 4. **Repeat**: Continue the assignment and update steps until the centroids no longer change significantly.
-
 ### **Implementation of K-Means Clustering in Python**
 We will use a blobs dataset to demonstrate how clusters are formed.
 
