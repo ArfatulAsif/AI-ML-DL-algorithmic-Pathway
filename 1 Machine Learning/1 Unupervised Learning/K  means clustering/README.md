@@ -157,17 +157,26 @@ To determine the optimal number of clusters, calculate the average silhouette sc
 
 ### **Elbow Method**
 
-The **Elbow Method** is a graphical tool used to determine the optimal number of clusters (\(K\)) in K-Means Clustering. It involves plotting the inertia (or cost) against the number of clusters and looking for an "elbow" point where the rate of decrease sharply changes.
+The **Elbow Method** is a graphical tool used to determine the optimal number of clusters ($$K$$) in K-Means Clustering. It involves plotting the inertia (or cost) against the number of clusters and looking for an "elbow" point where the rate of decrease sharply changes.
 
-**Inertia** is the sum of squared distances from each data point to the center of its assigned cluster. It measures how well the points are grouped in their clusters. The smaller the inertia, the better the clustering.
+**Inertia** is the sum of squared distances from each data point to the center of its assigned cluster. It measures how well the points are grouped in their clusters. The smaller the inertia, the better the clustering. Mathematically, inertia is defined as:
+
+$$
+\text{Inertia} = \sum_{i=1}^{n} \sum_{x_i \in C_j} \|x_i - c_j\|^2
+$$
+
+where:
+- $$n$$ is the total number of data points.
+- $$x_i$$ is a data point.
+- $$c_j$$ is the centroid of cluster $$C_j$$.
+- $$\|x_i - c_j\|^2$$ is the squared Euclidean distance between a data point and its cluster centroid.
 
 **Steps:**
-1. Plot the inertia for different values of \(K\).
-2. As \(K\) increases, inertia decreases because more clusters allow data points to be closer to their cluster centers.
-3. The goal is to find the value of \(K\) where the decrease in inertia starts to slow down, forming an "elbow" in the plot. This point is considered the optimal value for \(K\).
+1. Plot the inertia for different values of $$K$$.
+2. As $$K$$ increases, inertia decreases because more clusters allow data points to be closer to their cluster centers.
+3. The goal is to find the value of $$K$$ where the decrease in inertia starts to slow down, forming an "elbow" in the plot. This point is considered the optimal value for $$K$$.
 
 The Elbow Method is widely used because it is simple to understand and provides a clear visualization of the optimal number of clusters.
-
 **Key Takeaways:**
 - **Elbow Method**: Use this method when you have a general sense of the data and want a quick visual way to estimate \(K\).
 - **Silhouette Method**: Use this method when you want to evaluate how well-clustered your points are and how well-separated the clusters are.
