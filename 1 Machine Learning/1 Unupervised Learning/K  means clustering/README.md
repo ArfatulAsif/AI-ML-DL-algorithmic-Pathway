@@ -150,7 +150,15 @@ The silhouette score ranges from -1 to +1:
 - **-1**: The point is likely in the wrong cluster.
 
 To determine the optimal number of clusters, calculate the average silhouette score for different values of \(K\). The best \(K\) is the one with the highest average silhouette score, indicating that the clusters are well-separated and each point is correctly grouped.
-
+<br> <br>
+<img src="algoImages/s 1.png" width="500">
+<br>
+<img src="algoImages/s 2.png" width="500">
+<br>
+<img src="algoImages/s 3.png" width="500">
+<br>
+<img src="algoImages/s 4.png" width="500">
+<br>
 **Cons:**
 - Can be computationally expensive for large datasets.
 - May not work well if clusters are not spherical or have different densities.
@@ -175,7 +183,9 @@ where:
 1. Plot the inertia for different values of $$K$$.
 2. As $$K$$ increases, inertia decreases because more clusters allow data points to be closer to their cluster centers.
 3. The goal is to find the value of $$K$$ where the decrease in inertia starts to slow down, forming an "elbow" in the plot. This point is considered the optimal value for $$K$$.
-
+<img src="algoImages/elbow.png" width="500">
+<br>
+<img src="algoImages/elbow 2.png" width="500">
 The Elbow Method is widely used because it is simple to understand and provides a clear visualization of the optimal number of clusters.
 **Key Takeaways:**
 - **Elbow Method**: Use this method when you have a general sense of the data and want a quick visual way to estimate \(K\).
