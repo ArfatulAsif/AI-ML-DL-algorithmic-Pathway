@@ -1,4 +1,3 @@
-Of course. Here are the common hyperparameters for a Feedforward Neural Network (FNN).
 
 ---
 ## Model Architecture Hyperparameters
