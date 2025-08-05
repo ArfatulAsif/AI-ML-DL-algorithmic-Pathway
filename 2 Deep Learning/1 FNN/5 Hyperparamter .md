@@ -153,7 +153,7 @@ In this progressive architecture:
 * **Fixed Number of Neurons**: Use when you need consistent capacity in each layer for complex tasks and have enough data to avoid overfitting.
 * **Progressive Method**: Use when you need to regularize the model, especially with smaller datasets or when you want to reduce the model's complexity progressively.
 
-## For **general-purpose architectures**, the **progressive method** is often a more regularized and efficient choice, 
+## For `general-purpose architectures`, the `progressive method` is often a more regularized and efficient choice, 
 
 
 
