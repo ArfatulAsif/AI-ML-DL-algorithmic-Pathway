@@ -159,6 +159,9 @@ In this progressive architecture:
 
 
 ---
+---
+---
+
 
 # Training Process Hyperparameters
 These control how the model learns from data.
