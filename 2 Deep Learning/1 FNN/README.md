@@ -1,11 +1,11 @@
+# FNN Model implementation
 
-# FNN Model (Digits Dataset)
 
 ---
 
-## **Step 1: Data Preprocessing**
+# **1. Data Preprocessing:**
 
-We will load the **Digits dataset** (all 1,797 samples), **standardize the features**, and **one-hot encode** the labels for training.
+In this section, we load the **Digits dataset** (which contains 1,797 samples of 8x8 pixel images of handwritten digits), standardize the feature values, and **one-hot encode** the labels for classification.
 
 ```python
 import numpy as np
@@ -30,18 +30,22 @@ X_test_scaled = scaler.transform(X_test)
 # One-hot encode the labels (since this is a classification task)
 y_train_encoded = to_categorical(y_train, 10)  # Digits has 10 classes (0-9)
 y_test_encoded = to_categorical(y_test, 10)
-
-
 ```
+
+**Explanation:**
+
+* **Loading the Digits Dataset**: The Digits dataset contains 1,797 samples, each with 64 features (pixel values of 8x8 images).
+* **Standardization**: Features are scaled to have a mean of 0 and standard deviation of 1. This is essential for most machine learning models.
+* **Train-Test Split**: The dataset is split into 80% training and 20% testing data.
+* **One-Hot Encoding**: The labels are encoded into a one-hot vector (a binary vector where only the index corresponding to the class is 1, and all others are 0).
 
 ---
 
-## **Step 2: Build the FNN Model (Progressive Method)**
+# **2. Build the FNN Model (Progressive Method):**
 
-Now we define the **Feedforward Neural Network (FNN)** using the **progressive method** where the number of neurons decreases progressively in each hidden layer. We also use **Dropout** for regularization.
+Here we define the **Feedforward Neural Network (FNN)** model. The number of neurons in each hidden layer decreases progressively. We also add **Dropout** to prevent overfitting.
 
 ```python
-
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import Adam, SGD, RMSprop
@@ -79,15 +83,20 @@ def build_fnn_progressive(initial_neurons=128, num_layers=3, activation='relu', 
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model
-
-
 ```
+
+**Explanation:**
+
+* **Progressive Method**: The number of neurons in each hidden layer decreases progressively. This can help the network learn more abstract features in deeper layers while keeping the model efficient.
+* **Activation Function**: We use ReLU (Rectified Linear Unit) by default, but other functions like Tanh or Sigmoid can also be used.
+* **Dropout**: Dropout is added to reduce overfitting by randomly setting some of the neurons to zero during training.
+* **Optimizer**: We choose between Adam, SGD, and RMSprop for training the model, each with a specific learning rate.
 
 ---
 
-## **Step 3: Hyperparameter Tuning with Optuna (Using K-Fold Cross-Validation)**
+# **3. Hyperparameter Tuning with Optuna (Using K-Fold Cross-Validation):**
 
-We will use **Optuna** to optimize key hyperparameters such as **number of layers**, **number of neurons**, **activation function**, **dropout rate**, **optimizer**, **learning rate**, **batch size**, and **epochs**. We will use **5-fold cross-validation** to evaluate the model performance.
+Optuna is used to optimize hyperparameters such as the number of layers, neurons, dropout rate, optimizer, learning rate, batch size, and epochs. We use **K-Fold Cross-Validation** to evaluate the performance of the model during optimization.
 
 ```python
 import optuna
@@ -145,17 +154,20 @@ study.optimize(objective, n_trials=20)
 # Print the best hyperparameters and the corresponding accuracy
 print("Best Hyperparameters:", study.best_params)
 print("Best Accuracy:", study.best_value)
-
 ```
+
+**Explanation:**
+
+* **Optuna**: Used to perform **hyperparameter optimization**, helping us find the best model configuration.
+* **K-Fold Cross-Validation**: Ensures that the model is evaluated on multiple different subsets of the data, giving a more reliable estimate of its performance.
 
 ---
 
-## **Step 4: Model Evaluation**
+# **4. Model Evaluation:**
 
-After the **hyperparameter tuning**, we will train the model again with the **best hyperparameters** and evaluate its **final accuracy** on the test set.
+In this section, we build the model using the best hyperparameters found from **Optuna**, then train it on the entire training set and evaluate its performance on the test set.
 
 ```python
-
 # Final model evaluation on the test set
 # Manually extract the best model-building parameters
 initial_neurons = study.best_params['initial_neurons']
@@ -188,6 +200,12 @@ final_model.fit(X_train_scaled, y_train_encoded,
 # Evaluate test accuracy
 test_loss, test_accuracy = final_model.evaluate(X_test_scaled, y_test_encoded, verbose=2)
 print(f"Test Accuracy: {test_accuracy:.4f}")
-
 ```
+
+**Explanation:**
+
+* **Final Model Evaluation**: After Optuna optimizes the hyperparameters, we use them to train the model on the entire training set and then evaluate its performance on the test set.
+* **Verbose=1**: Displays a progress bar during training to show how the model is progressing.
+
+---
 
