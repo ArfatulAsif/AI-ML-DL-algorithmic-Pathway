@@ -176,13 +176,13 @@ These control how the model learns from data.
 
 ### **1. Building the Model (Progressive Method)**
 
-We’ll define the FNN model using the **progressive method** where the number of neurons decreases progressively as we go deeper into the network. We will also include **Dropout** to prevent overfitting.
+We’ll define the FNN model using the **progressive method**, where the number of neurons decreases progressively as we go deeper into the network. We'll also include **Dropout** to help prevent overfitting, and the optimizer will be passed as a parameter for tuning.
 
 ```python
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam, SGD, RMSprop
 
 # FNN Model with Progressive Neurons (Halving neurons without specifying number of layers)
 def build_fnn_progressive(initial_neurons=200, num_layers=5, activation='relu', dropout_rate=0.5, optimizer='adam', learning_rate=0.001):
@@ -202,10 +202,15 @@ def build_fnn_progressive(initial_neurons=200, num_layers=5, activation='relu', 
     # Output layer (for classification task)
     model.add(Dense(3, activation='softmax'))  # 3 classes for Iris dataset
 
-    # Optimizer
-    optimizer = Adam(learning_rate=learning_rate)
+    # Select optimizer based on the parameter
+    if optimizer == 'adam':
+        opt = Adam(learning_rate=learning_rate)
+    elif optimizer == 'sgd':
+        opt = SGD(learning_rate=learning_rate)
+    elif optimizer == 'rmsprop':
+        opt = RMSprop(learning_rate=learning_rate)
 
-    model.compile(optimizer=optimizer, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=opt, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     
     return model
 ```
@@ -215,30 +220,29 @@ def build_fnn_progressive(initial_neurons=200, num_layers=5, activation='relu', 
 ### **2. Hyperparameter Tuning with GridSearchCV, RandomizedSearchCV, and Optuna**
 
 
----
-
 #### **2.1. Hyperparameter Tuning with GridSearchCV**
 
-GridSearchCV exhaustively searches over a specified parameter grid and evaluates all combinations.
+We will explicitly tune the **optimizer** by including it in the **parameter grid** for **GridSearchCV**.
 
 ```python
 from sklearn.model_selection import GridSearchCV
 from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
 
 # Wrapper function for Keras model to use with GridSearchCV
-def create_model(num_layers=5, initial_neurons=200, activation='relu', dropout_rate=0.5, learning_rate=0.001):
-    model = build_fnn_progressive(initial_neurons, num_layers, activation, dropout_rate, learning_rate=learning_rate)
+def create_model(num_layers=5, initial_neurons=200, activation='relu', dropout_rate=0.5, optimizer='adam', learning_rate=0.001):
+    model = build_fnn_progressive(initial_neurons, num_layers, activation, dropout_rate, optimizer, learning_rate)
     return model
 
 # Wrap the model for GridSearchCV
 model = KerasClassifier(build_fn=create_model, verbose=0)
 
-# Define parameter grid for GridSearchCV
+# Define parameter grid for GridSearchCV, including optimizer
 param_grid = {
     'num_layers': [3, 4, 5],  # Number of hidden layers
     'initial_neurons': [100, 150, 200],  # Initial number of neurons
     'activation': ['relu', 'tanh'],  # Activation function
     'dropout_rate': [0.2, 0.5],  # Dropout rate
+    'optimizer': ['adam', 'sgd', 'rmsprop'],  # Optimizer (Adam, SGD, RMSprop)
     'learning_rate': [0.001, 0.01],  # Learning rate
     'batch_size': [16, 32],  # Batch size
     'epochs': [10, 20]  # Number of epochs
@@ -259,18 +263,19 @@ print("Best Score:", grid_search.best_score_)
 
 #### **2.2. Hyperparameter Tuning with RandomizedSearchCV**
 
-RandomizedSearchCV randomly samples a fixed number of hyperparameter combinations from the specified grid, and is more efficient than GridSearchCV when dealing with a large hyperparameter space.
+In **RandomizedSearchCV**, we will randomly sample the **optimizer** from the list of available optimizers.
 
 ```python
 from sklearn.model_selection import RandomizedSearchCV
 from scipy.stats import uniform, randint
 
-# Define parameter distributions for RandomizedSearchCV
+# Define parameter distributions for RandomizedSearchCV, including optimizer
 param_dist = {
     'num_layers': randint(3, 6),  # Random number of hidden layers
     'initial_neurons': randint(100, 300),  # Random initial number of neurons
     'activation': ['relu', 'tanh'],  # Randomly sample activation functions
     'dropout_rate': uniform(0, 0.5),  # Random dropout rate
+    'optimizer': ['adam', 'sgd', 'rmsprop'],  # Randomly sample optimizers
     'learning_rate': uniform(1e-5, 1e-1),  # Random learning rate
     'batch_size': [16, 32, 64],  # Random batch size
     'epochs': randint(10, 50)  # Random number of epochs
@@ -291,24 +296,25 @@ print("Best Score:", random_search.best_score_)
 
 #### **2.3. Hyperparameter Tuning with Optuna**
 
-Optuna is a more advanced hyperparameter optimization framework that uses algorithms like **Tree-structured Parzen Estimator (TPE)** for efficient search. It’s particularly good for finding **optimal hyperparameters** for deep learning models.
+In **Optuna**, we can optimize the **optimizer** along with other hyperparameters using **Optuna’s efficient search algorithm**.
 
 ```python
 import optuna
 from sklearn.metrics import accuracy_score
 
-# Define the objective function for Optuna
+# Define the objective function for Optuna including optimizer
 def objective(trial):
     num_layers = trial.suggest_int('num_layers', 3, 5)
     initial_neurons = trial.suggest_int('initial_neurons', 100, 300)
     activation = trial.suggest_categorical('activation', ['relu', 'tanh'])
     dropout_rate = trial.suggest_uniform('dropout_rate', 0.2, 0.5)
+    optimizer = trial.suggest_categorical('optimizer', ['adam', 'sgd', 'rmsprop'])  # Optimizer tuning
     learning_rate = trial.suggest_loguniform('learning_rate', 1e-5, 1e-1)
     batch_size = trial.suggest_categorical('batch_size', [16, 32, 64])
     epochs = trial.suggest_int('epochs', 10, 50)
     
     # Build and train the model
-    model = build_fnn_progressive(initial_neurons, num_layers, activation, dropout_rate, learning_rate=learning_rate)
+    model = build_fnn_progressive(initial_neurons, num_layers, activation, dropout_rate, optimizer, learning_rate=learning_rate)
     model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, verbose=0)
     
     # Evaluate model performance
@@ -328,5 +334,6 @@ print("Best Hyperparameters:", study.best_params)
 print("Best Accuracy:", study.best_value)
 ```
 
----
+
+
 
