@@ -7,6 +7,7 @@ These define the structure of the network itself.
 -   **Number of Hidden Layers**: The **depth** of the network (how many layers are stacked between the input and output).
 -   **Number of Neurons per Layer**: The **width** of each hidden layer.
 -   **Activation Functions**: The non-linear function used in the hidden layers (e.g., **ReLU**, **Tanh**, **Leaky ReLU**).
+-   **Dropout Rate (dropout_rate):**  `Regularization` Used to prevent overfitting by randomly setting some neuron outputs to zero during training.
 
 ---
 ## Training Process Hyperparameters
@@ -16,8 +17,6 @@ These control how the model learns from data.
 -   **Learning Rate**: The step size used by the optimizer to update weights.
 -   **Batch Size**: The number of training samples processed before the model's weights are updated.
 -   **Number of Epochs**: The number of times the model cycles through the entire training dataset.
--   **Regularization**: Techniques used to prevent overfitting, such as **Dropout rate** or **L1/L2 penalty strength**.
-
 
 
 
