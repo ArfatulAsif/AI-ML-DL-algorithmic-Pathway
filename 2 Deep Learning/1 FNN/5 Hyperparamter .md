@@ -10,9 +10,9 @@ These define the structure of the network itself.
 
 
 
-## **Number of Hidden Layers and Neurons in Each Layer: A Brief Note**
+### **Number of Hidden Layers and Neurons in Each Layer: A Brief Note**
 
-### **Fix Number of Neurons vs. Progressive Method**
+#### **Fix Number of Neurons vs. Progressive Method**
 
 1. **Fixed Number of Neurons**:
 
@@ -30,7 +30,7 @@ These define the structure of the network itself.
 
 ---
 
-### **A General Approach: Progressive Method with Dropout**
+#### **A General Approach: Progressive Method with Dropout**
 
 A good general approach combines the **progressive method** with **Dropout** for regularization:
 
@@ -159,6 +159,7 @@ In this progressive architecture:
 
 
 ---
+
 # Training Process Hyperparameters
 These control how the model learns from data.
 
