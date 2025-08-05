@@ -174,84 +174,159 @@ These control how the model learns from data.
 
 
 
+### **1. Building the Model (Progressive Method)**
+
+We’ll define the FNN model using the **progressive method** where the number of neurons decreases progressively as we go deeper into the network. We will also include **Dropout** to prevent overfitting.
+
 ```python
-# First, you need to install KerasTuner
-# pip install keras-tuner
-
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-import keras_tuner
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.optimizers import Adam
 
-# 1. Load and prepare the dataset (e.g., MNIST)
-(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
-x_train = x_train.reshape(-1, 28*28).astype("float32") / 255.0
-x_test = x_test.reshape(-1, 28*28).astype("float32") / 255.0
+# FNN Model with Progressive Neurons (Halving neurons without specifying number of layers)
+def build_fnn_progressive(initial_neurons=200, num_layers=5, activation='relu', dropout_rate=0.5, optimizer='adam', learning_rate=0.001):
+    model = Sequential()
 
-# 2. Define the model-building function
-# This function tells the tuner how to build the model for each trial,
-# defining the search space for each hyperparameter.
-def build_model(hp):
-    model = keras.Sequential()
-    
-    # Define the input layer
-    model.add(layers.Input(shape=(784,)))
-    
-    # Tune the number of neurons in the first hidden layer
-    # Search for an integer between 64 and 512
-    hp_units = hp.Int('units', min_value=64, max_value=512, step=32)
-    
-    # Tune the activation function
-    hp_activation = hp.Choice('activation', values=['relu', 'tanh'])
-    
-    model.add(layers.Dense(units=hp_units, activation=hp_activation))
-    
-    # Add a dropout layer with a tunable rate
-    hp_dropout = hp.Float('dropout', min_value=0.1, max_value=0.5, step=0.1)
-    model.add(layers.Dropout(rate=hp_dropout))
-    
-    # Add the output layer
-    model.add(layers.Dense(10, activation='softmax'))
+    # First layer with initial number of neurons
+    model.add(Dense(initial_neurons, input_dim=10, activation=activation))  # 10 features in the input layer
 
-    # Tune the learning rate for the optimizer
-    hp_learning_rate = hp.Choice('learning_rate', values=[1e-2, 1e-3, 1e-4])
+    neurons = initial_neurons
 
-    model.compile(
-        optimizer=keras.optimizers.Adam(learning_rate=hp_learning_rate),
-        loss='sparse_categorical_crossentropy',
-        metrics=['accuracy']
-    )
+    # Add progressively smaller hidden layers (halve the neurons in each layer)
+    for _ in range(1, num_layers):  # Starting from 1 because the first layer is already added
+        neurons = max(neurons // 2, 1)  # Halve the number of neurons each time (ensure it's at least 1)
+        model.add(Dense(neurons, activation=activation))
+        model.add(Dropout(dropout_rate))  # Add Dropout layer to prevent overfitting
+
+    # Output layer (for classification task)
+    model.add(Dense(3, activation='softmax'))  # 3 classes for Iris dataset
+
+    # Optimizer
+    optimizer = Adam(learning_rate=learning_rate)
+
+    model.compile(optimizer=optimizer, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    
+    return model
+```
+
+---
+
+### **2. Hyperparameter Tuning with GridSearchCV, RandomizedSearchCV, and Optuna**
+
+
+---
+
+#### **2.1. Hyperparameter Tuning with GridSearchCV**
+
+GridSearchCV exhaustively searches over a specified parameter grid and evaluates all combinations.
+
+```python
+from sklearn.model_selection import GridSearchCV
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+
+# Wrapper function for Keras model to use with GridSearchCV
+def create_model(num_layers=5, initial_neurons=200, activation='relu', dropout_rate=0.5, learning_rate=0.001):
+    model = build_fnn_progressive(initial_neurons, num_layers, activation, dropout_rate, learning_rate=learning_rate)
     return model
 
-# 3. Instantiate the tuner and perform the search
-tuner = keras_tuner.RandomSearch(
-    build_model,
-    objective='val_accuracy',  # The metric to optimize
-    max_trials=10,             # Number of different hyperparameter combinations to test
-    directory='tuner_dir',     # Directory to store results
-    project_name='fnn_tuning'
-)
+# Wrap the model for GridSearchCV
+model = KerasClassifier(build_fn=create_model, verbose=0)
 
-# Use an early stopping callback to prevent long, fruitless trials
-stop_early = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5)
+# Define parameter grid for GridSearchCV
+param_grid = {
+    'num_layers': [3, 4, 5],  # Number of hidden layers
+    'initial_neurons': [100, 150, 200],  # Initial number of neurons
+    'activation': ['relu', 'tanh'],  # Activation function
+    'dropout_rate': [0.2, 0.5],  # Dropout rate
+    'learning_rate': [0.001, 0.01],  # Learning rate
+    'batch_size': [16, 32],  # Batch size
+    'epochs': [10, 20]  # Number of epochs
+}
 
-print("Starting hyperparameter search...")
-# The tuner will run 'max_trials' of model training sessions
-tuner.search(x_train, y_train, epochs=20, validation_split=0.2, callbacks=[stop_early])
+# Set up GridSearchCV
+grid_search = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=-1, cv=3)
 
-# 4. Get the optimal hyperparameters
-best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]
+# Fit GridSearchCV to the data
+grid_search.fit(X_train, y_train)
 
-print(f"""
-Search complete. The optimal hyperparameters are:
-- Units in hidden layer: {best_hps.get('units')}
-- Activation function: {best_hps.get('activation')}
-- Dropout rate: {best_hps.get('dropout'):.2f}
-- Learning rate: {best_hps.get('learning_rate')}
-""")
-
-# You can now build and train the final model with these best hyperparameters
-# final_model = tuner.hypermodel.build(best_hps)
-# final_model.fit(...)
-
+# Print the best hyperparameters and accuracy
+print("Best Hyperparameters:", grid_search.best_params_)
+print("Best Score:", grid_search.best_score_)
 ```
+
+---
+
+#### **2.2. Hyperparameter Tuning with RandomizedSearchCV**
+
+RandomizedSearchCV randomly samples a fixed number of hyperparameter combinations from the specified grid, and is more efficient than GridSearchCV when dealing with a large hyperparameter space.
+
+```python
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import uniform, randint
+
+# Define parameter distributions for RandomizedSearchCV
+param_dist = {
+    'num_layers': randint(3, 6),  # Random number of hidden layers
+    'initial_neurons': randint(100, 300),  # Random initial number of neurons
+    'activation': ['relu', 'tanh'],  # Randomly sample activation functions
+    'dropout_rate': uniform(0, 0.5),  # Random dropout rate
+    'learning_rate': uniform(1e-5, 1e-1),  # Random learning rate
+    'batch_size': [16, 32, 64],  # Random batch size
+    'epochs': randint(10, 50)  # Random number of epochs
+}
+
+# Set up RandomizedSearchCV
+random_search = RandomizedSearchCV(estimator=model, param_distributions=param_dist, n_iter=50, n_jobs=-1, cv=3)
+
+# Fit RandomizedSearchCV to the data
+random_search.fit(X_train, y_train)
+
+# Print the best hyperparameters and accuracy
+print("Best Hyperparameters:", random_search.best_params_)
+print("Best Score:", random_search.best_score_)
+```
+
+---
+
+#### **2.3. Hyperparameter Tuning with Optuna**
+
+Optuna is a more advanced hyperparameter optimization framework that uses algorithms like **Tree-structured Parzen Estimator (TPE)** for efficient search. It’s particularly good for finding **optimal hyperparameters** for deep learning models.
+
+```python
+import optuna
+from sklearn.metrics import accuracy_score
+
+# Define the objective function for Optuna
+def objective(trial):
+    num_layers = trial.suggest_int('num_layers', 3, 5)
+    initial_neurons = trial.suggest_int('initial_neurons', 100, 300)
+    activation = trial.suggest_categorical('activation', ['relu', 'tanh'])
+    dropout_rate = trial.suggest_uniform('dropout_rate', 0.2, 0.5)
+    learning_rate = trial.suggest_loguniform('learning_rate', 1e-5, 1e-1)
+    batch_size = trial.suggest_categorical('batch_size', [16, 32, 64])
+    epochs = trial.suggest_int('epochs', 10, 50)
+    
+    # Build and train the model
+    model = build_fnn_progressive(initial_neurons, num_layers, activation, dropout_rate, learning_rate=learning_rate)
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, verbose=0)
+    
+    # Evaluate model performance
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    
+    return accuracy  # Optuna will try to maximize this value
+
+# Create an Optuna study
+study = optuna.create_study(direction='maximize')
+
+# Run the optimization
+study.optimize(objective, n_trials=50)
+
+# Print the best hyperparameters and the corresponding accuracy
+print("Best Hyperparameters:", study.best_params)
+print("Best Accuracy:", study.best_value)
+```
+
+---
+
