@@ -1,0 +1,28 @@
+# 🧠 2. Type of Problems It Solves
+- [x] Classification
+- [x] Regression
+- [ ] Clustering
+- [ ] Dimensionality Reduction
+- [ ] Reinforcement Learning
+
+**What type of data is it best for?**
+FNNs are best for **structured or tabular data**, especially when you suspect there are complex, **non-linear** relationships between the features.
+
+---
+
+# 🚧 3. Assumptions & Limitations
+**Does it assume:**
+- [ ] Linearity
+- [ ] Feature independence
+- [ ] Normal distribution
+
+*(FNNs are powerful because they make very few assumptions about the data's structure.)*
+
+---
+**Is it sensitive to:**
+- [x] **Outliers**: Yes, large outlier values can lead to very large error gradients, which can destabilize the training process.
+- [x] **Multicollinearity**: While it can affect the interpretability of the model, it's generally less sensitive than linear models in terms of predictive performance.
+- [x] **Scaling**: **Extremely sensitive**. Features on different scales must be normalized or standardized for the network to train efficiently and effectively.
+
+## **Preprocessing needed?**
+**Yes, absolutely.** You must **scale numerical features** (e.g., using `StandardScaler` or `MinMaxScaler`) and **encode categorical features** (e.g., using `OneHotEncoder`).
