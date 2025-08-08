@@ -1,4 +1,4 @@
-# --- 0. Import Libraries ---
+#  0. Import Libraries 
 ```python
 import numpy as np
 import optuna
@@ -11,7 +11,7 @@ from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
 ```
 
-# --- 1. Dummy sequence classification dataset (Replace with real one) ---
+#  1. Dummy sequence classification dataset (Replace with real one) 
 ```python
 num_samples = 2000
 time_steps = 10
@@ -25,7 +25,7 @@ y_encoded = to_categorical(y, num_classes)
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
 ```
 
-# --- 2. Build RNN model ---
+#  2. Build RNN model
 ```python
 def build_rnn(
     rnn_type='LSTM',
@@ -68,7 +68,7 @@ def build_rnn(
     return model
 ```
 
-# --- 3. Optuna objective function ---
+# 3. Optuna objective function 
 ```python
 def objective(trial):
     # Model arch hyperparams
@@ -112,7 +112,9 @@ def objective(trial):
     return np.mean(scores)
     
 ```
-# --- 4. Run Optuna ---
+
+
+#  4. Run Optuna 
 ```python
 study = optuna.create_study(direction='maximize')
 study.optimize(objective, n_trials=20)
@@ -121,7 +123,8 @@ print("Best Hyperparameters:", study.best_params)
 print("Best CV Accuracy:", study.best_value)
 ```
 
-# --- 5. Final Model Evaluation ---
+
+#  5. Final Model Evaluation
 ```python
 final_model = build_rnn(
     rnn_type=study.best_params['rnn_type'],
