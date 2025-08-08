@@ -1,7 +1,3 @@
-Perfect! Here's your complete **structured RNN implementation**—formatted exactly like your previous FNN structure—with detailed sections and beginner-friendly explanations, as a best teacher would present:
-
----
-
 # 🧠 **RNN Model Implementation Using Optuna and IMDB Dataset**
 
 ---
