@@ -300,3 +300,9 @@ print(f"Test Accuracy: {test_acc:.4f}")
 ```
 This might happen if too many pooling layers drastically reduce the input resolution. With an input of 32x32 and 4 blocks, pooling reduces the dimensions progressively (16, 8, 4, 2). After 4 blocks, you end up with 2x2, followed by a Conv2D layer. If padding is “same”, it keeps dimensions, but if the kernel size is too large, it could cause issues. It seems like using "valid" padding for the convolution could help prevent this.
 ```
+
+**To fix this issue, adjust the `pooling` or related hyperparameters**. 
+
+At `4_code.py` the correct code for running is given. 
+
+
