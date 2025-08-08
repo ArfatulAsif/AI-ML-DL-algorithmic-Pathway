@@ -480,3 +480,18 @@ $$
     
 
 This is how CNNs detect objects regardless of their location by processing and combining features detected in different parts of the image.
+
+
+
+## CNN can't learn or detect rotated objects unless they appear in the training set. 
+
+**So, it is best to rotate or augment data in the training set so that the model learned rotated objects too. Example, `quala bear` `strainght` and `rotated`  image.
+
+
+```
+# --- Augmentation hyperparameters (to be tuned) ---
+rotation_range      = 20      # degrees
+width_shift_range   = 0.1     # fraction of width
+height_shift_range  = 0.1     # fraction of height
+horizontal_flip     = True    # boolean
+``` 
