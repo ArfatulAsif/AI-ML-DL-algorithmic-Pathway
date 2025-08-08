@@ -1,71 +1,103 @@
+# CNN Model implementation
 
-# 🧠 CNN Model Implementation
+---
 
-# **1. Data Preprocessing:**
+# **1. Data Preprocessing & Augmentation**
 
-We’ll reshape the flat Digits dataset into 2D image format suitable for CNNs (8×8 images), normalize pixel values, and **one-hot encode** the labels for classification.
+We load the **CIFAR-10** dataset (take a **subset of 2,000 samples**), scale pixel values, one-hot encode labels, then set up **data augmentation** (rotation, shifts, flips) with tunable hyperparameters.
 
 ```python
 import numpy as np
-from sklearn.datasets import load_digits
+from tensorflow.keras.datasets import cifar10
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-# Load the Digits dataset
-digits = load_digits()
-X = digits.images  # 8x8 grayscale images (1,797 samples)
-y = digits.target  # Labels (0-9)
+# Load CIFAR-10 and subset
+(X_full, y_full), _ = cifar10.load_data()
+X = X_full[:2000].astype('float32') / 255.0
+y = y_full[:2000].flatten()
 
-# Normalize pixel values (0 to 1)
-X = X / 16.0  # Pixel range is originally 0–16
-
-# Reshape to (n_samples, height, width, channels)
-X = X.reshape(-1, 8, 8, 1)
-
-# Train-test split (80% train, 20% test)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Train-test split (80/20)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
 # One-hot encode labels
 y_train_encoded = to_categorical(y_train, 10)
-y_test_encoded = to_categorical(y_test, 10)
+y_test_encoded  = to_categorical(y_test, 10)
+
+# --- Augmentation hyperparameters (placeholders, to be tuned) ---
+rotation_range      = 20      # degrees
+width_shift_range   = 0.1     # fraction of total width
+height_shift_range  = 0.1     # fraction of total height
+horizontal_flip     = True    # boolean
+
+# Create the ImageDataGenerator with augmentation
+train_datagen = ImageDataGenerator(
+    rotation_range=rotation_range,
+    width_shift_range=width_shift_range,
+    height_shift_range=height_shift_range,
+    horizontal_flip=horizontal_flip
+)
+
+# Note: No augmentation on test set
 ```
 
 **Explanation:**
 
-* **Reshape for CNN**: We convert the 64-feature vector into an 8×8×1 image (1 = grayscale channel).
-* **Normalization**: Dividing by 16 scales pixel values to 0–1.
-* **One-hot encoding**: Prepares the target labels for multi-class classification.
+* **Scaling**: Normalize pixel values to \[0,1].
+* **One-hot Encoding**: Convert integer labels to binary vectors.
+* **Augmentation**: Randomly rotate, shift, and flip training images to improve robustness to orientation.
 
 ---
 
-# **2. Build the CNN Model (Progressive Filters):**
+# **2. Build the CNN Model (Progressive Filters & Tunable Head)**
 
-Here we define a simple CNN using the **progressive filter strategy** (e.g., 32 → 64 → 128 filters). We apply **Dropout** and **BatchNormalization** to help prevent overfitting and stabilize training.
+We define a **progressive-filters** CNN with hyperparameters for convolutional blocks, augmentation is applied externally, and a tunable dense head.
 
 ```python
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
+from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.optimizers import Adam, SGD, RMSprop
-from tensorflow.keras.layers import Input
 
-# CNN Model with Progressive Filters
-def build_cnn(progressive_filters=[32, 64], kernel_size=(3,3), dropout_rate=0.3, activation='relu', optimizer='adam', learning_rate=0.001, input_shape=(8, 8, 1), num_classes=10):
+def build_cnn_progressive(
+    # Conv-block hyperparameters
+    initial_filters=32,
+    num_blocks=3,
+    kernel_size=(3,3),
+    pool_size=(2,2),
+    activation='relu',
+    conv_dropout=0.25,
+    # Head hyperparameters
+    head_layers=1,
+    head_units=128,
+    head_dropout=0.5,
+    # Optimization hyperparameters
+    optimizer='adam',
+    learning_rate=0.001,
+    input_shape=(32,32,3),
+    num_classes=10
+):
     model = Sequential()
-    
     model.add(Input(shape=input_shape))
     
-    for i, filters in enumerate(progressive_filters):
-        model.add(Conv2D(filters=filters, kernel_size=kernel_size, padding='same', activation=activation))
-        model.add(BatchNormalization())
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(dropout_rate))
+    filters = initial_filters
+    # Progressive Conv blocks
+    for _ in range(num_blocks):
+        model.add(Conv2D(filters, kernel_size, activation=activation, padding='same'))
+        model.add(MaxPooling2D(pool_size=pool_size))
+        model.add(Dropout(conv_dropout))
+        filters *= 2
     
+    # Flatten → Dense head
     model.add(Flatten())
-    model.add(Dense(64, activation=activation))
-    model.add(Dropout(dropout_rate))
+    for _ in range(head_layers):
+        model.add(Dense(head_units, activation=activation))
+        model.add(Dropout(head_dropout))
     model.add(Dense(num_classes, activation='softmax'))
-
-    # Optimizer selection
+    
+    # Compile with chosen optimizer
     if optimizer == 'adam':
         opt = Adam(learning_rate=learning_rate)
     elif optimizer == 'sgd':
@@ -75,105 +107,159 @@ def build_cnn(progressive_filters=[32, 64], kernel_size=(3,3), dropout_rate=0.3,
     else:
         raise ValueError(f"Unsupported optimizer: {optimizer}")
     
-    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=opt,
+                  loss='categorical_crossentropy',
+                  metrics=['accuracy'])
     return model
 ```
 
 **Explanation:**
 
-* **Progressive Filters**: More filters in deeper layers help extract more complex features.
-* **Kernel Size**: 3×3 is the most common and effective choice for small images.
-* **Dropout & BatchNorm**: Combat overfitting and stabilize learning.
-* **Dense Layers**: One dense layer before the final softmax to combine extracted features.
+* **Progressive Filters**: Starts at `initial_filters` then doubles each block.
+* **Conv Dropout**: Regularizes each block.
+* **Tunable Head**: `head_layers` and `head_units` control depth/width of dense layers.
+* **Optimizer & LR**: Chosen per hyperparameter.
 
 ---
 
-# **3. Hyperparameter Tuning with Optuna (Using K-Fold Cross-Validation):**
+# **3. Hyperparameter Tuning with Optuna (3-Fold CV & Augmentation)**
 
-We tune model architecture and training hyperparameters using Optuna, including: number of filters, activation, dropout, optimizer, learning rate, batch size, and epochs — using **5-fold cross-validation** for robust evaluation.
+We tune **all** hyperparameters—including augmentation settings—using Optuna with **3-fold cross-validation**. During each fold we fit on augmented data.
 
 ```python
 import optuna
-from sklearn.metrics import accuracy_score
 from sklearn.model_selection import KFold
+from sklearn.metrics import accuracy_score
 
-# Optuna objective with CNN + K-Fold CV
 def objective(trial):
-    # Hyperparameters
-    num_filters_1 = trial.suggest_categorical('num_filters_1', [16, 32, 64])
-    num_filters_2 = trial.suggest_categorical('num_filters_2', [32, 64, 128])
-    activation = trial.suggest_categorical('activation', ['relu', 'tanh', 'leaky_relu'])
-    dropout_rate = trial.suggest_float('dropout_rate', 0.2, 0.5)
-    optimizer = trial.suggest_categorical('optimizer', ['adam', 'sgd', 'rmsprop'])
-    learning_rate = trial.suggest_float('learning_rate', 1e-4, 1e-2, log=True)
-    batch_size = trial.suggest_categorical('batch_size', [16, 32, 64])
-    epochs = trial.suggest_int('epochs', 10, 40)
+    # Model hyperparameters
+    num_blocks      = trial.suggest_int('num_blocks', 2, 4)
+    initial_filters = trial.suggest_int('initial_filters', 16, 64, step=16)
+    kernel          = trial.suggest_categorical('kernel_size', [3, 5])
+    conv_dropout    = trial.suggest_float('conv_dropout', 0.1, 0.5)
+    head_layers     = trial.suggest_int('head_layers', 1, 3)
+    head_units      = trial.suggest_categorical('head_units', [64, 128, 256, 512])
+    head_dropout    = trial.suggest_float('head_dropout', 0.2, 0.6)
+    optimizer       = trial.suggest_categorical('optimizer', ['adam', 'sgd', 'rmsprop'])
+    learning_rate   = trial.suggest_float('learning_rate', 1e-5, 1e-2, log=True)
+    # Training hyperparameters
+    batch_size      = trial.suggest_categorical('batch_size', [16, 32, 64])
+    epochs          = trial.suggest_int('epochs', 5, 20)
+    # Augmentation hyperparameters
+    rotation_range      = trial.suggest_int('rotation_range', 0, 40)
+    width_shift_range   = trial.suggest_float('width_shift_range', 0.0, 0.2)
+    height_shift_range  = trial.suggest_float('height_shift_range', 0.0, 0.2)
+    horizontal_flip     = trial.suggest_categorical('horizontal_flip', [True, False])
 
-    # Use 5-fold cross-validation
-    kf = KFold(n_splits=5, shuffle=True, random_state=42)
-    scores = []
-
-    for train_index, val_index in kf.split(X_train):
-        X_fold_train, X_fold_val = X_train[train_index], X_train[val_index]
-        y_fold_train, y_fold_val = y_train_encoded[train_index], y_train_encoded[val_index]
-
-        model = build_cnn(
-            progressive_filters=[num_filters_1, num_filters_2],
-            activation=activation,
-            dropout_rate=dropout_rate,
+    # 3-Fold CV
+    kf = KFold(n_splits=3, shuffle=True, random_state=42)
+    val_scores = []
+    
+    for train_idx, val_idx in kf.split(X_train_scaled):
+        X_tr, X_val = X_train_scaled[train_idx], X_train_scaled[val_idx]
+        y_tr, y_val = y_train_encoded[train_idx], y_train_encoded[val_idx]
+        
+        # Re-create datagen per trial
+        datagen = ImageDataGenerator(
+            rotation_range=rotation_range,
+            width_shift_range=width_shift_range,
+            height_shift_range=height_shift_range,
+            horizontal_flip=horizontal_flip
+        )
+        datagen.fit(X_tr)
+        
+        # Build model
+        model = build_cnn_progressive(
+            initial_filters=initial_filters,
+            num_blocks=num_blocks,
+            kernel_size=(kernel, kernel),
+            conv_dropout=conv_dropout,
+            head_layers=head_layers,
+            head_units=head_units,
+            head_dropout=head_dropout,
             optimizer=optimizer,
             learning_rate=learning_rate
         )
-
-        model.fit(X_fold_train, y_fold_train, batch_size=batch_size, epochs=epochs, verbose=0)
-        preds = model.predict(X_fold_val)
-        acc = accuracy_score(np.argmax(y_fold_val, axis=1), np.argmax(preds, axis=1))
-        scores.append(acc)
-
-    return np.mean(scores)
+        
+        # Train on augmented data
+        model.fit(
+            datagen.flow(X_tr, y_tr, batch_size=batch_size),
+            epochs=epochs,
+            validation_data=(X_val, y_val),
+            verbose=0
+        )
+        
+        # Evaluate fold
+        preds = model.predict(X_val)
+        acc = accuracy_score(np.argmax(y_val, axis=1),
+                             np.argmax(preds, axis=1))
+        val_scores.append(acc)
+    
+    return np.mean(val_scores)
 
 # Run Optuna
 study = optuna.create_study(direction='maximize')
 study.optimize(objective, n_trials=20)
 
-# Best parameters and performance
 print("Best Hyperparameters:", study.best_params)
-print("Best Accuracy:", study.best_value)
+print("Best CV Accuracy:", study.best_value)
 ```
 
 **Explanation:**
 
-* **Objective Function**: Builds and trains a CNN with the trial’s hyperparameters.
-* **Cross-validation**: 5-fold CV prevents overfitting on one split and gives a more reliable accuracy estimate.
-* **Optuna Search Space**: Flexible search over filters, activations, optimizers, and training params.
+* **All hyperparameters** from architecture, training, and augmentation are tuned.
+* **3-Fold CV** ensures robust performance estimates on our 1,600-sample training set.
+* **Data augmentation** is re-instantiated each fold with the trial’s parameters.
 
 ---
 
-# **4. Model Evaluation:**
+# **4. Final Model Evaluation**
 
-After finding the best hyperparameters, we retrain the model on the **entire training set** and evaluate on the **test set**.
+We rebuild with the best hyperparameters, train on the full training set (with augmentation), and evaluate on the test set.
 
 ```python
-# Retrieve best params from Optuna study
+# Extract best params
 best = study.best_params
-final_model = build_cnn(
-    progressive_filters=[best['num_filters_1'], best['num_filters_2']],
-    activation=best['activation'],
-    dropout_rate=best['dropout_rate'],
+
+# Recreate final datagen
+final_datagen = ImageDataGenerator(
+    rotation_range=best['rotation_range'],
+    width_shift_range=best['width_shift_range'],
+    height_shift_range=best['height_shift_range'],
+    horizontal_flip=best['horizontal_flip']
+)
+final_datagen.fit(X_train_scaled)
+
+# Build final model
+final_model = build_cnn_progressive(
+    initial_filters=best['initial_filters'],
+    num_blocks=best['num_blocks'],
+    kernel_size=(best['kernel_size'], best['kernel_size']),
+    conv_dropout=best['conv_dropout'],
+    head_layers=best['head_layers'],
+    head_units=best['head_units'],
+    head_dropout=best['head_dropout'],
     optimizer=best['optimizer'],
     learning_rate=best['learning_rate']
 )
 
 # Train on full training set
-final_model.fit(X_train, y_train_encoded, batch_size=best['batch_size'], epochs=best['epochs'], verbose=1)
+final_model.fit(
+    final_datagen.flow(X_train_scaled, y_train_encoded, batch_size=best['batch_size']),
+    epochs=best['epochs'],
+    verbose=1
+)
 
 # Evaluate on test set
-test_loss, test_acc = final_model.evaluate(X_test, y_test_encoded, verbose=2)
-print(f"Test Accuracy: {test_acc:.4f}")
+test_loss, test_accuracy = final_model.evaluate(
+    X_test_scaled, y_test_encoded, verbose=2
+)
+print(f"Test Accuracy: {test_accuracy:.4f}")
 ```
 
 **Explanation:**
 
-* **Final Training**: Uses all training data and Optuna-optimized configuration.
-* **Test Evaluation**: Evaluates how well the tuned model generalizes to unseen data.
+* Uses the **entire** 1,600-sample training set with optimized augmentation and training settings.
+* Reports final **test accuracy** on the 400-sample hold-out.
 
+---
