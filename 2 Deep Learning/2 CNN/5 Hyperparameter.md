@@ -1,179 +1,304 @@
 # Model Architecture Hyperparameters
 
-These define the structure of the CNN itself — how many layers it has, what kind of operations are used, and how wide or deep it goes.
+These define the structure of the network itself.
 
-* **Number of Convolutional Layers**: The number of stacked convolution blocks used to extract features from the input.
-* **Number of Filters per Layer**: Determines how many patterns the network learns at each level. More filters = more feature maps = more expressive power.
-* **Kernel Size (kernel\_size)**: The spatial size of each filter (e.g., 3×3, 5×5). Smaller kernels learn local features, larger ones see more context.
-* **Stride**: How much the kernel slides when scanning the image. A larger stride leads to smaller output and faster computation.
-* **Padding**: Whether to add zero-padding around the image to preserve spatial size. `"valid"` means no padding; `"same"` keeps dimensions constant.
-* **Pooling Type and Size**: Typically max-pooling (e.g., 2×2) to reduce dimensionality while preserving dominant features.
-* **Activation Functions**: Usually **ReLU**, but also **Leaky ReLU**, **ELU**, or **Swish** in advanced models.
-* **Dropout Rate (dropout\_rate)**: `Regularization` technique to prevent overfitting by randomly disabling some neurons during training.
-* **Batch Normalization**: Used after Conv layers to stabilize training and improve generalization.
-
----
-
-### **Fixed Filters vs. Progressive Filters: A Brief Note**
-
-#### **1. Fixed Filter Size and Count**:
-
-* In this approach, each convolutional layer has the **same number of filters** and same kernel size (e.g., all 64 filters, 3×3 kernels).
-* This creates a consistent feature extraction pipeline.
-* **Advantages**: Easier to design, good for general-purpose models.
-* **Disadvantages**: Can be inefficient or too simple for deeper networks.
-
-#### **2. Progressive Design (Increasing Filters)**:
-
-* As we go deeper, we **increase the number of filters** (e.g., 32 → 64 → 128) to allow learning of more abstract features.
-* Often used in real CNN architectures like VGG, ResNet, etc.
-* **Advantages**: Efficient use of resources. Shallow layers detect edges; deeper layers learn shapes and objects.
-* **Disadvantages**: Slightly more complex design, needs tuning for best performance.
+* **Number of Convolutional Blocks**: How many repeated Conv→(Pooling) units you stack.
+* **Number of Filters per Block**: The width of each convolutional layer (how many feature maps it learns).
+* **Filter (Kernel) Size**: Spatial size of each convolutional kernel (e.g., 3×3, 5×5).
+* **Stride**: How many pixels the filter moves at each step.
+* **Padding**: Whether you pad the input (“same” vs “valid”) to control output size.
+* **Activation Functions**: Non-linear transforms (e.g. **ReLU**, **Leaky ReLU**, **ELU**) applied after each convolution.
+* **Pooling Type & Pool Size**: Downsampling strategy (e.g. **MaxPooling2D** with 2×2 window).
+* **Dropout Rate**: Fraction of activations randomly zeroed (often after pooling or head layers) to regularize.
+* **Number of Dense Layers in Head**: How many fully-connected layers you place after flattening.
+* **Units per Dense Layer in Head**: Number of neurons in each of those head layers.
 
 ---
 
-### **A General Approach: Progressive Filters + Dropout + BatchNorm**
+### **Number of Filters and Kernel Sizes: A Brief Note**
 
-A commonly used structure follows this pattern:
+#### **1. Fixed Filters vs. Progressive Filters**
 
-* **Start with fewer filters** (e.g., 32) in the first layer to detect low-level features.
-* Increase filters progressively:
+1. **Fixed Number of Filters**
 
-  * First Conv block: 32 filters
-  * Second: 64 filters
-  * Third: 128 filters, and so on
-* Use **3×3 kernels**, **stride=1**, and **same padding**.
-* Apply **MaxPooling** (2×2) after each block to reduce size.
-* Add **Dropout** and **BatchNorm** to improve regularization.
-* Flatten and pass to dense layers (typically 1–2) before the output.
+   * Each conv layer uses the **same** number of filters (e.g. 32 filters everywhere).
+   * **Advantages**: Simpler; uniform capacity per layer.
+   * **Disadvantages**: May under-utilize deep layers’ capacity or over-parameterize early layers.
+
+2. **Progressive (Increasing) Filters**
+
+   * Start with few filters in early layers and **double** (or otherwise increase) them in deeper layers (e.g., 32→64→128).
+   * **Advantages**: Mirrors hierarchical feature complexity (simple edges early, complex textures later); balances capacity/depth.
+   * **Disadvantages**: More design choices; if growth is too aggressive, may bloat parameter count.
 
 ---
 
-### **Coding Example: Progressive CNN Architecture**
+#### **A General Approach: Progressive Filters with Dropout**
+
+1. **Start small** (e.g., 32 filters in the first conv block).
+2. **Double** filters every block: 32 → 64 → 128 → …
+3. **Use 3×3 kernels** throughout (standard best practice).
+4. **Apply Dropout** (e.g., 0.25) after each pooling layer.
+5. **Control depth** by how many times you double until reaching a target (e.g., 128–256 filters).
+
+---
+
+# Coding Example:
+
+### 1. Fixed Filters Architecture with Tunable Head
 
 ```python
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.optimizers import Adam
 
-# CNN with Progressive Filters
-def build_cnn(progressive_filters=[32, 64, 128], kernel_size=(3, 3), dropout_rate=0.5, activation='relu', input_shape=(28, 28, 1), output_classes=10):
+def build_cnn_fixed(
+    num_blocks=3,
+    num_filters=32,
+    kernel_size=(3,3),
+    pool_size=(2,2),
+    activation='relu',
+    conv_dropout=0.25,
+    head_layers=1,
+    head_units=128,
+    head_dropout=0.5,
+    optimizer='adam',
+    learning_rate=0.001,
+    input_shape=(64,64,3),
+    num_classes=10
+):
     model = Sequential()
-
-    for i, filters in enumerate(progressive_filters):
+    
+    # Convolution + Pooling blocks
+    for i in range(num_blocks):
         if i == 0:
-            model.add(Conv2D(filters, kernel_size, activation=activation, padding='same', input_shape=input_shape))
+            model.add(Conv2D(num_filters, kernel_size, activation=activation, padding='same',
+                             input_shape=input_shape))
         else:
-            model.add(Conv2D(filters, kernel_size, activation=activation, padding='same'))
-        
-        model.add(BatchNormalization())
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        model.add(Dropout(dropout_rate))
-
+            model.add(Conv2D(num_filters, kernel_size, activation=activation, padding='same'))
+        model.add(MaxPooling2D(pool_size=pool_size))
+        model.add(Dropout(conv_dropout))
+    
+    # Classification head (tunable number of Dense layers)
     model.add(Flatten())
-    model.add(Dense(128, activation=activation))
-    model.add(Dropout(dropout_rate))
-    model.add(Dense(output_classes, activation='softmax'))  # e.g., 10 classes for MNIST
-
-    model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=['accuracy'])
-
+    for _ in range(head_layers):
+        model.add(Dense(head_units, activation=activation))
+        model.add(Dropout(head_dropout))
+    model.add(Dense(num_classes, activation='softmax'))
+    
+    # Compile
+    opt = Adam(learning_rate=learning_rate)
+    model.compile(optimizer=opt, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     return model
 
-# Build example CNN
-model = build_cnn()
-model.summary()
+# Example usage: 3 conv blocks, 32 filters, and a 2-layer head with 256 units each
+model_fixed = build_cnn_fixed(num_blocks=3, num_filters=32, head_layers=2, head_units=256)
+model_fixed.summary()
 ```
-
-In this model:
-
-* Filters grow progressively from 32 → 64 → 128.
-* Dropout and BatchNorm are used for regularization.
-* MaxPooling shrinks the image size after each Conv block.
-* A fully connected layer is used before the final output layer.
 
 ---
 
-### **Summary**
+### 2. Progressive Filters Architecture (with fixed-head example)
 
-* **Fixed Filters**: Easy to design, consistent structure. Good for simpler problems.
-* **Progressive Filters**: More powerful, commonly used in real-world CNNs. Helps model deeper patterns layer by layer.
-* **Use BatchNorm and Dropout** for better generalization.
-* Start small (e.g., 2–3 blocks) and grow based on model performance.
+```python
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+
+def build_cnn_progressive(
+    initial_filters=32,
+    num_blocks=4,
+    kernel_size=(3,3),
+    pool_size=(2,2),
+    activation='relu',
+    conv_dropout=0.25,
+    head_layers=1,
+    head_units=256,
+    head_dropout=0.5,
+    optimizer='adam',
+    learning_rate=0.001,
+    input_shape=(64,64,3),
+    num_classes=10
+):
+    model = Sequential()
+    filters = initial_filters
+
+    # Progressive Conv blocks
+    for i in range(num_blocks):
+        if i == 0:
+            model.add(Conv2D(filters, kernel_size, activation=activation, padding='same',
+                             input_shape=input_shape))
+        else:
+            model.add(Conv2D(filters, kernel_size, activation=activation, padding='same'))
+        model.add(MaxPooling2D(pool_size=pool_size))
+        model.add(Dropout(conv_dropout))
+        filters *= 2
+    
+    # Classification head
+    model.add(Flatten())
+    for _ in range(head_layers):
+        model.add(Dense(head_units, activation=activation))
+        model.add(Dropout(head_dropout))
+    model.add(Dense(num_classes, activation='softmax'))
+    
+    # Compile
+    opt = Adam(learning_rate=learning_rate)
+    model.compile(optimizer=opt, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    return model
+
+# Example usage: start at 32 filters, 4 blocks, and a single-layer head of 128 units
+model_prog = build_cnn_progressive(initial_filters=32, num_blocks=4, head_layers=1, head_units=128)
+model_prog.summary()
+```
 
 ---
 
 # Training Process Hyperparameters
 
-These control **how the CNN learns** from the data during training.
+These control how the model learns from data.
 
-* **Optimizer**: The algorithm that adjusts weights based on gradients.
-  *Examples:*
-
-  * **Adam** (default and adaptive)
-  * **SGD** (classic, with optional momentum)
-  * **RMSprop** (great for sequence data and noisy gradients)
-
-* **Learning Rate**: The step size for weight updates.
-  Too high = unstable. Too low = slow convergence.
-
-* **Batch Size**: How many images are used in one training step.
-  Larger batch → faster but more memory.
-  Smaller batch → noisier updates but better generalization.
-
-* **Number of Epochs**: How many full passes through the entire training set.
-  Use early stopping if validation performance worsens.
-
-* **Loss Function**:
-
-  * **categorical\_crossentropy** (multi-class classification)
-  * **binary\_crossentropy** (binary classification)
-  * **mse / mae** (for regression tasks)
+* **Optimizer**: Algorithm for weight updates (e.g., **Adam**, **SGD**, **RMSprop**).
+* **Learning Rate**: Step size for optimizer updates.
+* **Batch Size**: Number of samples per gradient update.
+* **Number of Epochs**: How many passes over the full training set.
 
 ---
 
-### **1. Building a Progressive CNN with Training Params**
+# Hyperparameter Tuning
+
+## 2.1. GridSearchCV
 
 ```python
-from tensorflow.keras.optimizers import Adam, SGD, RMSprop
+from sklearn.model_selection import GridSearchCV
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
 
-def build_trainable_cnn(progressive_filters=[32, 64], dropout_rate=0.5, activation='relu', optimizer='adam', learning_rate=0.001, input_shape=(28,28,1), output_classes=10):
-    model = Sequential()
-    
-    for i, filters in enumerate(progressive_filters):
-        if i == 0:
-            model.add(Conv2D(filters, (3,3), activation=activation, padding='same', input_shape=input_shape))
-        else:
-            model.add(Conv2D(filters, (3,3), activation=activation, padding='same'))
-        
-        model.add(BatchNormalization())
-        model.add(MaxPooling2D(pool_size=(2,2)))
-        model.add(Dropout(dropout_rate))
+def create_cnn(
+    num_blocks=3,
+    initial_filters=32,
+    kernel_size=3,
+    activation='relu',
+    conv_dropout=0.25,
+    head_layers=1,
+    head_units=128,
+    head_dropout=0.5,
+    optimizer='adam',
+    learning_rate=0.001,
+    batch_size=32,
+    epochs=10
+):
+    return build_cnn_fixed(
+        num_blocks=num_blocks,
+        num_filters=initial_filters,
+        kernel_size=(kernel_size,kernel_size),
+        conv_dropout=conv_dropout,
+        head_layers=head_layers,
+        head_units=head_units,
+        head_dropout=head_dropout,
+        optimizer=optimizer,
+        learning_rate=learning_rate
+    )
 
-    model.add(Flatten())
-    model.add(Dense(128, activation=activation))
-    model.add(Dropout(dropout_rate))
-    model.add(Dense(output_classes, activation='softmax'))
+cnn = KerasClassifier(build_fn=create_cnn, verbose=0)
 
-    # Choose optimizer
-    if optimizer == 'adam':
-        opt = Adam(learning_rate=learning_rate)
-    elif optimizer == 'sgd':
-        opt = SGD(learning_rate=learning_rate, momentum=0.9)
-    elif optimizer == 'rmsprop':
-        opt = RMSprop(learning_rate=learning_rate)
+param_grid = {
+    'num_blocks': [2,3,4],
+    'initial_filters': [16,32,64],
+    'kernel_size': [3,5],
+    'conv_dropout': [0.2,0.3],
+    'head_layers': [1,2,3],
+    'head_units': [64,128,256],
+    'head_dropout': [0.3,0.5],
+    'optimizer': ['adam','sgd'],
+    'learning_rate': [1e-3,1e-4],
+    'batch_size': [32,64],
+    'epochs': [10,20]
+}
 
-    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
-    return model
+grid = GridSearchCV(estimator=cnn, param_grid=param_grid, cv=3, n_jobs=-1)
+grid.fit(X_train, y_train)
+
+print("Best Params:", grid.best_params_)
+print("Best Score:", grid.best_score_)
 ```
 
 ---
 
-### **When to Use What**
+## 2.2. RandomizedSearchCV
 
-* **Adam**: Best general-purpose optimizer. Default choice.
-* **SGD**: Better when paired with momentum and scheduled learning rate.
-* **RMSprop**: Best for non-stationary problems (e.g., RNNs, time-varying inputs).
-* **Small Learning Rate + Many Epochs**: Needed for deep CNNs.
-* **Dropout**: Always recommended after dense layers and sometimes after Conv blocks.
+```python
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint, uniform
 
+param_dist = {
+    'num_blocks': randint(2,5),
+    'initial_filters': randint(16,128),
+    'kernel_size': [3,5],
+    'conv_dropout': uniform(0.1,0.4),
+    'head_layers': randint(1,4),
+    'head_units': [64,128,256,512],
+    'head_dropout': uniform(0.2,0.5),
+    'optimizer': ['adam','sgd','rmsprop'],
+    'learning_rate': uniform(1e-5,1e-2),
+    'batch_size': [32,64,128],
+    'epochs': randint(10,50)
+}
+
+rand_search = RandomizedSearchCV(
+    estimator=cnn,
+    param_distributions=param_dist,
+    n_iter=30,
+    cv=3,
+    n_jobs=-1
+)
+rand_search.fit(X_train, y_train)
+
+print("Best Params:", rand_search.best_params_)
+print("Best Score:", rand_search.best_score_)
+```
+
+---
+
+## 2.3. Optuna
+
+```python
+import optuna
+from sklearn.metrics import accuracy_score
+
+def objective(trial):
+    num_blocks      = trial.suggest_int('num_blocks', 2, 5)
+    initial_filters = trial.suggest_categorical('initial_filters', [16,32,64,128])
+    kernel_size     = trial.suggest_categorical('kernel_size', [3,5])
+    conv_dropout    = trial.suggest_float('conv_dropout', 0.1, 0.5)
+    head_layers     = trial.suggest_int('head_layers', 1, 3)
+    head_units      = trial.suggest_categorical('head_units', [64,128,256,512])
+    head_dropout    = trial.suggest_float('head_dropout', 0.2, 0.6)
+    optimizer       = trial.suggest_categorical('optimizer', ['adam','sgd','rmsprop'])
+    learning_rate   = trial.suggest_loguniform('learning_rate', 1e-5, 1e-2)
+    batch_size      = trial.suggest_categorical('batch_size', [32,64,128])
+    epochs          = trial.suggest_int('epochs', 10, 50)
+    
+    model = build_cnn_progressive(
+        initial_filters=initial_filters,
+        num_blocks=num_blocks,
+        kernel_size=(kernel_size,kernel_size),
+        conv_dropout=conv_dropout,
+        head_layers=head_layers,
+        head_units=head_units,
+        head_dropout=head_dropout,
+        optimizer=optimizer,
+        learning_rate=learning_rate
+    )
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, verbose=0)
+    preds = model.predict(X_test)
+    return accuracy_score(y_test, preds)
+
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=40)
+
+print("Best Params:", study.best_params)
+print("Best Accuracy:", study.best_value)
+```
+
+---
